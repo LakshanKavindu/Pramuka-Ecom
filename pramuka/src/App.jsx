@@ -2,6 +2,7 @@
 import './App.css'
 import { Button } from "flowbite-react";
 import { Badge } from "flowbite-react";
+import Card from './components/Home/Card';
 function App() {
 
   return (
@@ -14,6 +15,7 @@ function App() {
         <Badge size="sm" href="#">
           Default
         </Badge>
+        <Card />
       </div>
     </>
   )
