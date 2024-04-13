@@ -1,22 +1,19 @@
 
 import './App.css'
-import { Button } from "flowbite-react";
-import { Badge } from "flowbite-react";
-import Card from './components/Home/Card';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from './pages/User/Home'
 function App() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-      <div>
-        <Button>Click me</Button>
-        <Badge size="sm" href="#">
-          Default
-        </Badge>
-        <Card />
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/user" element={<Home />}>
+
+          </Route>
+        </Routes>
+      </BrowserRouter>
+
     </>
   )
 }
