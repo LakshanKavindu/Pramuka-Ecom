@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-const PassowrdInput = ({ password, setPassword, lable }) => {
+const PassowrdInput = ({ password, setPassword, lable, id }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="mb-5">
       <label
-        htmlFor="password"
+        htmlFor={id?id:"password"}
         className="flex mb-2 text-sm left-0 font-medium text-gray-900 dark:text-white"
       >
         {lable}
@@ -30,7 +30,7 @@ const PassowrdInput = ({ password, setPassword, lable }) => {
         </div>
         <input
           type={showPassword ? "text" : "password"}
-          id="password"
+          id={id?id:"password"}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 pe-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
           required
           value={password}
@@ -45,10 +45,14 @@ const PassowrdInput = ({ password, setPassword, lable }) => {
             height="24"
             fill="currentColor"
             viewBox="0 0 24 24"
-            htmlFor="password"
+            htmlFor={id ? id : "password"}
             onClick={() => {
               setShowPassword(!showPassword);
-              document.getElementById("password").focus();
+              if (id) {
+                document.getElementById(id).focus();
+              } else {
+                document.getElementById("password").focus();
+              }
             }}
           >
             {showPassword ? (
