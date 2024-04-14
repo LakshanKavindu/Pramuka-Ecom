@@ -1,9 +1,17 @@
+import Footer from "../../components/User/Footer"
 import Navbar from "../../components/User/Navbar"
 
 const Home = () => {
     return (
 
-        <Navbar />
+       
+
+        <div>
+             <Navbar />
+           
+             <Footer/>
+
+        </div>
 
 
 
