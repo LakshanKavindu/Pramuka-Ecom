@@ -1,5 +1,5 @@
 import { useState } from "react";
-const OtpVerification = ({ title, contactNo }) => {
+const OtpVerification = ({ title, contactNo, setSelected, page }) => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const handleInputChange = (e, index) => {
     if (e.target.value.length === 1 && index < 3) {
@@ -13,7 +13,14 @@ const OtpVerification = ({ title, contactNo }) => {
     const newOtp = [...otp];
     newOtp[index] = e.target.value;
     setOtp(newOtp);
-    console.log(newOtp);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const otpValue = otp.join("");
+    console.log(otpValue);
+    if (page === "login") setSelected(2);
+    else setSelected(0);
   };
 
   return (
@@ -47,11 +54,15 @@ const OtpVerification = ({ title, contactNo }) => {
         <p className="text-black1 dark:text-white text-sm ml-2 mt-3">
           Please enter the code we whatsapped you
         </p>
-        <p className="text-black1 dark:text-white text-sm ml-2 font-medium mt-2">{contactNo? contactNo : '076 1234567'}</p>
-        <p className="text-black1 dark:text-white text-sm ml-2 mt-3">Confirmation code </p>
+        <p className="text-black1 dark:text-white text-sm ml-2 font-medium mt-2">
+          {contactNo ? contactNo : "076 1234567"}
+        </p>
+        <p className="text-black1 dark:text-white text-sm ml-2 mt-3">
+          Confirmation code{" "}
+        </p>
       </div>
 
-      <form className="max-w-sm mx-auto">
+      <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
         <div className="flex flex-row items-center justify-between w-full mt-7">
           {[0, 1, 2, 3].map((index) => (
             <div className="w-16 h-16 " key={index}>
