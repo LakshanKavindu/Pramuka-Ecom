@@ -2,7 +2,7 @@ const NameInput = ({ name, setName }) => {
   return (
     <div className="mb-5">
       <label
-        htmlFor="password"
+        htmlFor="name-input"
         className="flex mb-2 text-sm left-0 font-medium text-gray-900 dark:text-white"
       >
         Name
@@ -27,7 +27,7 @@ const NameInput = ({ name, setName }) => {
         </div>
         <input
           type="text"
-          id="phone-input"
+          id="name-input"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full ps-10 pe-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
           required
           value={name}

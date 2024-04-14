@@ -3,7 +3,7 @@ const ContactNoInput = ({ contactNo, setContactNo }) => {
   return (
     <div className="mb-5">
       <label
-        htmlFor="password"
+        htmlFor="phone-input"
         className="flex mb-2 text-sm left-0 font-medium text-gray-900 dark:text-white"
       >
         Whatsapp Number
