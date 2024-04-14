@@ -4,17 +4,23 @@ import NameInput from "./inputField/withIcon/NameInput";
 import ContactNoInput from "./inputField/withIcon/ContactNoInput";
 import PassowrdInput from "./inputField/withIcon/PassowrdInput";
 
-const RegistrationForm = () => {
+const RegistrationForm = ({ setSelected }) => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [contactNo, setContactNo] = useState("");
   const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSelected(1);
+  };
+
   return (
     <div className="  sm:w-[50%] xs:w-100  ">
       <h1 className="text-black1 font-semibold antialiased text-2xl mb-10">
         {"Let's go!"}
       </h1>
-      <form className="max-w-sm mx-auto">
+      <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
         <NameInput name={name} setName={setName} />
         <ContactNoInput contactNo={contactNo} setContactNo={setContactNo} />
         <PassowrdInput
@@ -34,7 +40,7 @@ const RegistrationForm = () => {
           Already have an account?{" "}
           <span
             className="text-secondary cursor-pointer"
-            onClick={() => navigate("/")}
+            onClick={() => {navigate("/"); setSelected(0)}}
           >
             Login
           </span>
