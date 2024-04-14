@@ -27,7 +27,14 @@ export default {
         white: "#FFFFFF",
         black1: "#272727",
         black2: "#484848",
+        gradient:{
+          button: "linear-gradient(90deg, #FF7141 0%, #FF014E 100%)",
+        }
+        
       },
+      backgroundImage: () => ({
+        "gradient-button": "linear-gradient(90deg, #FF7141 0%, #FF014E 100%)",
+      }),
     },
   },
   plugins: [flowbite.plugin()],
