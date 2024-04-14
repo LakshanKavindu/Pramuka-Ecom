@@ -38,7 +38,7 @@ const PassowrdInput = ({ password, setPassword, lable }) => {
         />
         <div className="absolute inset-y-0 end-3 top-0 flex items-center ps-3.5 cursor-pointer ">
           <svg
-            className="w-6 h-6 text-gray-800 dark:text-white "
+            className="w-6 h-6 text-gray-600 dark:text-white "
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
