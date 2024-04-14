@@ -3,16 +3,22 @@ import { useNavigate } from "react-router-dom";
 import ContactNoInput from "./inputField/withIcon/ContactNoInput";
 import PassowrdInput from "./inputField/withIcon/PassowrdInput";
 
-const LoginFrom = () => {
+const LoginFrom = ({ setSelected }) => {
   const [password, setPassword] = useState("");
   const [contactNo, setContactNo] = useState("");
   const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSelected(1);
+  };
+
   return (
     <div className="  sm:w-[50%] xs:w-100  ">
       <h1 className="text-black1 font-semibold antialiased text-2xl mb-10">
         Welcome back!
       </h1>
-      <form className="max-w-sm mx-auto">
+      <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
         <ContactNoInput contactNo={contactNo} setContactNo={setContactNo} />
         <PassowrdInput
           lable="Password"
@@ -31,7 +37,7 @@ const LoginFrom = () => {
           Don't have an account?{" "}
           <span
             className="text-secondary cursor-pointer"
-            onClick={() => navigate("/reg")}
+            onClick={() => {navigate("/reg"); setSelected(0)}}
           >
             Sign up
           </span>
