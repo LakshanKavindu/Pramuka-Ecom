@@ -1,7 +1,7 @@
 
 const ContactNoInput = ({ contactNo, setContactNo }) => {
   return (
-    <div className="mb-5 w-100">
+    <div className="mb-5">
       <label
         htmlFor="password"
         className="flex mb-2 text-sm left-0 font-medium text-gray-900 dark:text-white"
