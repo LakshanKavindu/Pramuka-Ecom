@@ -1,7 +1,11 @@
+import LoginFrom from "../../components/User/LoginFrom";
+
 const Login = () => {
   return (
-    <div>Login</div>
-  )
-}
+    <div className=" flex justify-center items-center h-screen">
+      <LoginFrom />
+    </div>
+  );
+};
 
-export default Login
+export default Login;
