@@ -23,7 +23,7 @@ const ChangePassword = ({ setSelected }) => {
       setSelected(0);
       return;
     }
-  };
+  };234
   return (
     <div className="w-100 md:w-[30%]">
       <div className="flex justify-center">

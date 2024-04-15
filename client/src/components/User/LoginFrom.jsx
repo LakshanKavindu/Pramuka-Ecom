@@ -9,6 +9,7 @@ const LoginFrom = ({ setSelected }) => {
   const regex = /^(?:0\d{9}|\+94\d{9})$/;
   const [contactNo, setContactNo] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
   const [err, setErr] = useState({
     contactNo: false,
@@ -49,6 +50,8 @@ const LoginFrom = ({ setSelected }) => {
           lable={"Password"}
           passowrd={password}
           setPassword={setPassword}
+          passwordStrength={passwordStrength}
+          setPasswordStrength={setPasswordStrength}
         />
         <Button
           fullSized
