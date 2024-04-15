@@ -9,6 +9,11 @@ const customTheme: CustomFlowbiteTheme = {
       },
     },
   },
+  button:{
+    gradientDuoTone:{
+      "primary": "bg-gradient-to-r from-primary to-secondary text-white",
+    }
+  }
 };
 
 export default customTheme;
