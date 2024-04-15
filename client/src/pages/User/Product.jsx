@@ -11,18 +11,14 @@ const ProductPage = () => {
   const [activeImg, setActiveImage] = useState(images.img1);
   const [unitPrice, setUnitPrice] = useState(240.0);
   const [amount, setAmount] = useState(1);
-  const [imageClicked, setImageClicked] = useState(false);
-
   const decreaseAmount = () => {
     if (amount > 1) {
       setAmount((prev) => prev - 1);
     }
   };
-
   const increaseAmount = () => {
     setAmount((prev) => prev + 1);
   };
-
   const totalPrice = unitPrice * amount;
 
   return (
@@ -31,57 +27,47 @@ const ProductPage = () => {
         <img
           src={activeImg}
           alt=""
-          className={`w-full h-full aspect-square object-cover rounded-xl ${
-            imageClicked ? "shadow-lg" : ""
-          }`}
-          onClick={() => {
-            setActiveImage(images.img1);
-            setImageClicked(true);
-          }}
+          className={`w-full h-full aspect-square object-cover rounded-xl shadow-lg`}
         />
         <div className="flex flex-row justify-between h-24">
           <img
             src={images.img1}
             alt=""
-            className={`w-20 h-20 rounded-md cursor-pointer ${
+            className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${
               activeImg === images.img1 ? "border-2 border-primary" : ""
             }`}
             onClick={() => {
               setActiveImage(images.img1);
-              setImageClicked(true);
             }}
           />
           <img
             src={images.img2}
             alt=""
-            className={`w-20 h-20 rounded-md cursor-pointer ${
+            className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${
               activeImg === images.img2 ? "border-2 border-primary" : ""
             }`}
             onClick={() => {
               setActiveImage(images.img2);
-              setImageClicked(true);
             }}
           />
           <img
             src={images.img3}
             alt=""
-            className={`w-20 h-20 rounded-md cursor-pointer ${
+            className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${
               activeImg === images.img3 ? "border-2 border-primary" : ""
             }`}
             onClick={() => {
               setActiveImage(images.img3);
-              setImageClicked(true);
             }}
           />
           <img
             src={images.img4}
             alt=""
-            className={`w-20 h-20 rounded-md cursor-pointer ${
+            className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${
               activeImg === images.img4 ? "border-2 border-primary" : ""
             }`}
             onClick={() => {
               setActiveImage(images.img4);
-              setImageClicked(true);
             }}
           />
         </div>
