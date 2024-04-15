@@ -1,18 +1,20 @@
 
 import { Card } from "flowbite-react"
-const ProductCard=()=>{
-    return(
-        <Card
-      className="max-w-sm m-10"
+// import Image from "next/image"
+const ProductCard = () => {
+  return (
+
+    <Card
+      className=" max-w-xs max-h-xs m-10"
       imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
-      imgSrc="https://www.johnsonsbaby.com/sites/jbaby_us_3/files/styles/product_image/public/product-images/jns_381371175024_600ml_00000_1000wx1000h.jpeg"
+      imgSrc="https://images.ctfassets.net/g8qtv9gzg47d/2zK4vsY5YYIWUS0Si8aimc/d03710c34e43053458c11f82b3ed7bcd/mini-beauty-products-8.JPG?fl=progressive&fm=jpg&q=80"
     >
       <a href="#">
         <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
           Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
         </h5>
       </a>
-     
+
       <div className="flex items-center justify-between">
         <span className="text-2xl font-bold text-gray-900 dark:text-white">$599</span>
         <a
@@ -24,7 +26,8 @@ const ProductCard=()=>{
       </div>
     </Card>
 
-    )
+
+  )
 
 }
 export default ProductCard;
