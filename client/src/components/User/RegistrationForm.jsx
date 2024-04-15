@@ -16,11 +16,11 @@ const RegistrationForm = ({ setSelected }) => {
   });
   const navigate = useNavigate();
   useEffect(() => {
-      if (!regex.test(contactNo) && contactNo.length > 0 ) {
-        setErr({ ...err, contactNo: true });
-      } else {
-        setErr({ ...err, contactNo: false });
-      }
+    if (!regex.test(contactNo) && contactNo.length > 0) {
+      setErr({ ...err, contactNo: true });
+    } else {
+      setErr({ ...err, contactNo: false });
+    }
   }, [contactNo]);
   const handleSubmit = (e) => {
     e.preventDefault();
