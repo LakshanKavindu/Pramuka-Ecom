@@ -13,6 +13,9 @@ export default {
     fontFamily: {
       roboto: ["Roboto", "sans-serif"],
     },
+    colors: {
+      black: "#272727",
+    },
     extend: {
       spacing: {
         128: "32rem",
