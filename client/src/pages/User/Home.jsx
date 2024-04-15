@@ -1,6 +1,8 @@
 // import 'flowbite';
+import AllProducts from "../../components/User/AllProducts"
 import Footer from "../../components/User/Footer"
 import Navbar from "../../components/User/Navbar"
+import ProductCard from "../../components/User/ProductCard"
 import Slider from "../../components/User/Slider"
 
 const Home = () => {
@@ -21,6 +23,8 @@ const Home = () => {
                     <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                 </div>
             </form>
+
+            <AllProducts/>
 
 
             <Footer />
