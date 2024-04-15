@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LoginFrom from "../../components/User/LoginFrom";
 import OtpVerification from "../../components/User/OtpVerification";
+import ChangePassword from "../../components/User/ChangePassword";
 
 const Login = () => {
   const [selected, setSelected] = useState(0);
@@ -13,6 +14,7 @@ const Login = () => {
       setSelected={setSelected}
       page={"login"}
     />,
+    <ChangePassword setSelected={setSelected} key="changePassword" />,
   ];
   return (
     <div className=" flex justify-center items-center h-screen">
