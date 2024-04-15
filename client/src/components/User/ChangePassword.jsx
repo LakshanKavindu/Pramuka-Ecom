@@ -1,37 +1,62 @@
-import { useState } from "react";
-import PassowrdInput from "./inputField/withIcon/PassowrdInput";
+import { useState, useEffect } from "react";
+import { Button } from "flowbite-react";
+import PasswordInput from "./InputField/PasswordInput";
 
 const ChangePassword = ({ setSelected }) => {
   const [password, setPassword] = useState("");
   const [confirmationPassword, setConfirmationPassword] = useState("");
+  const [err, setErr] = useState({
+    password: false,
+    confirmationPassword: false,
+  });
+  useEffect(() => {
+    if (confirmationPassword.length > 0 && password !== confirmationPassword) {
+      setErr({ ...err, confirmationPassword: true });
+    }else{
+      setErr({ ...err, confirmationPassword: false });
+    }
 
+  }, [password, confirmationPassword]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSelected(0);
+    if (!err.confirmationPassword) {
+      setSelected(0);
+      return;
+    }
   };
   return (
-    <div className="  sm:w-[50%] xs:w-100  ">
-      <h1 className="text-black1 font-semibold antialiased text-2xl mb-10">
-        Set a New Password
-      </h1>
+    <div className="w-100 md:w-[30%]">
+      <div className="flex justify-center">
+        <h1 className="text-black1  font-semibold antialiased text-2xl mb-10">
+          Forget Your Password
+        </h1>
+      </div>
       <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
-        <PassowrdInput
-          lable="Password"
-          password={password}
+        <PasswordInput
+          id={"password"}
+          lable={"Password"}
+          passowrd={password}
           setPassword={setPassword}
         />
-        <PassowrdInput
+        <PasswordInput
+          id={"confirmPassword"}
           lable="Confirm Password"
           password={confirmationPassword}
           setPassword={setConfirmationPassword}
-          id={"confirmPassword"}
+          err={err.confirmationPassword}
+          helperText={
+            err.confirmationPassword ? "Password does not match" : ""
+          }
         />
-        <button
+        <Button
+          fullSized
+          className="mt-8"
+          gradientDuoTone="primary"
           type="submit"
-          className="text-white mt-10 bg-gradient-to-r from-primary to-secondary focus:ring-4 focus:outline-none focus:ring-secondary font-medium rounded-lg text-sm w-full  px-5 py-2.5 text-center dark:bg-gradient-to-r from-primary to-secondary   dark:focus:ring-primary"
+          size="sm"
         >
           Save and Continue
-        </button>
+        </Button>
       </form>
       <div>
         <p className="mt-5 text-black1 dark:text-white text-sm text-center">

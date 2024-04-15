@@ -3,7 +3,7 @@ import { Label, TextInput } from "flowbite-react";
 import { PiPassword } from "react-icons/pi";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
-const PasswordInput = ({ passowrd, setPassword, id, lable }) => {
+const PasswordInput = ({ passowrd, setPassword, id, lable, err, helperText }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -18,6 +18,7 @@ const PasswordInput = ({ passowrd, setPassword, id, lable }) => {
       </div>
       <div className="relative">
         <TextInput
+          style={{ paddingRight: "2.5rem" }}
           id={id}
           sizing={"sm"}
           type={showPassword ? "text" : "password"}
@@ -25,10 +26,12 @@ const PasswordInput = ({ passowrd, setPassword, id, lable }) => {
           value={passowrd}
           onChange={(e) => setPassword(e.target.value)}
           required
+          color={err ? "failure" : ""}
+          helperText={helperText ? helperText : ""}
         />
         <button
           type="button"
-          className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
+          className="absolute top-3 sm:top-2 right-0 flex items-center pr-3 focus:outline-none"
           onClick={togglePasswordVisibility}
         >
           {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
