@@ -30,9 +30,11 @@ const OtpVerification = ({ title, contactNo, setSelected, page }) => {
   };
   return (
     <div className="w-100 md:w-[30%]">
-      <h1 className="text-black1 font-semibold antialiased text-2xl mb-3">
-        {title ? title : "Let's go!"}
-      </h1>
+      <div className="flex justify-center">
+        <h1 className="text-black1  font-semibold antialiased text-2xl">
+          {title ? title : "Let's go!"}
+        </h1>
+      </div>
       <div className="flex flex-col justify-center items-center my-5">
         <FaWhatsapp size={70} className="text-green-500" />
       </div>
@@ -74,7 +76,7 @@ const OtpVerification = ({ title, contactNo, setSelected, page }) => {
           type="submit"
           size="sm"
         >
-          Login
+          Verify
         </Button>
       </form>
       <div>
