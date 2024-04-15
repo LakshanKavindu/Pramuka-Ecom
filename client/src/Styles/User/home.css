@@ -1,0 +1,16 @@
+
+
+
+@media screen and (max-width:768px){
+    .card_container{
+        flex-direction: column;
+        padding-left:2.2rem !important;
+        padding-right:2.2rem !important;
+    
+    }
+
+    .card_container .text_container{
+        width:auto;
+    }
+        
+}

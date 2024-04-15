@@ -7,9 +7,9 @@ import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-
 
 const Footern = () => {
   return (
-    <Footer container className="bg-black1 mt-40">
+    <Footer container className="bg-black1 mt-10">
 
-      <div className="w-full text-white ">
+      <div className="w-full text-white px-14 ">
         <Footer.Divider />
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
 
