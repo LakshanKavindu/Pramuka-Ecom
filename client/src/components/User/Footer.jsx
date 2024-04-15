@@ -7,12 +7,11 @@ import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-
 
 const Footern = () => {
   return (
-    <Footer container className="bg-black1 mt-10">
+    <Footer container className="bg-gray-800 mt-10">
 
-      <div className="w-full text-white px-14 ">
+      <div className="w-full px-14 ">
         <Footer.Divider />
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
-
           <div>
             <Footer.Brand
               href="https://google.com"
@@ -21,10 +20,10 @@ const Footern = () => {
               name="ABC Stores"
             />
           </div>
-          <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
+          <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6 ">
             <div>
-              <Footer.Title title="about" />
-              <Footer.LinkGroup col>
+              <Footer.Title title="about" className="text-white" />
+              <Footer.LinkGroup col className="text-white">
                 <Footer.Link href="#">Flowbite</Footer.Link>
                 <Footer.Link href="#">Tailwind CSS</Footer.Link>
               </Footer.LinkGroup>
@@ -38,8 +37,8 @@ const Footern = () => {
             </div> */}
             <div>
 
-              <Footer.Title title="Legal" />
-              <Footer.LinkGroup col>
+              <Footer.Title title="Legal" className="text-white" />
+              <Footer.LinkGroup col className="text-white">
                 <Footer.Link href="#">Privacy Policy</Footer.Link>
                 <Footer.Link href="#">Terms &amp; Conditions</Footer.Link>
               </Footer.LinkGroup>
@@ -48,10 +47,10 @@ const Footern = () => {
         </div>
 
         <div className="w-full sm:flex sm:items-center sm:justify-between pt-5">
-          <Footer.Copyright href="#" by="Abc Stores™" year={2024} />
+          <Footer.Copyright href="#" by="Abc Stores™" year={2024} className="text-white" />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
-            <Footer.Icon href="#" icon={BsFacebook} />
-            <Footer.Icon href="#" icon={BsInstagram} />
+            <Footer.Icon href="#" icon={BsFacebook} className="text-white" />
+            <Footer.Icon href="#" icon={BsInstagram} className="text-white" />
 
 
           </div>

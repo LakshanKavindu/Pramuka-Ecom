@@ -10,20 +10,20 @@ const AllProducts = () => {
   ]);
   const [visible, SetVisible] = useState(6);
 
-  const handlevisible=()=>{
-    SetVisible(visible+3);
+  const handlevisible = () => {
+    SetVisible(visible + 3);
   }
   return (
     <div>
       <div className="flex flex-wrap justify-center">
-        {products.slice(0,visible).map(item=>{
-            return(
-                <ProductCard/>
-            )
+        {products.slice(0, visible).map(item => {
+          return (
+            <ProductCard />
+          )
         })}
       </div>
       <div className="flex justify-center">
-      <Button gradientMonochrome="lime" onClick={()=>{handlevisible()}}> <h3>More Products</h3></Button>
+        <Button className=" border-orange-500 outline-primary shadow-none text-primary hover:bg-primary hover:text-white transition-all" onClick={() => { handlevisible() }}> <h3>More Products</h3></Button>
       </div>
 
 

@@ -48,7 +48,6 @@ const Home = () => {
 
                     </div>
                     <div className="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
-
                         <img src="https://th.bing.com/th/id/OIP.yuIhGQGVmD9pCQd22TKOWAHaHd?rs=1&pid=ImgDetMain" alt="product1" className="w-96 h-96" />
                     </div>
 
