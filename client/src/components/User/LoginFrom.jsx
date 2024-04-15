@@ -34,16 +34,34 @@ const LoginFrom = ({ setSelected }) => {
           passowrd={password}
           setPassword={setPassword}
         />
-        <Button fullSized className="mt-8" gradientDuoTone="primary" type="submit" size="sm">
+        <Button
+          fullSized
+          className="mt-8"
+          gradientDuoTone="primary"
+          type="submit"
+          size="sm"
+        >
           Login
         </Button>
       </form>
+      <div className="flex justify-center mt-5">
+        <p
+          className="text-black1 dark:text-white text-sm cursor-pointer"
+          onClick={() => setSelected(1)}
+        >
+          Forget your password?
+        </p>
+      </div>
+      <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-gray-700" />
       <div>
         <p className="mt-5 text-black1 dark:text-white text-sm text-center">
           Don't have an account?{" "}
           <span
             className="text-secondary cursor-pointer"
-            onClick={() => {navigate("/reg"); setSelected(0)}}
+            onClick={() => {
+              navigate("/reg");
+              setSelected(0);
+            }}
           >
             Sign up
           </span>
