@@ -1,17 +1,16 @@
 import { useState } from "react";
-import LoginFrom from "../../components/User/LoginFrom";
+import RegistrationForm from "../../components/User/RegistrationForm";
 import OtpVerification from "../../components/User/OtpVerification";
 
-const Login = () => {
+const Registration = () => {
   const [selected, setSelected] = useState(0);
   const components = [
-    <LoginFrom setSelected={setSelected} key="loginForm" />,
+    <RegistrationForm setSelected={setSelected} key="registrationForm" />,
     <OtpVerification
       key="otpVerification"
-      title={"Forget Your Password"}
-      contactNo={"07123456789"}
+      title={"Let's go!"}
+      contactNo={"0712345678"}
       setSelected={setSelected}
-      page={"login"}
     />,
   ];
   return (
@@ -21,4 +20,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Registration;
