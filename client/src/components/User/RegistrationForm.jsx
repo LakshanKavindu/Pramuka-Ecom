@@ -1,15 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react";
-import { FaWhatsapp,FaRegUserCircle  } from "react-icons/fa";
+import { FaWhatsapp, FaRegUserCircle } from "react-icons/fa";
 import TextInputCom from "./InputField/TextInputCom";
 import PasswordInput from "./InputField/PasswordInput";
 
-const RegistrationForm = ({setSelected}) => {
+const RegistrationForm = ({ setSelected }) => {
+  const regex = /^(?:0\d{9}|\+94\d{9})$/;
   const [name, setName] = useState("");
   const [contactNo, setContactNo] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setErr] = useState({
+    contactNo: false,
+    password: false,
+  });
   const navigate = useNavigate();
+  useEffect(() => {
+      if (!regex.test(contactNo) && contactNo.length > 0 ) {
+        setErr({ ...err, contactNo: true });
+      } else {
+        setErr({ ...err, contactNo: false });
+      }
+  }, [contactNo]);
   const handleSubmit = (e) => {
     e.preventDefault();
     setSelected(1);
@@ -28,6 +40,7 @@ const RegistrationForm = ({setSelected}) => {
           id={"name"}
           lable={"Name"}
           icon={FaRegUserCircle}
+          placeholder={"John Doe"}
         />
         <TextInputCom
           value={contactNo}
@@ -35,6 +48,10 @@ const RegistrationForm = ({setSelected}) => {
           id={"contactNo"}
           lable={"Whatsapp Number"}
           icon={FaWhatsapp}
+          type={"number"}
+          placeholder={"0712345678 or +94712345678"}
+          inputErr={err.contactNo}
+          helperText={err.contactNo ? "Invalid contact number" : ""}
         />
         <PasswordInput
           id={"password"}
@@ -65,7 +82,7 @@ const RegistrationForm = ({setSelected}) => {
             Sign up
           </span>
         </p>
-        </div>
+      </div>
     </div>
   );
 };

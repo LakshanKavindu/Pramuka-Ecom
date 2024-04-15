@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react";
 import { FaWhatsapp } from "react-icons/fa";
@@ -6,9 +6,21 @@ import PasswordInput from "./InputField/PasswordInput";
 import TextInputCom from "./InputField/TextInputCom";
 
 const LoginFrom = ({ setSelected }) => {
+  const regex = /^(?:0\d{9}|\+94\d{9})$/;
   const [contactNo, setContactNo] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [err, setErr] = useState({
+    contactNo: false,
+    password: false,
+  });
+  useEffect(() => {
+    if (!regex.test(contactNo) && contactNo.length > 0 ) {
+      setErr({ ...err, contactNo: true });
+    } else {
+      setErr({ ...err, contactNo: false });
+    }
+}, [contactNo]);
   const handleSubmit = (e) => {
     e.preventDefault();
     setSelected(1);
@@ -27,6 +39,10 @@ const LoginFrom = ({ setSelected }) => {
           id={"contactNo"}
           lable={"Whatsapp Number"}
           icon={FaWhatsapp}
+          type={"number"}
+          placeholder={"0712345678 or +94712345678"}
+          inputErr={err.contactNo}
+          helperText={err.contactNo ? "Invalid contact number" : ""}
         />
         <PasswordInput
           id={"password"}
