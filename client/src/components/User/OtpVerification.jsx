@@ -15,7 +15,6 @@ const OtpVerification = ({ title, contactNo, setSelected, page }) => {
       const prevInput = document.getElementById(`input-${index - 1}`);
       prevInput.focus();
     }
-
     const newOtp = [...otp];
     newOtp[index] = e.target.value;
     setOtp(newOtp);
