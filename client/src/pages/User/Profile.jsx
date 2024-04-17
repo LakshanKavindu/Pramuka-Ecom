@@ -3,7 +3,7 @@ import Footern from "../../components/User/Footer";
 import Nav from "../../components/User/Navbar";
 import { FaRegUser } from "react-icons/fa";
 
-import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
+import { Button, Card, Label, TextInput } from "flowbite-react";
 
 const Profile = () => {
   const [editDisabled, setEditDisabled] = useState(false);
