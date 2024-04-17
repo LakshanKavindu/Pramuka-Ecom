@@ -4,10 +4,15 @@ import Footer from "../../components/User/Footer"
 import Nav from "../../components/User/Navbar"
 import Slider from "../../components/User/Slider"
 
+import { Card } from "flowbite-react";
+// import { product } from "../../../public/product.jpeg"
+
+import "../../Styles/User/home.css";
+
 const Home = () => {
     return (
         <div>
-            <Nav />
+            <Nav isActive={"home"} />
             <Slider />
 
             <form className="max-w-md mx-auto mt-8">
@@ -19,11 +24,35 @@ const Home = () => {
                         </svg>
                     </div>
                     <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for products" required />
-                    <button type="submit" className="primary absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                    <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-primary hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                 </div>
             </form>
 
             <AllProducts />
+
+            <Card className="border-none bg-orange-50 shadow-none mt-10">
+                <div className="flex justify-center items-center px-14 m-auto card_container gap-6">
+                    <div className="w-[500px] text_container">
+                        <h5 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
+                            Work fast from anywhere
+                        </h5>
+                        <p className="mb-5 w-300 text-base text-primary dark:text-gray-400 sm:text-lg">
+                            <p>
+                                Stay up to date and move work forward with Flowbite
+                            </p>
+                        </p>
+                        <p className="pr-8 text-justify">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus voluptatum ut dolor aperiam inventore ullam suscipit ea officia nam ducimus id beatae, rem sunt. Quibusdam aliquid laborum corrupti ipsam nisi?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores maxime reprehenderit illo sed aspernatur repellat placeat quia cumque delectus. Dolores.
+                        </p>
+
+                    </div>
+                    <div className="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
+                        <img src="https://th.bing.com/th/id/OIP.yuIhGQGVmD9pCQd22TKOWAHaHd?rs=1&pid=ImgDetMain" alt="product1" className="w-96 h-96" />
+                    </div>
+
+                </div>
+            </Card>
 
 
             <Footer />
