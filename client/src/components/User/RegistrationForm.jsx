@@ -49,6 +49,8 @@ const RegistrationForm = ({ setSelected }) => {
           setValue={setName}
           id={"name"}
           lable={"Name"}
+          size={"sm"}
+          type={"text"}
           icon={FaRegUserCircle}
           placeholder={"John Doe"}
           inputErr={err.name}
@@ -60,7 +62,9 @@ const RegistrationForm = ({ setSelected }) => {
           id={"contactNo"}
           lable={"Whatsapp Number"}
           icon={FaWhatsapp}
-          type={"number"}
+          type={"text"}
+          inputType={"tel"}
+          size={"sm"}
           placeholder={"0712345678 or +94712345678"}
           inputErr={err.contactNo}
           helperText={err.contactNo ? "Invalid contact number" : ""}
@@ -68,6 +72,8 @@ const RegistrationForm = ({ setSelected }) => {
         <PasswordInput
           id={"password"}
           lable={"Password"}
+          isIcon={true}
+          size={"sm"}
           passowrd={password}
           setPassword={setPassword}
           passwordStrength={passwordStrength}

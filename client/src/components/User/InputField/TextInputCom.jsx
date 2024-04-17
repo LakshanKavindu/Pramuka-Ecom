@@ -7,13 +7,16 @@ const TextInputCom = ({
   lable,
   icon,
   type,
+  disabled,
+  inputType,
   placeholder,
   inputErr,
   helperText,
+  size,
 }) => {
   const regex = /^[0-9+]+$/;
   const handleValue = (e) => {
-    if (type === "number" && e !== "") {
+    if (inputType === "tel" && e !== "") {
       if (!regex.test(e)) return;
     }
     setValue(e);
@@ -27,10 +30,11 @@ const TextInputCom = ({
       <div className="relative">
         <TextInput
           id={id}
-          sizing={"sm"}
-          type="text"
-          icon={icon}
-          color={inputErr ? "failure" : ""}
+          disabled={disabled?true:false}
+          sizing={size ? size : "md"}
+          type={type ? type : "text"}
+          icon={icon ? icon : null}
+          color={inputErr ? "failure" : "primary"}
           value={value}
           placeholder={placeholder}
           onChange={(e) => handleValue(e.target.value)}

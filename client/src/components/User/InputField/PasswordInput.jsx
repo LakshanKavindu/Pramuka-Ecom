@@ -10,6 +10,8 @@ const PasswordInput = ({
   id,
   lable,
   err,
+  size,
+  isIcon,
   helperText,
   passwordStrength,
   setPasswordStrength,
@@ -129,13 +131,13 @@ const PasswordInput = ({
             ref={ref}
             style={{ paddingRight: "2.5rem" }}
             id={id}
-            sizing={"sm"}
+            sizing={size ? size : "md"}
             type={showPassword ? "text" : "password"}
-            icon={PiPassword}
+            icon={isIcon ? PiPassword : null}
             value={passowrd}
             onChange={(e) => handlePassword(e.target.value)}
             required
-            color={err ? "failure" : ""}
+            color={err ? "failure" : "primary"}
             helperText={
               helperText
                 ? helperText
