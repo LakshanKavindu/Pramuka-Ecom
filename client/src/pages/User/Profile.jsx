@@ -11,6 +11,7 @@ const Profile = () => {
   const [saveDisabled, setSaveDisabled] = useState(true);
   const [nameDisabled, setNameDisabled] = useState(true);
   const [phoneDisabled, setPhoneDisabled] = useState(true);
+  const [cancelDisabled, setCancelDisabled] = useState(false);
   const [passwordDisabled, setPasswordDisabled] = useState(true);
   const [openModal, setOpenModal] = useState(false);
 
@@ -27,6 +28,13 @@ const Profile = () => {
     setSaveDisabled(true);
     setEditDisabled(false);
     setOpenModal(true);
+  };
+
+  const handleCancel = () => {
+    setPhoneDisabled(true);
+    setPasswordDisabled(true);
+    setSaveDisabled(true);
+    setEditDisabled(false);
   };
   return (
     <div>
@@ -79,15 +87,28 @@ const Profile = () => {
                 />
               </div>
               <div className="flex items-center justify-end gap-2">
-                <Button
-                  type="button"
-                  size="sm"
-                  className=" border-primary text-primary hover:bg-primary hover:text-white"
-                  onClick={handleEdit}
-                  disabled={editDisabled}
-                >
-                  Edit
-                </Button>
+                {editDisabled === true ? (
+                  <Button
+                    type="button"
+                    size="sm"
+                    className=" border-primary text-primary hover:bg-primary hover:text-white"
+                    onClick={handleCancel}
+                    disabled={cancelDisabled}
+                  >
+                    Cancel
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    size="sm"
+                    className=" border-primary text-primary hover:bg-primary hover:text-white"
+                    onClick={handleEdit}
+                    disabled={editDisabled}
+                  >
+                    Edit
+                  </Button>
+                )}
+
                 <Button
                   type="button"
                   size="sm"

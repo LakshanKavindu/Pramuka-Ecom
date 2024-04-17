@@ -61,13 +61,13 @@ const Home = () => {
       <Card className="border-none bg-orange-50 shadow-none mt-10">
         <div className="flex justify-center items-center px-14 m-auto card_container gap-6">
           <div className="w-[500px] text_container">
-            <h5 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
+            <h5 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white card_container_title">
               Work fast from anywhere
             </h5>
             <p className="mb-5 w-300 text-base text-primary dark:text-gray-400 sm:text-lg">
               <p>Stay up to date and move work forward with Flowbite</p>
             </p>
-            <p className="pr-8 text-justify">
+            <p className=" text-justify para">
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Necessitatibus voluptatum ut dolor aperiam inventore ullam
               suscipit ea officia nam ducimus id beatae, rem sunt. Quibusdam
