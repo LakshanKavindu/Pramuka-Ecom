@@ -11,9 +11,10 @@ const RegistrationForm = ({ setSelected }) => {
   const [contactNo, setContactNo] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState({
+    name: false,
     contactNo: false,
-    password: false,
   });
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
   useEffect(() => {
     if (!regex.test(contactNo) && contactNo.length > 0) {
@@ -22,9 +23,18 @@ const RegistrationForm = ({ setSelected }) => {
       setErr({ ...err, contactNo: false });
     }
   }, [contactNo]);
+  useEffect(() => {
+    if (name.length < 5 && name.length > 0) {
+      setErr({ ...err, name: true });
+    } else {
+      setErr({ ...err, name: false });
+    }
+  }, [name]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSelected(1);
+    if (!err.contactNo && !err.name && passwordStrength > 0) {
+      setSelected(1);
+    }
   };
   return (
     <div className="w-100 md:w-[30%]">
@@ -41,6 +51,8 @@ const RegistrationForm = ({ setSelected }) => {
           lable={"Name"}
           icon={FaRegUserCircle}
           placeholder={"John Doe"}
+          inputErr={err.name}
+          helperText={err.name ? "Name should be at least 5 characters" : ""}
         />
         <TextInputCom
           value={contactNo}
@@ -55,9 +67,11 @@ const RegistrationForm = ({ setSelected }) => {
         />
         <PasswordInput
           id={"password"}
-          lable={"Choose Password"}
+          lable={"Password"}
           passowrd={password}
           setPassword={setPassword}
+          passwordStrength={passwordStrength}
+          setPasswordStrength={setPasswordStrength}
         />
         <Button
           fullSized
