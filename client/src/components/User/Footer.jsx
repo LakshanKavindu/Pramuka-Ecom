@@ -28,7 +28,7 @@ const Footern = () => {
           </div>
           <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6 ">
             <div>
-              <Footer.Title title="Links" className="text-black text-lg" />
+              <Footer.Title title="Links" className="text-primary text-lg" />
               <Footer.LinkGroup col className="text-black2 font-semibold">
                 <Footer.Link href="#">Home</Footer.Link>
                 <Footer.Link href="#">About Us</Footer.Link>
@@ -36,14 +36,17 @@ const Footern = () => {
             </div>
 
             <div>
-              <Footer.Title title="Legal" className="text-black  text-lg" />
+              <Footer.Title title="Legal" className="text-primary  text-lg" />
               <Footer.LinkGroup col className="text-black2 font-semibold">
                 <Footer.Link href="#">Privacy Policy</Footer.Link>
                 <Footer.Link href="#">Terms &amp; Conditions</Footer.Link>
               </Footer.LinkGroup>
             </div>
             <div>
-              <Footer.Title title="Contact Us" className="text-black text-lg" />
+              <Footer.Title
+                title="Contact Us"
+                className="text-primary text-lg"
+              />
               <Footer.LinkGroup col className="text-black2 font-semibold">
                 <Footer.Link href="#">Tel : 078-xxxxxxxx</Footer.Link>
                 <Footer.Link href="#">Email : pramuka@gmail.com</Footer.Link>

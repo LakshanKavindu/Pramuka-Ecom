@@ -2,8 +2,9 @@ import { useState } from "react";
 import Footern from "../../components/User/Footer";
 import Nav from "../../components/User/Navbar";
 import { FaRegUser } from "react-icons/fa";
-
 import { Button, Card, Label, TextInput } from "flowbite-react";
+import { Modal } from "flowbite-react";
+import { IoMdCloudDone } from "react-icons/io";
 
 const Profile = () => {
   const [editDisabled, setEditDisabled] = useState(false);
@@ -11,6 +12,7 @@ const Profile = () => {
   const [nameDisabled, setNameDisabled] = useState(true);
   const [phoneDisabled, setPhoneDisabled] = useState(true);
   const [passwordDisabled, setPasswordDisabled] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   const handleEdit = () => {
     setPhoneDisabled(false);
@@ -24,6 +26,7 @@ const Profile = () => {
     setPasswordDisabled(true);
     setSaveDisabled(true);
     setEditDisabled(false);
+    setOpenModal(true);
   };
   return (
     <div>
@@ -100,6 +103,36 @@ const Profile = () => {
         </div>
       </div>
       <Footern />
+      {/* modal for save button */}
+      <Modal
+        show={openModal}
+        size="md"
+        onClose={() => setOpenModal(false)}
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <div className="flex justify-center items-center">
+              <IoMdCloudDone className="text-5xl text-green-400 " />
+            </div>
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              Your have successfully updated your profile
+            </h3>
+            <div className="flex justify-center gap-4">
+              {/* <Button color="failure" onClick={() => setOpenModal(false)}>
+                {"Yes, I'm sure"}
+              </Button> */}
+              <Button
+                gradientDuoTone={"primary"}
+                onClick={() => setOpenModal(false)}
+              >
+                close
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
