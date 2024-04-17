@@ -11,7 +11,7 @@ import Cart from "./pages/User/Cart";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import customTheme from "./assets/theme";
-import Cart from "./pages/User/Cart";
+
 
 function App() {
   return (
