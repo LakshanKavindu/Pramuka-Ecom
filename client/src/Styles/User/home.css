@@ -14,3 +14,19 @@
     }
         
 }
+
+@media screen and (max-width:640px) {
+    .card_container{
+        padding-left:0.5rem !important;
+        padding-right:0.5rem !important;
+    }
+    .card_container .text_container{
+        width:auto;
+        text-align: center;
+    }
+
+    .card_container .card_container_title{
+        text-align: center;
+    }
+    
+}
