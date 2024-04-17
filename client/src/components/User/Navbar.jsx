@@ -1,17 +1,23 @@
-"use client";
-
 import { Button, Navbar } from "flowbite-react";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Nav = ({ isActive }) => {
+  const handleContactClick = () => {
+    // Programmatically navigate to the current URL with an appended hash
+    const footer = document.getElementById("footer");
+    if (footer) {
+      footer.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <Navbar container className=" py-5 shadow-bottom-shadow">
       <Navbar.Brand href="/user" className="">
         {/* <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" /> */}
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          Pramuka Products
+          Pramuka Stores
         </span>
       </Navbar.Brand>
       <div className="flex gap-4 md:order-2 items-center pt-2 ">
@@ -22,7 +28,9 @@ const Nav = ({ isActive }) => {
                 3
               </p>
             </div>
-            <FiShoppingCart className="cursor-pointer text-2xl" />
+            <Link to="/cart">
+              <FiShoppingCart className="cursor-pointer text-2xl" />
+            </Link>
           </div>
         </div>
         <Link to="/user/profile">
@@ -42,10 +50,11 @@ const Nav = ({ isActive }) => {
         <Navbar.Link href="#" className="hover:text-primary">
           About
         </Navbar.Link>
-        <Navbar.Link href="#" className="hover:text-primary">
-          Pricing
-        </Navbar.Link>
-        <Navbar.Link href="#" className="hover:text-primary">
+        <Navbar.Link
+          href="#"
+          className="hover:text-primary"
+          onClick={handleContactClick}
+        >
           Contact
         </Navbar.Link>
       </Navbar.Collapse>
