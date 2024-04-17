@@ -1,5 +1,5 @@
 
-import { Card } from "flowbite-react"
+import { Button, Card } from "flowbite-react"
 // import Image from "next/image"
 const ProductCard = () => {
   return (
