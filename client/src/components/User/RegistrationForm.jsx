@@ -11,9 +11,10 @@ const RegistrationForm = ({ setSelected }) => {
   const [contactNo, setContactNo] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState({
+    name: false,
     contactNo: false,
-    password: false,
   });
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
   useEffect(() => {
     if (!regex.test(contactNo) && contactNo.length > 0) {
@@ -22,9 +23,18 @@ const RegistrationForm = ({ setSelected }) => {
       setErr({ ...err, contactNo: false });
     }
   }, [contactNo]);
+  useEffect(() => {
+    if (name.length < 5 && name.length > 0) {
+      setErr({ ...err, name: true });
+    } else {
+      setErr({ ...err, name: false });
+    }
+  }, [name]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSelected(1);
+    if (!err.contactNo && !err.name && passwordStrength > 0) {
+      setSelected(1);
+    }
   };
   return (
     <div className="w-100 md:w-[30%]">
@@ -39,8 +49,12 @@ const RegistrationForm = ({ setSelected }) => {
           setValue={setName}
           id={"name"}
           lable={"Name"}
+          size={"sm"}
+          type={"text"}
           icon={FaRegUserCircle}
           placeholder={"John Doe"}
+          inputErr={err.name}
+          helperText={err.name ? "Name should be at least 5 characters" : ""}
         />
         <TextInputCom
           value={contactNo}
@@ -48,16 +62,22 @@ const RegistrationForm = ({ setSelected }) => {
           id={"contactNo"}
           lable={"Whatsapp Number"}
           icon={FaWhatsapp}
-          type={"number"}
+          type={"text"}
+          inputType={"tel"}
+          size={"sm"}
           placeholder={"0712345678 or +94712345678"}
           inputErr={err.contactNo}
           helperText={err.contactNo ? "Invalid contact number" : ""}
         />
         <PasswordInput
           id={"password"}
-          lable={"Choose Password"}
+          lable={"Password"}
+          isIcon={true}
+          size={"sm"}
           passowrd={password}
           setPassword={setPassword}
+          passwordStrength={passwordStrength}
+          setPasswordStrength={setPasswordStrength}
         />
         <Button
           fullSized

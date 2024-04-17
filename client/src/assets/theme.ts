@@ -3,9 +3,9 @@ const customTheme: CustomFlowbiteTheme = {
   textInput: {
     field: {
       input: {
-        sizes: {
-          sm: "focus:border-primary focus:ring-primary dark:focus:border-primary dark:focus:ring-primary p-2 sm:text-xs pl-10 rounded-lg",
-          lg: "focus:border-primary focus:ring-primary dark:focus:border-primary dark:focus:ring-primary p-4 sm:text-base rounded-lg ",
+        colors: {
+          primary:
+            "focus:border-primary focus:ring-primary dark:focus:border-primary dark:focus:ring-primary",
         },
       },
     },
