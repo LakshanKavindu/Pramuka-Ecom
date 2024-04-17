@@ -15,6 +15,12 @@ const Profile = () => {
   const [passwordDisabled, setPasswordDisabled] = useState(true);
   const [openModal, setOpenModal] = useState(false);
 
+  const [name, setName] = useState("Booshana namudhara");
+  const [phone, setPhone] = useState("0771234567");
+  const [password, setPassword] = useState("12345678");
+  const [tempPhone, setTempPhone] = useState("0771234567");
+  const [tempPassword, setTempPassword] = useState("12345678");
+
   const handleEdit = () => {
     setPhoneDisabled(false);
     setPasswordDisabled(false);
@@ -35,7 +41,18 @@ const Profile = () => {
     setPasswordDisabled(true);
     setSaveDisabled(true);
     setEditDisabled(false);
+    setPhone(tempPhone);
+    setPassword(tempPassword);
   };
+
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
   return (
     <div>
       <Nav isActive={"profile"} />
@@ -58,7 +75,7 @@ const Profile = () => {
                   placeholder=""
                   required
                   disabled={nameDisabled}
-                  value={"Booshana namudhara"}
+                  value={name}
                 />
               </div>
               <div className="flex w-full items-center">
@@ -72,6 +89,8 @@ const Profile = () => {
                   placeholder=""
                   required
                   disabled={phoneDisabled}
+                  value={phone}
+                  onChange={handlePhoneChange}
                 />
               </div>
               <div className="flex w-full items-center">
@@ -84,6 +103,8 @@ const Profile = () => {
                   type="password"
                   required
                   disabled={passwordDisabled}
+                  value={password}
+                  onChange={handlePasswordChange}
                 />
               </div>
               <div className="flex items-center justify-end gap-2">
