@@ -29,7 +29,7 @@ const Profile = () => {
     <div>
       <Nav isActive={"profile"} />
       <div className="px-8 mt-8">
-        <div className="mt-8 flex items-center mb-12">
+        <div className="mt-8 flex items-center mb-8">
           <FaRegUser className="text-2xl text-black2 mr-2" />
           <h2 className=" text-2xl font-semibold">Your Profile</h2>
         </div>
