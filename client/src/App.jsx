@@ -10,6 +10,7 @@ import ProductPage from "./pages/User/Product";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import customTheme from "./assets/theme";
+import Cart from "./pages/User/Cart";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/reg" element={<Registration />} />
             <Route path="/user" element={<Home />} />
             <Route path="/product" element={<ProductPage />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Routes>

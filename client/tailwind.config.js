@@ -35,6 +35,10 @@ export default {
         }
         
       },
+      boxShadow: {
+        'custom-light': '0 0 3px #FF014E',
+        
+      },
       backgroundImage: () => ({
         "gradient-button": "linear-gradient(90deg, #FF7141 0%, #FF014E 100%)",
       }),
