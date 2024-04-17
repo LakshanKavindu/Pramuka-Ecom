@@ -3,7 +3,6 @@ import { LuShoppingCart } from "react-icons/lu";
 import Nav from "../../components/User/Navbar";
 import Footern from "../../components/User/Footer";
 
-
 const ProductPage = () => {
   const [images, setImages] = useState({
     img1: "https://objectstorage.ap-mumbai-1.oraclecloud.com/n/softlogicbicloud/b/cdn/o/products/116447--1--1560184216.jpeg",
@@ -40,8 +39,9 @@ const ProductPage = () => {
             <img
               src={images.img1}
               alt=""
-              className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${activeImg === images.img1 ? "border-2 border-primary" : ""
-                }`}
+              className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${
+                activeImg === images.img1 ? "border-2 border-primary" : ""
+              }`}
               onClick={() => {
                 setActiveImage(images.img1);
               }}
@@ -49,8 +49,9 @@ const ProductPage = () => {
             <img
               src={images.img2}
               alt=""
-              className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${activeImg === images.img2 ? "border-2 border-primary" : ""
-                }`}
+              className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${
+                activeImg === images.img2 ? "border-2 border-primary" : ""
+              }`}
               onClick={() => {
                 setActiveImage(images.img2);
               }}
@@ -58,8 +59,9 @@ const ProductPage = () => {
             <img
               src={images.img3}
               alt=""
-              className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${activeImg === images.img3 ? "border-2 border-primary" : ""
-                }`}
+              className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${
+                activeImg === images.img3 ? "border-2 border-primary" : ""
+              }`}
               onClick={() => {
                 setActiveImage(images.img3);
               }}
@@ -67,8 +69,9 @@ const ProductPage = () => {
             <img
               src={images.img4}
               alt=""
-              className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${activeImg === images.img4 ? "border-2 border-primary" : ""
-                }`}
+              className={`w-20 h-20 rounded-md cursor-pointer transition-transform duration-300 transform hover:scale-110 ${
+                activeImg === images.img4 ? "border-2 border-primary" : ""
+              }`}
               onClick={() => {
                 setActiveImage(images.img4);
               }}
@@ -87,8 +90,8 @@ const ProductPage = () => {
             chilometri, Invincible 3 offre un livello di comfort elevatissimo
             sotto il piede per aiutarti a dare il massimo oggi, domani e oltre.
             Questo modello incredibilmente elastico e sostenitivo, è pensato per
-            dare il massimo lungo il tuo percorso preferito e fare ritorno a casa
-            carico di energia, in attesa della prossima corsa.
+            dare il massimo lungo il tuo percorso preferito e fare ritorno a
+            casa carico di energia, in attesa della prossima corsa.
           </p>
           <div className="flex flex-row justify-center gap-1">
             <h6 className="text-base line-through font-normal text-gray-700/75 flex items-end">
@@ -128,7 +131,6 @@ const ProductPage = () => {
         </div>
       </div>
       <Footern />
-
     </>
   );
 };
