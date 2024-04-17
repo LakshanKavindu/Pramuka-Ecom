@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MdAddShoppingCart } from "react-icons/md";
+import { LuShoppingCart } from "react-icons/lu";
 
 const ProductPage = () => {
   const [images, setImages] = useState({
@@ -10,6 +10,7 @@ const ProductPage = () => {
   });
   const [activeImg, setActiveImage] = useState(images.img1);
   const [unitPrice, setUnitPrice] = useState(240.0);
+  const [previousPrice, setPreviousPrice] = useState(300.5);
   const [amount, setAmount] = useState(1);
   const decreaseAmount = () => {
     if (amount > 1) {
@@ -20,6 +21,7 @@ const ProductPage = () => {
     setAmount((prev) => prev + 1);
   };
   const totalPrice = unitPrice * amount;
+  const totalPreviousPrice = previousPrice * amount;
 
   return (
     <div className="flex flex-col justify-between lg:flex-row gap-16 lg:items-center">
@@ -87,7 +89,14 @@ const ProductPage = () => {
           dare il massimo lungo il tuo percorso preferito e fare ritorno a casa
           carico di energia, in attesa della prossima corsa.
         </p>
-        <h6 className="text-2xl font-semibold">LKR {totalPrice.toFixed(2)}</h6>
+        <div className="flex flex-row justify-center gap-1">
+          <h6 className="text-base line-through font-normal text-gray-700/75 flex items-end">
+            LKR {totalPreviousPrice.toFixed(2)}
+          </h6>
+          <h6 className="text-2xl items-center font-semibold">
+            LKR {totalPrice.toFixed(2)}
+          </h6>
+        </div>
         <div className="flex flex-row items-center justify-center gap-12">
           <div className="flex flex-row items-center">
             <button
@@ -107,8 +116,12 @@ const ProductPage = () => {
             </button>
           </div>
           <div>
-            <button className='bg-primary text-white font-semibold py-3 px-16 rounded-xl h-full hidden lg:block'>Add to Cart</button>
-            <button className='bg-primary text-white font-semibold py-5 px-9 rounded-xl text-2xl lg:hidden'><MdAddShoppingCart/></button>
+            <button className="bg-primary text-white font-semibold py-3 px-16 rounded-xl h-full hidden lg:block">
+              Add to Cart
+            </button>
+            <button className="bg-primary text-white font-semibold py-5 px-9 rounded-xl text-2xl lg:hidden">
+              <LuShoppingCart />
+            </button>
           </div>
         </div>
       </div>
