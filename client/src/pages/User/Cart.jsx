@@ -102,6 +102,7 @@ const Cart = () => {
             </td>
         </tr>
         </table>
+        {/* comment */}
       </div>
     </div>
   );
