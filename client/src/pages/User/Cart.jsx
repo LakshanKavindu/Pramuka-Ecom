@@ -37,7 +37,6 @@ const Cart = () => {
             <CartItems activeImg={activeImg} productName={productName} unitPrice={unitPrice}/>
             <CartItems activeImg={activeImg} productName={productName} unitPrice={unitPrice}/>
             <CartItems activeImg={activeImg} productName={productName} unitPrice={unitPrice}/>
-   />
 
 
    
