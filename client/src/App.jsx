@@ -11,6 +11,7 @@ import Cart from "./pages/User/Cart";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import customTheme from "./assets/theme";
+import ProductPreview from "./pages/User/ProductPreview";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/product" element={<ProductPage />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/preview" element={<ProductPreview />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Routes>
         </BrowserRouter>
