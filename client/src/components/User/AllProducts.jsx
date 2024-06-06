@@ -1,18 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import { Button } from "flowbite-react";
+import axios from "axios";
 
 
 const AllProducts = () => {
-  const [products, SetProducts] = useState([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-    10, 11, 12, 13, 14,
-  ]);
+  const [products, SetProducts] = useState([]);
   const [visible, SetVisible] = useState(6);
 
   const handlevisible = () => {
     SetVisible(visible + 3);
   }
+
+  //function to get products
+  const getAllProducts=()=>{
+    axios.get('http://localhost:8080/api/home/allproducts')
+    .then((products)=>{
+      console.log(products.data.products)
+      SetProducts(products.data.products)
+
+    })
+    .catch((error)=>{
+      console.log(error)
+
+    })
+
+  }
+  useEffect(()=>{
+    getAllProducts()
+  },[])
+
   return (
     <div>
       <div className="flex flex-wrap justify-center">
