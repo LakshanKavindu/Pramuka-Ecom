@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import connectDB from "./utils/database";
+// import connectDB from "./utils/database";
 
 const app = express();
 const PORT = 8080;
@@ -13,7 +13,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-connectDB();
+// connectDB();
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
