@@ -1,5 +1,7 @@
 
-import { all_products } from "../service/home.service.js";
+import { all_products 
+    ,get_products_by_Search
+} from "../service/home.service.js";
 
 export const all_available_products=async(req,res)=>{
     try{
@@ -13,4 +15,20 @@ export const all_available_products=async(req,res)=>{
 
     }
         
+}
+
+export const get_products_for_searchValue=async(req,res){
+    const searchVal= req.params.Searchval;
+    try{
+        const searchedProducts=get_products_by_Search(searchVal);
+        res.status(200).send({searchedProducts})
+
+    }
+    catch(e){
+        res.status(400).send({"error":e})
+
+    }
+
+
+
 }
