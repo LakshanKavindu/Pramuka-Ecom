@@ -9,11 +9,13 @@ export const all_products=async()=>{
 }
 
 export const get_products_by_Search=async(searchValue)=>{
+   
     const products =await prisma.product.findMany({
         where:{
             productName:{contains:searchValue}
         }
     })
+    // console.log(products)
     return products;
 
 
