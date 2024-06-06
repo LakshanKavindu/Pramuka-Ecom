@@ -27,9 +27,14 @@ export default {
       colors: {
         primary: "#FF7141",
         secondary: "#FF014E",
+        paleOrange: "hsl(25, 100%, 94%)",
         white: "#FFFFFF",
         black1: "#272727",
         black2: "#484848",
+        grayishblue: "hsl(220, 14%, 75%)",
+        lightGrayishBlue: "hsl(223, 64%, 98%)",
+        lightBlack : "rgba(0, 0, 0, 0.75);",
+        palewhite: "#DCDBDB",
         gradient: {
           button: "linear-gradient(90deg, #FF7141 0%, #FF014E 100%)",
         }
@@ -45,6 +50,10 @@ export default {
       boxShadow: {
         "footer-shadow": 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px',
         "bottom-shadow": 'rgba(0, 0, 0, 0.45) 0px 17px 12px -20px',
+      },
+      screens: {
+        sm: "768px",
+        md: "976px"
       }
     },
   },
