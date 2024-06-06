@@ -16,7 +16,7 @@ const AllProducts = () => {
   const getAllProducts=()=>{
     axios.get('http://localhost:8080/api/home/allproducts')
     .then((products)=>{
-      console.log(products.data.products)
+      console.log(products.data.products[0])
       SetProducts(products.data.products)
 
     })
@@ -35,7 +35,8 @@ const AllProducts = () => {
       <div className="flex flex-wrap justify-center">
         {products.slice(0, visible).map(item => {
           return (
-            <ProductCard />
+            <ProductCard  item={item}/>
+           
           )
         })}
       </div>

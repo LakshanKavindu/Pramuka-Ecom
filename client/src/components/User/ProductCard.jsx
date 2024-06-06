@@ -1,20 +1,20 @@
 import { Button } from "flowbite-react";
-const ProductCard = () => {
+const ProductCard = ({item}) => {
   return (
 
     <div className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
       <a className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="#">
-        <img className="object-cover" src="https://essstr.blob.core.windows.net/essimg/350x/Small/Pic951009.jpg" alt="product image" />
+        <img className="object-cover" src={item.productImage} alt="product image" />
         <span className="absolute top-0 left-0 m-2 rounded-full bg-primary px-2 text-center text-sm font-medium text-white">39% OFF</span>
       </a>
       <div className="mt-4 px-5 pb-5">
         <a href="#">
-          <h5 className="text-xl tracking-tight text-black2">Nike Air MX Super 2500 - Red</h5>
+          <h5 className="text-xl tracking-tight text-black2">{item.productName}</h5>
         </a>
         <div className="mt-2 mb-5 flex items-center justify-between">
           <p>
             <span className="text-sm text-gray-600 font-semibold line-through mr-1">$699</span>
-            <span className="text-3xl font-bold text-slate-900">$449</span>
+            <span className="text-3xl font-bold text-slate-900">{item.productPrice}</span>
           </p>
           {/* <div className="flex items-center">
           <svg aria-hidden="true" className="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
