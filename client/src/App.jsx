@@ -2,8 +2,7 @@ import "./App.css";
 import { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Flowbite } from "flowbite-react";
-import Login from "./pages/User/Login";
-import Registration from "./pages/User/Registration";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import Home from "./pages/User/Home";
 import ProductPage from "./pages/User/Product";
 import Profile from "./pages/User/Profile";
@@ -17,20 +16,20 @@ function App() {
   return (
     <>
       <Flowbite theme={{ theme: customTheme }}>
-        <BrowserRouter>
-          <Suspense fallback={<div>Loading...</div>}></Suspense>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/reg" element={<Registration />} />
-            <Route path="/user" element={<Home />} />
-            <Route path="/user/profile" element={<Profile />} />
-            <Route path="/product" element={<ProductPage />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/admin" element={<AdminLogin />} />
-            <Route path="/preview" element={<ProductPreview />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          </Routes>
-        </BrowserRouter>
+        <GoogleOAuthProvider clientId="84109881920-sn28qu39ep0k12tl8qhkhbml7308rbhq.apps.googleusercontent.com">
+          <BrowserRouter>
+            <Suspense fallback={<div>Loading...</div>}></Suspense>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/user/profile" element={<Profile />} />
+              <Route path="/product" element={<ProductPage />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/admin" element={<AdminLogin />} />
+              <Route path="/preview" element={<ProductPreview />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            </Routes>
+          </BrowserRouter>
+        </GoogleOAuthProvider>
       </Flowbite>
     </>
   );
