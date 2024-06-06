@@ -7,3 +7,14 @@ export const all_products=async()=>{
     return products;
 
 }
+
+export const get_products_by_Search=async(searchValue)=>{
+    const products =await prisma.product.findMany({
+        where:{
+            productName:{contains:searchValue}
+        }
+    })
+    return products;
+
+
+}
