@@ -6,14 +6,16 @@ import {
 
 const userLogin = async (req, res) => {
   const { email, userName, imageUrl } = req.body;
-
-  console.log(email, userName, imageUrl, "aaaaaaaaaaaaaaa");
   try {
     const user = await getUserByEmail(email);
     console.log(user, "user");
     if (!user) {
       await createUser(email, userName, imageUrl);
       res.status(201).send({ message: "success", userExist: false });
+      return;
+    }
+    if (!user.phoneNo) {
+      res.status(200).send({ message: "success", userExist: false });
       return;
     }
 
@@ -25,9 +27,6 @@ const userLogin = async (req, res) => {
 
 const updateContactNumber = async (req, res) => {
   const { email, contactNo } = req.body;
-
-  console.log(email, contactNo, "aaaaaaaaaaaaaaa");
-
   try {
     const user = await getUserByEmail(email);
     if (!user) {

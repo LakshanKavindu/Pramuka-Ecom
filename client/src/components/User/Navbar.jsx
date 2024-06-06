@@ -88,7 +88,7 @@ const Nav = ({ isActive }) => {
   return (
     <>
       <Navbar container className=" py-5 shadow-bottom-shadow">
-        <Navbar.Brand href="/user" className="">
+        <Navbar.Brand href="/" className="">
           {/* <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" /> */}
           <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
             Pramuka Stores
