@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import connectDB from "./utils/database";
+import userRouter from "./router/user.router.js";
 
 const app = express();
 const PORT = 8080;
@@ -12,8 +12,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
-
-connectDB();
+app.use("/api/user", userRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

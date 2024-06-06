@@ -17,7 +17,8 @@ model User {
   id       String  @id @default(uuid())
   username String
   email    String  @unique
-  phoneNo  String
+  phoneNo  String?
+  image    String
   role     Role    @default(USER)
   cart     Cart[]
   order    Order[]
