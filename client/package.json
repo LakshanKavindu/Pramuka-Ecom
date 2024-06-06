@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
+    "@react-oauth/google": "^0.12.1",
     "axios": "^1.6.8",
     "flowbite-react": "^0.8.0",
     "react": "^18.2.0",
