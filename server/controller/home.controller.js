@@ -1,6 +1,6 @@
 
 
-const all_available_products=async()=>{
+export const all_available_products=async()=>{
     try{
         const products=await all_products();
         res.status(200).send({products})
