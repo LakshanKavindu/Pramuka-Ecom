@@ -1,7 +1,10 @@
 import express from "express";
-
 const userRouter = express.Router();
+import {
+  userLogin,
+  updateContactNumber,
+} from "../controller/user.controller.js";
+userRouter.post("/login", userLogin);
+userRouter.post("/updateContactNumber", updateContactNumber);
 
-userRouter.post("/login");
-
-module.exports = userRouter;
+export default userRouter;
