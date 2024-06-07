@@ -19,11 +19,25 @@ export const all_available_products=async(req,res)=>{
 
 export const get_products_for_searchValue=async(req,res)=>{
     const searchVal= req.params.Searchval;
+    const trimmedSearchVal = searchVal.trim();
+    console.log(searchVal)
     
     try{
-        const searchedProducts=await get_products_by_Search(searchVal);
+        if(!searchVal || !searchVal.trim()){
+            const searchedProducts=await all_products();
+            
+            res.status(200).send({searchedProducts})
+
+
+        }else{
+            const searchedProducts=await get_products_by_Search(trimmedSearchVal);
+            
+            res.status(200).send({searchedProducts})
+
+        }
        
-        res.status(200).send({searchedProducts})
+       
+        
 
     }
     catch(e){
