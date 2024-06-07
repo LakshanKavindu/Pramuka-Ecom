@@ -8,8 +8,35 @@ import { Card } from "flowbite-react";
 // import { product } from "../../../public/product.jpeg"
 
 import "../../Styles/User/home.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Home = () => {
+  const [searchval,setSearchval]=useState("")
+  const [searchresult,setSearchresult]=useState([])
+  const [isSearching,setIsSearching]=useState(false)
+
+  
+
+
+  const handleSearch=(e)=>{
+    
+    e.preventDefault();
+    setIsSearching(true)
+    axios.get(`http://localhost:8080/api/home/search/${searchval}`)
+    .then((res)=>{
+      // console.log(res.data.searchedProducts)
+      setSearchresult(res.data.searchedProducts)
+
+    }).catch(error=>{
+      console.log(error)
+    })
+    
+  }
+  useEffect(()=>{
+    setIsSearching(false)
+
+  },[])
   return (
     <div>
       <Nav isActive={"home"} />
@@ -46,9 +73,12 @@ const Home = () => {
             className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search for products"
             required
+            onChange={(e)=>{setSearchval(e.target.value)}}
+            value={searchval}
           />
           <button
             type="submit"
+           onClick={handleSearch}
             className="text-white absolute end-2.5 bottom-2.5 bg-primary hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Search
@@ -56,7 +86,7 @@ const Home = () => {
         </div>
       </form>
 
-      <AllProducts />
+      <AllProducts isSearching={isSearching} searchresult={searchresult}/>
 
       <Card className="border-none bg-orange-50 shadow-none mt-10">
         <div className="flex justify-center items-center px-14 m-auto card_container gap-6">

@@ -4,7 +4,7 @@ import { Button } from "flowbite-react";
 import axios from "axios";
 
 
-const AllProducts = () => {
+const AllProducts = ({isSearching,searchresult}) => {
   const [products, SetProducts] = useState([]);
   const [visible, SetVisible] = useState(6);
 
@@ -16,7 +16,7 @@ const AllProducts = () => {
   const getAllProducts=()=>{
     axios.get('http://localhost:8080/api/home/allproducts')
     .then((products)=>{
-      console.log(products.data.products[0])
+    
       SetProducts(products.data.products)
 
     })
@@ -27,15 +27,21 @@ const AllProducts = () => {
 
   }
   useEffect(()=>{
+   if(isSearching){
+    SetProducts(searchresult)
+   }else{
     getAllProducts()
-  },[])
+   }
+   console.log(searchresult)
+   console.log(isSearching)
+  },[isSearching,searchresult])
 
   return (
     <div>
       <div className="flex flex-wrap justify-center">
         {products.slice(0, visible).map(item => {
           return (
-            <ProductCard  item={item}/>
+            <ProductCard key={item.id}  item={item}/>
            
           )
         })}
