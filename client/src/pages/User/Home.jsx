@@ -4,12 +4,14 @@ import Footer from "../../components/User/Footer";
 import Nav from "../../components/User/Navbar";
 import Slider from "../../components/User/Slider";
 
+
 import { Card } from "flowbite-react";
 // import { product } from "../../../public/product.jpeg"
 
 import "../../Styles/User/home.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { CategoryDropdown } from "../../components/User/CategoryDropdown";
 
 const Home = () => {
   const [searchval,setSearchval]=useState("")
@@ -42,7 +44,9 @@ const Home = () => {
       <Nav isActive={"home"} />
       <Slider />
 
-      <form className="max-w-md mx-auto mt-8">
+     <div className="flex-row ">
+     <CategoryDropdown/>
+       <form className="max-w-md mx-auto mt-8 ">
         <label
           htmlFor="default-search"
           className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -84,10 +88,24 @@ const Home = () => {
           >
             Search
           </button>
+          
+         
+     
+          
         </div>
+        
+        
       </form>
+     
+      
+    
+     </div>
 
       <AllProducts isSearching={isSearching} searchresult={searchresult}/>
+      <div>
+    
+
+      </div>
 
       <Card className="border-none bg-orange-50 shadow-none mt-10">
         <div className="flex justify-center items-center px-14 m-auto card_container gap-6">
