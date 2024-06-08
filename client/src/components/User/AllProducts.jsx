@@ -38,6 +38,7 @@ const AllProducts = ({isSearching,searchresult}) => {
 
   return (
     <div>
+      {(isSearching && searchresult.length>0) && <div className="text-2xl font-bold mx-8">{searchresult.length} products found..</div>}
       <div className="flex flex-wrap justify-center">
         {products.slice(0, visible).map(item => {
           return (
@@ -47,7 +48,7 @@ const AllProducts = ({isSearching,searchresult}) => {
         })}
       </div>
       <div className="flex justify-center">
-        <Button className=" border-orange-500 outline-primary shadow-none text-primary hover:bg-primary hover:text-white transition-all" onClick={() => { handlevisible() }}> <h3>More Products</h3></Button>
+        {products.length>0 ?<Button className=" border-orange-500 outline-primary shadow-none text-primary hover:bg-primary hover:text-white transition-all" onClick={() => { handlevisible() }}> <h3>More Products</h3></Button>:<div className="text-2xl font-bold my-16">No matching Products....</div>}
       </div>
 
 
