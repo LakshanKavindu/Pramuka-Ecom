@@ -32,8 +32,8 @@ const AllProducts = ({isSearching,searchresult}) => {
    }else{
     getAllProducts()
    }
-   console.log(searchresult)
-   console.log(isSearching)
+  //  console.log(searchresult)
+  //  console.log(isSearching)
   },[isSearching,searchresult])
 
   return (
