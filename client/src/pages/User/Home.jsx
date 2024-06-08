@@ -24,6 +24,7 @@ const Home = () => {
 
   const filterhandle = (val) => {
     setIsSearching(true);
+    setSearchval("")
     setFilter(val);
     axios
       .get(`http://localhost:8080/api/home/filter/${val}`)
@@ -40,6 +41,7 @@ const Home = () => {
 
   const handleSearch = () => {
     setIsSearching(true);
+    setFilter('Categories')
 
     console.log("search");
     console.log(searchval);
@@ -110,7 +112,7 @@ const Home = () => {
               Search
             </button>
           </div>
-          {/* <CategoryDropdown updatefiltervalue={setFilterv} setFilterv={setFilterv} handleSearch={handleSearch} /> */}
+          
           <div>
             <Dropdown
               outline
