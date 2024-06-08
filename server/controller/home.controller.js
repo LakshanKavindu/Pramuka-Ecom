@@ -1,6 +1,7 @@
 
 import { all_products 
-    ,get_products_by_Search
+    ,get_products_by_Search,
+    get_products_by_filter
 } from "../service/home.service.js";
 
 export const all_available_products=async(req,res)=>{
@@ -46,5 +47,21 @@ export const get_products_for_searchValue=async(req,res)=>{
     }
 
 
+
+}
+
+export const  get_products_for_filterhValue=async(req,res)=>{
+    const filterval= req.params.filterval;
+    try{
+        const filteredProducts=await get_products_by_filter(filterval)
+        res.status(200).send({filteredProducts})
+
+
+
+
+    }catch(e){
+        res.status(400).send({"error":e})
+
+    }
 
 }
