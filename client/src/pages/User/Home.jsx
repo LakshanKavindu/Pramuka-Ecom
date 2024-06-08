@@ -9,7 +9,7 @@ import Slider from "../../components/User/Slider";
 import { Dropdown } from "flowbite-react";
 
 import { Card } from "flowbite-react";
-// import { product } from "../../../public/product.jpeg"
+
 
 import "../../Styles/User/home.css";
 import { useEffect, useState } from "react";
