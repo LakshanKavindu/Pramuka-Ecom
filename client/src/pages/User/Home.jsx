@@ -4,90 +4,163 @@ import Footer from "../../components/User/Footer";
 import Nav from "../../components/User/Navbar";
 import Slider from "../../components/User/Slider";
 
+("use client");
+
+import { Dropdown } from "flowbite-react";
+
 import { Card } from "flowbite-react";
-// import { product } from "../../../public/product.jpeg"
+
 
 import "../../Styles/User/home.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+
 const Home = () => {
-  const [searchval,setSearchval]=useState("")
-  const [searchresult,setSearchresult]=useState([])
-  const [isSearching,setIsSearching]=useState(false)
+  const [searchval, setSearchval] = useState("");
+  const [searchresult, setSearchresult] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [filter, setFilter] = useState("Categories");
 
-  
+  const filterhandle = (val) => {
+    setIsSearching(true);
+    setSearchval("")
+    setFilter(val);
+    axios
+      .get(`http://localhost:8080/api/home/filter/${val}`)
+      .then((res) => {
+        console.log("inside then");
+        console.log(res.data);
+        setSearchresult(res.data.filteredProducts);
+      })
+      .catch((error) => {
+        console.log("error occured");
+        console.log(error);
+      });
+  };
 
+  const handleSearch = () => {
+    setIsSearching(true);
+    setFilter('Categories')
 
-  const handleSearch=(e)=>{
-    
-    e.preventDefault();
-    setIsSearching(true)
-    axios.get(`http://localhost:8080/api/home/search/${searchval}`)
-    .then((res)=>{
-      // console.log(res.data.searchedProducts)
-      setSearchresult(res.data.searchedProducts)
+    console.log("search");
+    console.log(searchval);
+    axios
+      .get(`http://localhost:8080/api/home/search/${searchval}`)
+      .then((res) => {
+        setSearchresult(res.data.searchedProducts);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    }).catch(error=>{
-      console.log(error)
-    })
-    
-  }
-  useEffect(()=>{
-    setIsSearching(false)
-
-  },[])
+  useEffect(() => {
+    setIsSearching(false);
+  }, []);
   return (
     <div>
       <Nav isActive={"home"} />
       <Slider />
 
-      <form className="max-w-md mx-auto mt-8">
-        <label
-          htmlFor="default-search"
-          className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-        >
-          Search
-        </label>
-        <div className="relative">
-          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <svg
-              className="w-4 h-4 text-gray-500 dark:text-gray-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              />
-            </svg>
-          </div>
-          <input
-            type="search"
-            id="default-search"
-            className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search for products"
-            required={true}
-            onChange={(e)=>{setSearchval(e.target.value)}}
-            value={searchval}
-          />
-          <button
-            type="submit"
-           onClick={handleSearch}
-           disabled={(!searchval)}
-            className="text-white absolute end-2.5 bottom-2.5 bg-primary hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      <div>
+        <form className="max-w-md mx-auto mt-8 flex-row ">
+          <label
+            htmlFor="default-search"
+            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
           >
             Search
-          </button>
-        </div>
-      </form>
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <svg
+                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              type="search"
+              id="default-search"
+              className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search for products"
+              required={true}
+              onChange={(e) => {
+                setSearchval(e.target.value);
+              }}
+              value={searchval}
+            />
+            <button
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                handleSearch();
+              }}
+              disabled={!searchval}
+              className="text-white absolute end-2.5 bottom-2.5 bg-primary hover:bg-orange-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Search
+            </button>
+          </div>
+          
+          <div>
+            <Dropdown
+              outline
+              gradientDuoTone="pinkToOrange"
+              label={<span className="text-black">{filter}</span>}
+              // dismissOnClick={false}
 
-      <AllProducts isSearching={isSearching} searchresult={searchresult}/>
+              value={filter}
+            >
+              <Dropdown.Item
+                value="Chocolate"
+                onClick={() => {
+                  filterhandle("Chocolates");
+                }}
+              >
+                Chocolate
+              </Dropdown.Item>
+              <Dropdown.Item
+                value="Biscuits"
+                onClick={() => {
+                  filterhandle("Biscuits");
+                }}
+              >
+                Biscuits
+              </Dropdown.Item>
+              <Dropdown.Item
+                value="Soap"
+                onClick={() => {
+                  filterhandle("Soap");
+                }}
+              >
+                Soap
+              </Dropdown.Item>
+              <Dropdown.Item
+                value="Toothpaste"
+                onClick={() => {
+                  filterhandle("Toothpaste");
+                }}
+              >
+                Toothpaste
+              </Dropdown.Item>
+            </Dropdown>
+          </div>
+        </form>
+      </div>
+
+      <AllProducts isSearching={isSearching} searchresult={searchresult} />
+      <div></div>
 
       <Card className="border-none bg-orange-50 shadow-none mt-10">
         <div className="flex justify-center items-center px-14 m-auto card_container gap-6">
