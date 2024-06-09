@@ -10,11 +10,9 @@ import { Dropdown } from "flowbite-react";
 
 import { Card } from "flowbite-react";
 
-
 import "../../Styles/User/home.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 
 const Home = () => {
   const [searchval, setSearchval] = useState("");
@@ -24,7 +22,7 @@ const Home = () => {
 
   const filterhandle = (val) => {
     setIsSearching(true);
-    setSearchval("")
+    setSearchval("");
     setFilter(val);
     axios
       .get(`http://localhost:8080/api/home/filter/${val}`)
@@ -41,7 +39,7 @@ const Home = () => {
 
   const handleSearch = () => {
     setIsSearching(true);
-    setFilter('Categories')
+    setFilter("Categories");
 
     console.log("search");
     console.log(searchval);
@@ -63,15 +61,67 @@ const Home = () => {
       <Nav isActive={"home"} />
       <Slider />
 
-      <div>
-        <form className="max-w-md mx-auto mt-8 flex-row ">
+      <div className=" px-20">
+        <form className="max-w-md mt-8 flex min-w-full justify-between flex-wrap   ">
+          <div>
+            <Dropdown
+              outline
+              gradientDuoTone="pinkToOrange"
+              label={<span className="text-black">{filter}</span>}
+              // dismissOnClick={false}
+
+              value={filter}
+            >
+              <Dropdown.Item
+                value="All Products"
+                onClick={() => {
+                  setIsSearching(false);
+                  setFilter("Categories");
+                }}
+              >
+                All Products
+              </Dropdown.Item>
+              <Dropdown.Item
+                value="Chocolate"
+                onClick={() => {
+                  filterhandle("Chocolate");
+                }}
+              >
+                Chocolate
+              </Dropdown.Item>
+              <Dropdown.Item
+                value="Biscuits"
+                onClick={() => {
+                  filterhandle("Biscuit");
+                }}
+              >
+                Biscuits
+              </Dropdown.Item>
+              <Dropdown.Item
+                value="Soap"
+                onClick={() => {
+                  filterhandle("Soap");
+                }}
+              >
+                Soap
+              </Dropdown.Item>
+              <Dropdown.Item
+                value="Toothpaste"
+                onClick={() => {
+                  filterhandle("Toothpaste");
+                }}
+              >
+                Toothpaste
+              </Dropdown.Item>
+            </Dropdown>
+          </div>
           <label
             htmlFor="default-search"
             className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
           >
             Search
           </label>
-          <div className="relative">
+          <div className="relative" style={{ width: "300px" }}>
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               <svg
                 className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -111,59 +161,6 @@ const Home = () => {
             >
               Search
             </button>
-          </div>
-          
-          <div>
-            <Dropdown
-              outline
-              gradientDuoTone="pinkToOrange"
-              label={<span className="text-black">{filter}</span>}
-              // dismissOnClick={false}
-
-              value={filter}
-            >
-             <Dropdown.Item
-                value="All Products"
-                onClick={() => {
-                 setIsSearching(false)
-                 setFilter('Categories')
-                }}
-              >
-               All Products
-              </Dropdown.Item>
-              <Dropdown.Item
-                value="Chocolate"
-                onClick={() => {
-                  filterhandle("Chocolates");
-                }}
-              >
-                Chocolate
-              </Dropdown.Item>
-              <Dropdown.Item
-                value="Biscuits"
-                onClick={() => {
-                  filterhandle("Biscuits");
-                }}
-              >
-                Biscuits
-              </Dropdown.Item>
-              <Dropdown.Item
-                value="Soap"
-                onClick={() => {
-                  filterhandle("Soap");
-                }}
-              >
-                Soap
-              </Dropdown.Item>
-              <Dropdown.Item
-                value="Toothpaste"
-                onClick={() => {
-                  filterhandle("Toothpaste");
-                }}
-              >
-                Toothpaste
-              </Dropdown.Item>
-            </Dropdown>
           </div>
         </form>
       </div>

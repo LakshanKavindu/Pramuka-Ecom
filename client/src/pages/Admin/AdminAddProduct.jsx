@@ -8,6 +8,9 @@ import axios from "axios";
 import { AlertBar } from "../../components/Common/AlertBar";
 
 const AdminAddProduct = () => {
+  const [alertSuccess, setAlertSuccess] = useState(false);
+  const [alertInvalid, setAlertInvalid] = useState(false);
+  const [alertEmpty, setAlertEmpty] = useState(false);
   const [value, setValue] = useState({
     name: "",
     description: "",
@@ -21,6 +24,45 @@ const AdminAddProduct = () => {
   const [productImage, setProductImage] = useState("");
 
   const handleSubmit = () => {
+    if (
+      value.name === "" ||
+      value.description === "" ||
+      value.brand === "" ||
+      value.category === "" ||
+      value.stock === "" ||
+      value.price === ""
+    ) {
+      setAlertEmpty(true);
+      setTimeout(() => {
+        setAlertEmpty(false);
+      }, 2000);
+      return;
+    }
+
+    if (value.category === "none") {
+      setAlertEmpty(true);
+      setTimeout(() => {
+        setAlertEmpty(false);
+      }, 2000);
+      return;
+    }
+
+    if (isNaN(value.stock) || isNaN(value.price)) {
+      setAlertEmpty(true);
+      setTimeout(() => {
+        setAlertEmpty(false);
+      }, 2000);
+      return;
+    }
+
+    if (value.stock < 0 || value.price < 0) {
+      setAlertInvalid(true);
+      setTimeout(() => {
+        setAlertInvalid(false);
+      }, 2000);
+      return;
+    }
+
     axios
       .post("http://localhost:8080/api/admin/addproduct", {
         ...value,
@@ -39,7 +81,10 @@ const AdminAddProduct = () => {
 
         setProductImage("");
 
-        AlertBar("Product added successfully", "success");
+        setAlertSuccess(true);
+        setTimeout(() => {
+          setAlertSuccess(false);
+        }, 2000);
       })
       .catch((err) => {
         console.log(err);
@@ -157,7 +202,15 @@ const AdminAddProduct = () => {
               Add Product
             </button>
           </div>
-          <AlertBar message="Product added successfully" type="success" />
+          {alertSuccess && (
+            <AlertBar message="Product added successfully" type="success" />
+          )}
+          {alertEmpty && (
+            <AlertBar message="Please fill all fields" type="error" />
+          )}
+          {alertInvalid && (
+            <AlertBar message="Please enter valid input" type="error" />
+          )}
         </div>
       </div>
     </div>
