@@ -1,4 +1,6 @@
 // import { createProduct } from "../service/admin.service.js";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 export const addProduct = async (req, res) => {
     const values = req.body;
