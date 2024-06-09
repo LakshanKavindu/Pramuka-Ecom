@@ -1,6 +1,12 @@
 import "./App.css";
 import { Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 import { Flowbite } from "flowbite-react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Home from "./pages/User/Home";
@@ -12,6 +18,15 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import customTheme from "./assets/theme";
 import ProductPreview from "./pages/User/ProductPreview";
 
+export const PrivateRoute = ({ allowedRole }) => {
+  return sessionStorage.getItem("isLoggin") === "true" &&
+    sessionStorage.getItem("role") === allowedRole ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/" />
+  );
+};
+
 function App() {
   return (
     <>
@@ -21,12 +36,16 @@ function App() {
             <Suspense fallback={<div>Loading...</div>}></Suspense>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/user/profile" element={<Profile />} />
               <Route path="/product" element={<ProductPage />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/admin" element={<AdminLogin />} />
               <Route path="/preview" element={<ProductPreview />} />
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route element={<PrivateRoute allowedRole="USER" />}>
+                <Route path="/user/profile" element={<Profile />} />
+                <Route path="/cart" element={<Cart />} />
+              </Route>
+              <Route path="/admin" element={<AdminLogin />} />
+              <Route element={<PrivateRoute allowedRole="ADMIN" />}>
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              </Route>
             </Routes>
           </BrowserRouter>
         </GoogleOAuthProvider>

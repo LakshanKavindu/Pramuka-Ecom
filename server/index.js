@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import userRouter from "./router/user.router.js";
+import requireUserAuth from "./middleware/user.middleware.js";
 
 const app = express();
 const PORT = 8080;
@@ -12,6 +13,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
+app.use("/api/auth/*", requireUserAuth);
 app.use("/api/user", userRouter);
 
 app.listen(PORT, () => {

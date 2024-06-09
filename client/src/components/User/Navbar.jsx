@@ -60,6 +60,8 @@ const Nav = ({ isActive }) => {
               sessionStorage.setItem("isLoggin", true);
               setIsLoggin(true);
             }
+            sessionStorage.setItem("role", res.data.role);
+            sessionStorage.setItem("token", res.data.token);
             sessionStorage.setItem(
               "user",
               JSON.stringify({
