@@ -4,6 +4,7 @@ import { SideMenu } from "../../components/Admin/SideMenu";
 import { FloatingLabel } from "flowbite-react";
 import { Select } from "flowbite-react";
 import UploadImageCloudinary from "../../components/Common/UploadImageCloudinary";
+import axios from "axios";
 
 const AdminAddProduct = () => {
   const [value, setValue] = useState({
@@ -18,7 +19,14 @@ const AdminAddProduct = () => {
   //   const [productImage, setProductImage] = useState("");
 
   const handleSubmit = () => {
-    console.log(value);
+    axios
+      .post("http://localhost:8080/api/admin/addproduct", value)
+      .then((res) => {
+        console.log(res, "added product successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

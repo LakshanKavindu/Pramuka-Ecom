@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import userRouter from "./router/user.router.js";
 import HomeRouter from "./router/home.router.js";
+import AdminRouter from "./router/admin.router.js";
 
 const app = express();
 const PORT = 8080;
@@ -14,7 +15,8 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use("/api/user", userRouter);
-app.use("/api/home",HomeRouter)
+app.use("/api/home", HomeRouter);
+app.use("/api/admin", AdminRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
