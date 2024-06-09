@@ -4,15 +4,16 @@ export const addProduct = async (req, res) => {
   const values = req.body;
   const { name, description, brand, category, image, stock, price } = values;
   console.log(values, "product");
+  console.log("name", name)
   try {
     await createProduct({
-      name: "abc",
-      description: "def",
-      brand: "ghi",
-      category: "jkl",
-      image: "mno",
-      stock: 2,
-      price: 123,
+      name,
+      description,
+      brand,
+      category,
+      image,
+      stock,
+      price,
     });
     res.status(201).send({ message: "Product added successfully" });
   } catch (e) {

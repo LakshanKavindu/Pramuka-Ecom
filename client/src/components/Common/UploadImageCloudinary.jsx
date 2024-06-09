@@ -50,6 +50,7 @@ const UploadImageCloudinary = ({
   return (
     <div className="flex">
       <button
+        className=" border border-gray-300 rounded-md px-3 py-1 text-sm font-medium text-gray-700 hover:bg-gray-50 "
         disabled={isDisabled ? isDisabled : false}
         onClick={() => widgetRef.current.open()}
       >

@@ -17,8 +17,8 @@ export const createProduct = async ({
       productBrand: brand,
       productCategory: category,
       productImage: image,
-      productPrice: price,
-      productStock: stock,
+      productPrice: parseInt(price),
+      productStock: parseInt(stock),
       productSold: 0,
     },
   });
