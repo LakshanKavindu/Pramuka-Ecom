@@ -52,9 +52,12 @@ export const get_products_for_searchValue=async(req,res)=>{
 
 export const  get_products_for_filterhValue=async(req,res)=>{
     const filterval= req.params.filterval;
+    console.log(filterval)
     try{
+        console.log(filterval)
         const filteredProducts=await get_products_by_filter(filterval)
         res.status(200).send({filteredProducts})
+        console.log(filteredProducts)
 
 
 

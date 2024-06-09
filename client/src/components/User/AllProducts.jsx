@@ -37,9 +37,9 @@ const AllProducts = ({isSearching,searchresult}) => {
   },[isSearching,searchresult])
 
   return (
-    <div>
-      {(isSearching && searchresult.length>0) && <div className="text-2xl font-light	mx-8">{searchresult.length} products found..</div>}
-      <div className="flex flex-wrap justify-center">
+    <div className="flex flex-col items-center w-full">
+      {(isSearching && searchresult.length>0) && <div className="text-2xl font-light	mx-8 ">{searchresult.length} products found..</div>}
+      <div className="flex flex-wrap justify-start w-full">
         {products.slice(0, visible).map(item => {
           return (
             <ProductCard key={item.id}  item={item}/>
@@ -47,7 +47,7 @@ const AllProducts = ({isSearching,searchresult}) => {
           )
         })}
       </div>
-      <div className="flex justify-center">
+      <div className="w-full flex justify-center mt-4">
         {products.length>0 ?<Button className=" border-orange-500 outline-primary shadow-none text-primary hover:bg-primary hover:text-white transition-all" onClick={() => { handlevisible() }}> <h3>More Products</h3></Button>:<div className="text-2xl font-light	my-16">No matching Products Found....</div>}
       </div>
 

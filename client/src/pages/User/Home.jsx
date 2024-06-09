@@ -122,6 +122,15 @@ const Home = () => {
 
               value={filter}
             >
+             <Dropdown.Item
+                value="All Products"
+                onClick={() => {
+                 setIsSearching(false)
+                 setFilter('Categories')
+                }}
+              >
+               All Products
+              </Dropdown.Item>
               <Dropdown.Item
                 value="Chocolate"
                 onClick={() => {
