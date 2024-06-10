@@ -23,7 +23,11 @@ export const addProduct = async (req, res) => {
 };
 
 export const get_Total_Revenue=async(req,res)=>{
-  const TotalRev=await getTotalRevenue();
+  try{
+    const TotalRev=await getTotalRevenue();
   res.status(200).send({TotalRev})
+  }catch(e){
+    res.status(500).send({ error: e });
+  }
 
 }
