@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import { Button } from "flowbite-react";
-import axios from "axios";
+import axiosClient from "../../utils/axiosClient";
 import { Badge } from "flowbite-react";
 import { IoBagSharp } from "react-icons/io5";
 
@@ -15,8 +15,8 @@ const AllProducts = ({ isSearching, searchresult }) => {
 
   //function to get products
   const getAllProducts = () => {
-    axios
-      .get("http://localhost:8080/api/home/allproducts")
+    axiosClient
+      .get("/home/allproducts")
       .then((products) => {
         SetProducts(products.data.products);
       })

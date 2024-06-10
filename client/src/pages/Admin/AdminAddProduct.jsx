@@ -4,7 +4,7 @@ import { SideMenu } from "../../components/Admin/SideMenu";
 import { FloatingLabel } from "flowbite-react";
 import { Select } from "flowbite-react";
 import UploadImageCloudinary from "../../components/Common/UploadImageCloudinary";
-import axios from "axios";
+import axiosClient from "../../utils/axiosClient";
 import { AlertBar } from "../../components/Common/AlertBar";
 
 const AdminAddProduct = () => {
@@ -63,8 +63,8 @@ const AdminAddProduct = () => {
       return;
     }
 
-    axios
-      .post("http://localhost:8080/api/admin/addproduct", {
+    axiosClient
+      .post("/admin/addproduct", {
         ...value,
         image: productImage,
       })
