@@ -21,37 +21,32 @@ const userLogin = async (req, res) => {
     const token = createToken(user.id, user.role);
     if (!user) {
       await createUser(email, userName, imageUrl);
-      res
-        .status(201)
-        .send({
-          message: "success",
-          userExist: false,
-          role: user.role,
-          token: token,
-        });
-      return;
-    }
-    if (!user.phoneNo) {
-      res
-        .status(200)
-        .send({
-          message: "success",
-          userExist: false,
-          role: user.role,
-          token: token,
-        });
-      return;
-    }
-
-    res
-      .status(200)
-      .send({
+      res.status(201).send({
         message: "success",
-        userExist: true,
+        userExist: false,
         role: user.role,
         token: token,
       });
+      return;
+    }
+    if (!user.phoneNo) {
+      res.status(200).send({
+        message: "success",
+        userExist: false,
+        role: user.role,
+        token: token,
+      });
+      return;
+    }
+
+    res.status(200).send({
+      message: "success",
+      userExist: true,
+      role: user.role,
+      token: token,
+    });
   } catch (e) {
+    console.log(e, "error");
     res.status(500).send({ message: "Internal Server Error" });
   }
 };

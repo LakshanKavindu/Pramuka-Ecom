@@ -51,6 +51,7 @@ const Nav = ({ isActive }) => {
             imageUrl: userProfile.picture,
           })
           .then((res) => {
+            console.log(res.data, "login");
             if (!res.data.userExist) {
               setOpenRegistration(true);
               sessionStorage.setItem("isLoggin", false);
