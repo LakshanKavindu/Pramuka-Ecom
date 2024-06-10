@@ -16,6 +16,7 @@ const createToken = (id, role) => {
 
 const userLogin = async (req, res) => {
   const { email, userName, imageUrl } = req.body;
+  console.log(email, userName, imageUrl, "user");
   try {
     const user = await getUserByEmail(email);
     console.log(user, "user");

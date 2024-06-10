@@ -24,6 +24,7 @@ const createUser = async (email, userName, imageUrl) => {
       email: email,
       username: userName,
       image: imageUrl,
+      role: "USER",
     },
   });
 };
