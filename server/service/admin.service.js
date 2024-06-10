@@ -23,3 +23,29 @@ export const createProduct = async ({
     },
   });
 };
+
+export const getTotalRevenue = async () => {
+ 
+  const result = await prisma.$queryRaw`
+  SELECT SUM(productSold * productPrice) as totalRevenue
+  FROM Product
+`;
+ 
+  return result[0].totalRevenue
+};
+
+export const sellingForCategory=async()=>{
+  const category = await prisma.product.groupBy({
+    by: ['productCategory'],
+    _sum: {
+      productSold: true,
+    },
+    orderBy: {
+      _sum: {
+        productSold: 'desc', // or 'asc' for ascending order
+      },
+    },
+  })
+  return  category;
+  
+}
