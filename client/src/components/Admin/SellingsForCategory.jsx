@@ -23,7 +23,7 @@ const SellingsForCategory = () => {
     <Card className="max-w-sm mt-10">
       <h5 className="mb-3 text-base font-semibold text-gray-900 lg:text-xl dark:text-white">Sellings</h5>
       <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-        Sellings of Pramuka stores for each product Category
+        Sellings at Pramuka stores for each product Category
       </p>
       <ul className="my-4 space-y-3">
        {catsellings.map((item,index)=>{
