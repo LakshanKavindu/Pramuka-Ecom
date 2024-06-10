@@ -3,7 +3,9 @@ CREATE TABLE `User` (
     `id` VARCHAR(191) NOT NULL,
     `username` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
-    `phoneNo` VARCHAR(191) NOT NULL,
+    `phoneNo` VARCHAR(191) NULL,
+    `image` VARCHAR(191) NOT NULL,
+    `role` ENUM('ADMIN', 'USER') NOT NULL DEFAULT 'USER',
 
     UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)
@@ -30,7 +32,7 @@ CREATE TABLE `Cart` (
     `userId` VARCHAR(191) NOT NULL,
     `productId` VARCHAR(191) NOT NULL,
     `quantity` INTEGER NOT NULL,
-    `createAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -43,7 +45,7 @@ CREATE TABLE `Order` (
     `productId` VARCHAR(191) NOT NULL,
     `quantity` INTEGER NOT NULL,
     `status` VARCHAR(191) NOT NULL,
-    `createAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

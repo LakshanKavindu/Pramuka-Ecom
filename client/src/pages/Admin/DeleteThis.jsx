@@ -5,7 +5,7 @@ const AdminDashboard = () => {
     <div className=" w-full flex flex-row">
       <SideMenu />
 
-      <div className="w-full p-6 h-screen">{/* content goes here  */}</div>
+      <div className=" p-6 w-full h-screen">{/* content goes here  */}</div>
     </div>
   );
 };
