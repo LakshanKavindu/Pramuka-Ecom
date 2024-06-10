@@ -40,6 +40,11 @@ export const sellingForCategory=async()=>{
     _sum: {
       productSold: true,
     },
+    orderBy: {
+      _sum: {
+        productSold: 'desc', // or 'asc' for ascending order
+      },
+    },
   })
   return  category;
   
