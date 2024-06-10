@@ -19,9 +19,10 @@ const userLogin = async (req, res) => {
   try {
     const user = await getUserByEmail(email);
     console.log(user, "user");
-    const token = createToken(user.id, user.role);
+
     if (!user) {
-      await createUser(email, userName, imageUrl);
+      const newUser = await createUser(email, userName, imageUrl);
+      const token = createToken(newUser.id, newUser.role);
       res.status(201).send({
         message: "success",
         userExist: false,
@@ -30,6 +31,7 @@ const userLogin = async (req, res) => {
       });
       return;
     }
+    const token = createToken(user.id, user.role);
     if (!user.phoneNo) {
       res.status(200).send({
         message: "success",
