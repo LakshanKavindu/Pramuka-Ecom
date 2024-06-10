@@ -19,7 +19,7 @@ const RegistrationPopup = ({ openModal, setOpenModal, setIsLoggin, email }) => {
     e.preventDefault();
     if (!err) {
       axiosClient
-        .post("/user/updateContactNumber", {
+        .post("/auth/user/updateContactNumber", {
           email: email,
           contactNo: contactNo,
         })

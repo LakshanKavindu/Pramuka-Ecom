@@ -9,6 +9,14 @@ const getUserByEmail = async (email) => {
   });
 };
 
+const getUserById = async (id) => {
+  return await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
+};
+
 const createUser = async (email, userName, imageUrl) => {
   console.log(email, userName, imageUrl, "aaaaaaaa22222");
   return await prisma.user.create({
@@ -20,10 +28,10 @@ const createUser = async (email, userName, imageUrl) => {
   });
 };
 
-const updateContactNo = async (email, contactNo) => {
+const updateContactNo = async (id, contactNo) => {
   return await prisma.user.update({
     where: {
-      email: email,
+      id: id,
     },
     data: {
       phoneNo: contactNo,
@@ -31,4 +39,4 @@ const updateContactNo = async (email, contactNo) => {
   });
 };
 
-export { getUserByEmail, createUser, updateContactNo };
+export { getUserByEmail, getUserById, createUser, updateContactNo };

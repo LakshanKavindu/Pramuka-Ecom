@@ -16,7 +16,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use("/api/auth/*", requireUserAuth);
-app.use("/api/user", userRouter);
+app.use("/api", userRouter);
 app.use("/api/home", HomeRouter);
 app.use("/api/admin", AdminRouter);
 

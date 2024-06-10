@@ -2,6 +2,7 @@ import {
   getUserByEmail,
   createUser,
   updateContactNo,
+  getUserById,
 } from "../service/user.service.js";
 import jwt from "jsonwebtoken";
 
@@ -52,14 +53,15 @@ const userLogin = async (req, res) => {
 };
 
 const updateContactNumber = async (req, res) => {
-  const { email, contactNo } = req.body;
+  const { contactNo } = req.body;
+  const id = req.userId;
   try {
-    const user = await getUserByEmail(email);
+    const user = await getUserById(id);
     if (!user) {
       res.status(404).send({ message: "User not found" });
       return;
     }
-    await updateContactNo(email, contactNo);
+    await updateContactNo(id, contactNo);
 
     res.status(200).send({ message: "success" });
   } catch (e) {
@@ -67,4 +69,22 @@ const updateContactNumber = async (req, res) => {
   }
 };
 
-export { userLogin, updateContactNumber };
+const getUserProfile = async (req, res) => {
+  const id = req.userId;
+  try {
+    const user = await getUserById(id);
+    if (!user) {
+      res.status(404).send({ message: "User not found" });
+      return;
+    }
+    res.status(200).send({
+      name: user.username,
+      phoneNo: user.phoneNo,
+    });
+  } catch (e) {
+    console.log(e, "error");
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+
+export { userLogin, updateContactNumber, getUserProfile };

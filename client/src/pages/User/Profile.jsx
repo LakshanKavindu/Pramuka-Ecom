@@ -1,56 +1,61 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Footern from "../../components/User/Footer";
 import Nav from "../../components/User/Navbar";
 import { FaRegUser } from "react-icons/fa";
 import { Button, Card, Label, TextInput } from "flowbite-react";
 import { Modal } from "flowbite-react";
 import { IoMdCloudDone } from "react-icons/io";
+import axiosClient from "../../utils/axiosClient";
 
 const Profile = () => {
   const [editDisabled, setEditDisabled] = useState(false);
   const [saveDisabled, setSaveDisabled] = useState(true);
-  const [nameDisabled, setNameDisabled] = useState(true);
   const [phoneDisabled, setPhoneDisabled] = useState(true);
-  const [cancelDisabled, setCancelDisabled] = useState(false);
-  const [passwordDisabled, setPasswordDisabled] = useState(true);
   const [openModal, setOpenModal] = useState(false);
 
   const [name, setName] = useState("Booshana namudhara");
   const [phone, setPhone] = useState("0771234567");
-  const [password, setPassword] = useState("12345678");
   const [tempPhone, setTempPhone] = useState("0771234567");
-  const [tempPassword, setTempPassword] = useState("12345678");
+
+  useEffect(() => {
+    axiosClient.get("/auth/user/profile").then((res) => {
+      console.log(res.data);
+      setName(res.data.name);
+      setPhone(res.data.phoneNo);
+      setTempPhone(res.data.phoneNo);
+    });
+  }, []);
 
   const handleEdit = () => {
     setPhoneDisabled(false);
-    setPasswordDisabled(false);
     setSaveDisabled(false);
     setEditDisabled(true);
   };
 
   const handleSave = () => {
-    setPhoneDisabled(true);
-    setPasswordDisabled(true);
-    setSaveDisabled(true);
-    setEditDisabled(false);
-    setOpenModal(true);
+    axiosClient
+      .post("/auth/user/updateContactNumber", {
+        contactNo: phone,
+      })
+      .then(() => {
+        setOpenModal(true);
+        setPhoneDisabled(true);
+        setSaveDisabled(true);
+        setEditDisabled(false);
+        setTempPhone(phone);
+      })
+      .catch(() => {});
   };
 
   const handleCancel = () => {
     setPhoneDisabled(true);
-    setPasswordDisabled(true);
     setSaveDisabled(true);
     setEditDisabled(false);
     setPhone(tempPhone);
-    setPassword(tempPassword);
   };
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
   };
 
   return (
@@ -74,7 +79,7 @@ const Profile = () => {
                   type="text"
                   placeholder=""
                   required
-                  disabled={nameDisabled}
+                  disabled={true}
                   value={name}
                 />
               </div>
@@ -93,20 +98,6 @@ const Profile = () => {
                   onChange={handlePhoneChange}
                 />
               </div>
-              <div className="flex w-full items-center">
-                <div className="mb-2 block w-1/5">
-                  <Label htmlFor="password1" value="Password" />
-                </div>
-                <TextInput
-                  className="w-4/5"
-                  id="password1"
-                  type="password"
-                  required
-                  disabled={passwordDisabled}
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
-              </div>
               <div className="flex items-center justify-end gap-2">
                 {editDisabled === true ? (
                   <Button
@@ -114,7 +105,6 @@ const Profile = () => {
                     size="sm"
                     className=" border-primary text-primary hover:bg-primary hover:text-white"
                     onClick={handleCancel}
-                    disabled={cancelDisabled}
                   >
                     Cancel
                   </Button>
