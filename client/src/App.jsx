@@ -13,6 +13,7 @@ import customTheme from "./assets/theme";
 import ProductPreview from "./pages/User/ProductPreview";
 
 import AdminAddProduct from "./pages/Admin/AdminAddProduct";
+import AdminProductDetails from "./pages/Admin/AdminProductDetails";
 
 function App() {
   return (
@@ -30,6 +31,11 @@ function App() {
               <Route path="/preview" element={<ProductPreview />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/admin/addproduct" element={<AdminAddProduct />} />
+              <Route
+                path="/admin/productdetails"
+                element={<AdminProductDetails />}
+              />
+
               {/* <Route path="/admin/dashboard" element={<AdminDashboard />} /> */}
             </Routes>
           </BrowserRouter>

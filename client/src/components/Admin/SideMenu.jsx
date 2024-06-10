@@ -22,7 +22,9 @@ export function SideMenu() {
           </Sidebar.Item>
           <Sidebar.Collapse icon={HiShoppingBag} label="Products">
             <Sidebar.Item href="/admin/addproduct">Add Product</Sidebar.Item>
-            <Sidebar.Item href="/productdetails">Product Details</Sidebar.Item>
+            <Sidebar.Item href="/admin/productdetails">
+              Product Details
+            </Sidebar.Item>
           </Sidebar.Collapse>
           <Sidebar.Item href="#" icon={HiInbox}>
             Inbox
