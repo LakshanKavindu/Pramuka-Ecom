@@ -39,10 +39,11 @@ const SellingsForCategory = () => {
                 <span className="ml-3 whitespace-nowrap">{item.productCategory}</span>
               </div>
               <span className="flex items-center">
-                <span className="ml-3 flex-1">{item._sum.productSold}</span>
-                <span className="ml-3 inline-flex items-center justify-center rounded bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-500 dark:bg-gray-700 dark:text-gray-400">
+              {(index==0 && item._sum.productSold>0 )? <span className="ml-3 inline-flex items-center justify-center rounded bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-500 dark:bg-gray-700 dark:text-gray-400">
                   Popular
-                </span>
+                </span>:""}
+                <span className="ml-3 flex-1">{item._sum.productSold}</span>
+               
               </span>
             </a>
           </li>
