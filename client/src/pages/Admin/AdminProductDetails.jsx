@@ -4,14 +4,14 @@ import { Table } from "flowbite-react";
 import { SideMenu } from "../../components/Admin/SideMenu";
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
-import axios from "axios";
+import axiosClient from "../../utils/axiosClient";
 import { useEffect, useState } from "react";
 
 const AdminProductDetails = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/admin/allproducts")
+    axiosClient
+      .get("/admin/allproducts")
       .then((res) => {
         console.log(res.data.products);
         setProducts(res.data.products);
@@ -24,8 +24,8 @@ const AdminProductDetails = () => {
   const handleDelete = (id) => {
     console.log("delete");
 
-    axios
-      .delete(`http://localhost:8080/api/admin/deleteproduct/${id}`)
+    axiosClient
+      .delete(`/admin/deleteproduct/${id}`)
       .then((res) => {
         console.log(res.data);
       })
