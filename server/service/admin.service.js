@@ -23,3 +23,13 @@ export const createProduct = async ({
     },
   });
 };
+
+export const getTotalRevenue = async () => {
+ 
+  const result = await prisma.$queryRaw`
+  SELECT SUM(productSold * productPrice) as totalRevenue
+  FROM Product
+`;
+ 
+  return result[0].totalRevenue
+};
