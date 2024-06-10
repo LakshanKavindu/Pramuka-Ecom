@@ -24,6 +24,15 @@ export const createProduct = async ({
   });
 };
 
+
+export const deleteProduct = async (id) => {
+  return await prisma.product.delete({
+    where: {
+      id: id,
+    },
+  });
+}
+
 export const getTotalRevenue = async () => {
  
   const result = await prisma.$queryRaw`
@@ -49,3 +58,4 @@ export const sellingForCategory=async()=>{
   return  category;
   
 }
+
