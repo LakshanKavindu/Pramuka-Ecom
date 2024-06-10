@@ -17,6 +17,8 @@ import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import customTheme from "./assets/theme";
 import ProductPreview from "./pages/User/ProductPreview";
+import AdminAddProduct from "./pages/Admin/AdminAddProduct";
+import AdminProductDetails from "./pages/Admin/AdminProductDetails";
 
 export const PrivateRoute = ({ allowedRole }) => {
   return sessionStorage.getItem("isLoggin") === "true" &&
@@ -45,6 +47,11 @@ function App() {
               <Route path="/admin" element={<AdminLogin />} />
               <Route element={<PrivateRoute allowedRole="ADMIN" />}>
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/admin/addproduct" element={<AdminAddProduct />} />
+                <Route
+                  path="/admin/productdetails"
+                  element={<AdminProductDetails />}
+                />
               </Route>
             </Routes>
           </BrowserRouter>
