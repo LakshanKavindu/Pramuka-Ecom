@@ -21,8 +21,10 @@ import AdminAddProduct from "./pages/Admin/AdminAddProduct";
 import AdminProductDetails from "./pages/Admin/AdminProductDetails";
 
 export const PrivateRoute = ({ allowedRole }) => {
-  return sessionStorage.getItem("isLoggin") === "true" &&
-    sessionStorage.getItem("role") === allowedRole ? (
+  const isLoggedin = sessionStorage.getItem("isLoggin") === "true";
+  const role = sessionStorage.getItem("role");
+
+  return isLoggedin && allowedRole.includes(role) ? (
     <Outlet />
   ) : (
     <Navigate to="/" />
@@ -40,12 +42,12 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/product" element={<ProductPage />} />
               <Route path="/preview" element={<ProductPreview />} />
-              <Route element={<PrivateRoute allowedRole="USER" />}>
+              <Route element={<PrivateRoute allowedRole={["USER", "ADMIN"]} />}>
                 <Route path="/user/profile" element={<Profile />} />
                 <Route path="/cart" element={<Cart />} />
               </Route>
               <Route path="/admin" element={<AdminLogin />} />
-              <Route element={<PrivateRoute allowedRole="ADMIN" />}>
+              <Route element={<PrivateRoute allowedRole={["ADMIN"]} />}>
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
                 <Route path="/admin/addproduct" element={<AdminAddProduct />} />
                 <Route
