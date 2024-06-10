@@ -33,3 +33,14 @@ export const getTotalRevenue = async () => {
  
   return result[0].totalRevenue
 };
+
+export const sellingForCategory=async()=>{
+  const category = await prisma.product.groupBy({
+    by: ['productCategory'],
+    _sum: {
+      productSold: true,
+    },
+  })
+  return  category;
+  
+}
