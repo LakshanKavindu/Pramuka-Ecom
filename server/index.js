@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import userRouter from "./router/user.router.js";
+import requireUserAuth from "./middleware/user.middleware.js";
 import HomeRouter from "./router/home.router.js";
 import AdminRouter from "./router/admin.router.js";
 
@@ -14,6 +15,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
+app.use("/api/auth/*", requireUserAuth);
 app.use("/api/user", userRouter);
 app.use("/api/home", HomeRouter);
 app.use("/api/admin", AdminRouter);
