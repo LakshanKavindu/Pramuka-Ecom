@@ -18,6 +18,8 @@ model User {
   username String
   email    String  @unique
   phoneNo  String?
+  address  String?
+  district String?
   image    String
   role     Role    @default(USER)
   cart     Cart[]
@@ -35,6 +37,7 @@ model Product {
   productStock       Int
   productSold        Int
   productPrevPrice   Int
+  productVisibility  Boolean
   cart               Cart[]
   order              Order[]
 }
