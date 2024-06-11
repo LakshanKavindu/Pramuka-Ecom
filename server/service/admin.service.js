@@ -34,16 +34,16 @@ export const deleteProduct = async (id) => {
 }
 
 export const getTotalRevenue = async () => {
- 
+
   const result = await prisma.$queryRaw`
   SELECT SUM(productSold * productPrice) as totalRevenue
   FROM Product
 `;
- 
+
   return result[0].totalRevenue
 };
 
-export const sellingForCategory=async()=>{
+export const sellingForCategory = async () => {
   const category = await prisma.product.groupBy({
     by: ['productCategory'],
     _sum: {
@@ -55,7 +55,33 @@ export const sellingForCategory=async()=>{
       },
     },
   })
-  return  category;
-  
+  return category;
+
 }
 
+
+export const updateProduct = async ({
+  productName,
+  productDescription,
+  productBrand,
+  productCategory,
+  productStock,
+  productPrice,
+  productImage,
+  productId,
+}) => {
+  return await prisma.product.update({
+    where: {
+      id: productId,
+    },
+    data: {
+      productName: productName,
+      productDescription: productDescription,
+      productBrand: productBrand,
+      productCategory: productCategory,
+      productStock: productStock,
+      productPrice: productPrice,
+      productImage: productImage,
+    },
+  });
+}

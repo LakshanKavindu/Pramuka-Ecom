@@ -6,9 +6,23 @@ import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import axiosClient from "../../utils/axiosClient";
 import { useEffect, useState } from "react";
+import { EditModal } from "../../components/Admin/EditModal";
 
 const AdminProductDetails = () => {
   const [products, setProducts] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [alertSuccess, setAlertSuccess] = useState(false);
+  const [alertInvalid, setAlertInvalid] = useState(false);
+  const [alertEmpty, setAlertEmpty] = useState(false);
+  const [productId, setProductId] = useState("");
+  const [productName, setProductName] = useState("");
+  const [productDescription, setProductDescription] = useState("");
+  const [productBrand, setProductBrand] = useState("");
+  const [productCategory, setProductCategory] = useState("");
+  const [productStock, setProductStock] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  const [productImage, setProductImage] = useState("");
+
   useEffect(() => {
     axiosClient
       .get("/admin/allproducts")
@@ -34,6 +48,65 @@ const AdminProductDetails = () => {
       });
 
     const newProducts = products.filter((product) => product.id !== id);
+    setProducts(newProducts);
+  };
+
+  const handleEdit = (id) => {
+    console.log("edit");
+    setOpenModal(true);
+
+    const product = products.find((product) => product.id === id);
+    setProductId(product.id);
+    setProductName(product.productName);
+    setProductDescription(product.productDescription);
+    setProductBrand(product.productBrand);
+    setProductCategory(product.productCategory);
+    setProductStock(product.productStock);
+    setProductPrice(product.productPrice);
+    setProductImage(product.productImage);
+
+    console.log(product);
+  };
+
+  const handleSave = (pId) => {
+    console.log("save");
+    setOpenModal(false);
+
+    //update the existing products array with the new product details
+
+    axiosClient
+      .post(`/admin/updateproduct/${pId}`, {
+        productId: pId,
+        productName: productName,
+        productDescription: productDescription,
+        productBrand: productBrand,
+        productCategory: productCategory,
+        productStock: productStock,
+        productPrice: productPrice,
+        productImage: productImage,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    const newProducts = products.map((product) => {
+      if (product.id === pId) {
+        return {
+          ...product,
+          productName: productName,
+          productDescription: productDescription,
+          productBrand: productBrand,
+          productCategory: productCategory,
+          productStock: productStock,
+          productPrice: productPrice,
+          productImage: productImage,
+        };
+      }
+      return product;
+    });
     setProducts(newProducts);
   };
 
@@ -78,7 +151,12 @@ const AdminProductDetails = () => {
                     <Table.Cell>{product.productStock}</Table.Cell>
                     <Table.Cell>{product.productPrice}</Table.Cell>
                     <Table.Cell>
-                      <FaEdit className="text-center w-5 h-5 flex justify-center items-center cursor-pointer text-blue-500" />
+                      <FaEdit
+                        onClick={() => {
+                          handleEdit(product.id);
+                        }}
+                        className="text-center w-5 h-5 flex justify-center items-center cursor-pointer text-blue-500"
+                      />
                     </Table.Cell>
                     <Table.Cell>
                       <MdDeleteForever
@@ -95,6 +173,29 @@ const AdminProductDetails = () => {
           </div>
         </div>
       </div>
+      <EditModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        productId={productId}
+        productName={productName}
+        productDescription={productDescription}
+        productBrand={productBrand}
+        productCategory={productCategory}
+        productStock={productStock}
+        productPrice={productPrice}
+        productImage={productImage}
+        setProductName={setProductName}
+        setProductDescription={setProductDescription}
+        setProductBrand={setProductBrand}
+        setProductCategory={setProductCategory}
+        setProductStock={setProductStock}
+        setProductPrice={setProductPrice}
+        setProductImage={setProductImage}
+        handleSave={handleSave}
+        alertSuccess={alertSuccess}
+        alertInvalid={alertInvalid}
+        alertEmpty={alertEmpty}
+      />
     </div>
   );
 };
