@@ -14,16 +14,16 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  username String
-  email    String  @unique
-  phoneNo  String?
-  address  String?
-  district String?
-  image    String
-  role     Role    @default(USER)
-  cart     Cart[]
-  order    Order[]
+  id             String  @id @default(uuid())
+  username       String
+  email          String  @unique
+  phoneNo        String?
+  defaultAddress String?
+  billingAddress String?
+  image          String
+  role           Role    @default(USER)
+  cart           Cart[]
+  order          Order[]
 }
 
 model Product {
@@ -54,15 +54,16 @@ model Cart {
 }
 
 model Order {
-  id        String   @id @default(uuid())
-  orderId   String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String
-  quantity  Int
-  status    String
-  createdAt DateTime @default(now())
+  id             String   @id @default(uuid())
+  orderId        String
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  product        Product  @relation(fields: [productId], references: [id])
+  productId      String
+  quantity       Int
+  status         String
+  shippingMethod String
+  createdAt      DateTime @default(now())
 }
 
 enum Role {
