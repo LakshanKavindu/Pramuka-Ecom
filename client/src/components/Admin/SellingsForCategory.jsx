@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 const SellingsForCategory = () => {
   const [catsellings, setCatsellings] = useState([]);
+  console.log(catsellings, "catsellings");
   const getsellings = () => {
     axiosClient
       .get("/admin/sellings")

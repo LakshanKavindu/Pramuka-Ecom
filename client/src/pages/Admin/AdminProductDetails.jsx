@@ -15,6 +15,7 @@ const AdminProductDetails = () => {
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [alertInvalid, setAlertInvalid] = useState(false);
   const [alertEmpty, setAlertEmpty] = useState(false);
+  const [alertDeleted, setAlertDeleted] = useState(false);
   const [productId, setProductId] = useState("");
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
@@ -43,13 +44,13 @@ const AdminProductDetails = () => {
       .delete(`/admin/deleteproduct/${id}`)
       .then((res) => {
         console.log(res.data);
+        const newProducts = products.filter((product) => product.id !== id);
+        setProducts(newProducts);
+        setAlertDeleted(true);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    const newProducts = products.filter((product) => product.id !== id);
-    setProducts(newProducts);
   };
 
   const handleEdit = (id) => {
@@ -233,6 +234,9 @@ const AdminProductDetails = () => {
         )}
         {alertInvalid && (
           <AlertBar message="Please enter valid input" type="error" />
+        )}
+        {alertDeleted && (
+          <AlertBar message="Product deleted successfully" type="success" />
         )}
       </div>
     </div>
