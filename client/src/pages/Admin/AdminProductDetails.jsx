@@ -7,6 +7,7 @@ import { FaEdit } from "react-icons/fa";
 import axiosClient from "../../utils/axiosClient";
 import { useEffect, useState } from "react";
 import { EditModal } from "../../components/Admin/EditModal";
+import { AlertBar } from "../../components/Common/AlertBar";
 
 const AdminProductDetails = () => {
   const [products, setProducts] = useState([]);
@@ -69,10 +70,36 @@ const AdminProductDetails = () => {
   };
 
   const handleSave = (pId) => {
-    console.log("save");
-    setOpenModal(false);
+    if (
+      productName === "" ||
+      productDescription === "" ||
+      productBrand === "" ||
+      productCategory === "" ||
+      productStock === "" ||
+      productPrice === ""
+    ) {
+      setAlertEmpty(true);
+      setTimeout(() => {
+        setAlertEmpty(false);
+      }, 2000);
+      return;
+    }
 
-    //update the existing products array with the new product details
+    if (isNaN(productStock) || isNaN(productPrice)) {
+      setAlertEmpty(true);
+      setTimeout(() => {
+        setAlertEmpty(false);
+      }, 2000);
+      return;
+    }
+
+    if (productStock < 0 || productPrice < 0) {
+      setAlertInvalid(true);
+      setTimeout(() => {
+        setAlertInvalid(false);
+      }, 2000);
+      return;
+    }
 
     axiosClient
       .post(`/admin/updateproduct/${pId}`, {
@@ -86,32 +113,33 @@ const AdminProductDetails = () => {
         productImage: productImage,
       })
       .then((res) => {
-        console.log(res.data);
+        const newProducts = products.map((product) => {
+          if (product.id === pId) {
+            return {
+              ...product,
+              productName: productName,
+              productDescription: productDescription,
+              productBrand: productBrand,
+              productCategory: productCategory,
+              productStock: productStock,
+              productPrice: productPrice,
+              productImage: productImage,
+            };
+          }
+          return product;
+        });
+
+        setProducts(newProducts);
+        setAlertSuccess(true);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    const newProducts = products.map((product) => {
-      if (product.id === pId) {
-        return {
-          ...product,
-          productName: productName,
-          productDescription: productDescription,
-          productBrand: productBrand,
-          productCategory: productCategory,
-          productStock: productStock,
-          productPrice: productPrice,
-          productImage: productImage,
-        };
-      }
-      return product;
-    });
-    setProducts(newProducts);
+    setOpenModal(false);
   };
 
   return (
-    <div className=" w-full flex flex-row overflow-hidden">
+    <div className=" w-full flex flex-row overflow-hidden relative">
       <SideMenu />
 
       <div className=" p-6 w-full h-screen">
@@ -196,6 +224,17 @@ const AdminProductDetails = () => {
         alertInvalid={alertInvalid}
         alertEmpty={alertEmpty}
       />
+      <div className=" absolute bottom-4 left-4 z-50">
+        {alertSuccess && (
+          <AlertBar message="Product Updated successfully" type="success" />
+        )}
+        {alertEmpty && (
+          <AlertBar message="Please fill all fields" type="error" />
+        )}
+        {alertInvalid && (
+          <AlertBar message="Please enter valid input" type="error" />
+        )}
+      </div>
     </div>
   );
 };
