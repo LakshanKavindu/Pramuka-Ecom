@@ -79,8 +79,8 @@ export const updateProduct = async ({
       productDescription: productDescription,
       productBrand: productBrand,
       productCategory: productCategory,
-      productStock: productStock,
-      productPrice: productPrice,
+      productStock: parseInt(productStock),
+      productPrice: parseInt(productPrice),
       productImage: productImage,
     },
   });
