@@ -4,7 +4,6 @@ import { Button, Modal } from "flowbite-react";
 import { FloatingLabel } from "flowbite-react";
 import { Select } from "flowbite-react";
 import UploadImageCloudinary from "../Common/UploadImageCloudinary";
-import { useState } from "react";
 import { AlertBar } from "../Common/AlertBar";
 
 export function EditModal({
@@ -26,9 +25,6 @@ export function EditModal({
   setProductPrice,
   setProductImage,
   handleSave,
-  alertSuccess,
-  alertInvalid,
-  alertEmpty,
 }) {
   console.log(productImage, "productImage");
   console.log(productName, "productName");
@@ -147,7 +143,7 @@ export function EditModal({
                 Save changes
               </button>
             </div>
-            {alertSuccess && (
+            {/* {alertSuccess && (
               <AlertBar message="Product Updated successfully" type="success" />
             )}
             {alertEmpty && (
@@ -155,7 +151,7 @@ export function EditModal({
             )}
             {alertInvalid && (
               <AlertBar message="Please enter valid input" type="error" />
-            )}
+            )} */}
           </div>
         </Modal.Body>
       </Modal>
