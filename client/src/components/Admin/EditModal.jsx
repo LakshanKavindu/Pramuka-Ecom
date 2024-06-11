@@ -17,6 +17,7 @@ export function EditModal({
   productStock,
   productPrice,
   productImage,
+  productPrevPrice,
   setProductName,
   setProductDescription,
   setProductBrand,
@@ -24,6 +25,7 @@ export function EditModal({
   setProductStock,
   setProductPrice,
   setProductImage,
+  setproductPrevPrice,
   handleSave,
 }) {
   console.log(productImage, "productImage");
@@ -118,6 +120,18 @@ export function EditModal({
                 type="number"
                 onChange={(e) => setProductPrice(e.target.value)}
                 value={productPrice}
+              />
+            </div>
+            <div className=" flex items-center gap-4 mb-2 ">
+              <p className="text-sm text-gray-500 w-20">Old Price</p>
+              <FloatingLabel
+                variant="standard"
+                label="Old Price"
+                style={{ width: "250px" }}
+                size="sm"
+                type="number"
+                onChange={(e) => setproductPrevPrice(e.target.value)}
+                value={productPrevPrice}
               />
             </div>
             <div className=" flex items-center gap-4 mb-2 ">

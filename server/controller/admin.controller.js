@@ -6,7 +6,7 @@ import { createProduct, getTotalRevenue, sellingForCategory, updateProduct } fro
 
 export const addProduct = async (req, res) => {
   const values = req.body;
-  const { name, description, brand, category, image, stock, price } = values;
+  const { name, description, brand, category, image, stock, price, oldPrice } = values;
   console.log(values, "product");
   console.log("name", name)
   try {
@@ -18,6 +18,7 @@ export const addProduct = async (req, res) => {
       image,
       stock,
       price,
+      oldPrice
     });
     res.status(201).send({ message: "Product added successfully" });
   } catch (e) {
@@ -55,7 +56,9 @@ export const updateOneProduct = async (req, res) => {
 
   const values = req.body;
 
-  const { productName, productDescription, productBrand, productCategory, productStock, productPrice, productImage, productId } = values;
+  const { productName, productDescription, productBrand, productCategory, productStock, productPrice, productImage, productId, productPrevPrice } = values;
+
+  console.log("productPrevPrice", productPrevPrice)
   try {
     await updateProduct({
       productName,
@@ -66,6 +69,7 @@ export const updateOneProduct = async (req, res) => {
       productPrice,
       productImage,
       productId,
+      productPrevPrice,
     });
     res.status(201).send({ message: "Product updated successfully" });
   } catch (e) {

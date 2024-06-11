@@ -18,6 +18,7 @@ const AdminAddProduct = () => {
     category: "",
     stock: "",
     price: "",
+    oldPrice: "",
   });
 
   console.log("product", value);
@@ -63,6 +64,16 @@ const AdminAddProduct = () => {
       return;
     }
 
+    if (value.oldPrice) {
+      if (value.oldPrice < 0) {
+        setAlertInvalid(true);
+        setTimeout(() => {
+          setAlertInvalid(false);
+        }, 2000);
+        return;
+      }
+    }
+
     axiosClient
       .post("/admin/addproduct", {
         ...value,
@@ -77,6 +88,7 @@ const AdminAddProduct = () => {
           category: "",
           stock: "",
           price: "",
+          oldPrice: "",
         });
 
         setProductImage("");
@@ -96,7 +108,7 @@ const AdminAddProduct = () => {
       <SideMenu />
 
       <div className=" w-full p-6 h-screen">
-        <div className=" mb-3 h-12">
+        <div className=" mb-3 h-5">
           <p className=" font-bold text-2xl">Add a product</p>
         </div>
         <div className="flex flex-col justify-start w-full h-full items-center overflow-y-scroll pt-8">
@@ -177,6 +189,18 @@ const AdminAddProduct = () => {
               type="number"
               onChange={(e) => setValue({ ...value, price: e.target.value })}
               value={value.price}
+            />
+          </div>
+          <div className=" flex items-center gap-4 mb-2 ">
+            <p className="text-sm text-gray-500 w-20">Old Price</p>
+            <FloatingLabel
+              variant="standard"
+              label="Old Price"
+              style={{ width: "250px" }}
+              size="sm"
+              type="number"
+              onChange={(e) => setValue({ ...value, oldPrice: e.target.value })}
+              value={value.oldPrice}
             />
           </div>
           <div className=" flex items-center gap-4 mb-2 ">
