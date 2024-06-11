@@ -61,7 +61,7 @@ model Order {
   product        Product  @relation(fields: [productId], references: [id])
   productId      String
   quantity       Int
-  status         String
+  status         Status   @default(PENDING)
   shippingMethod String
   createdAt      DateTime @default(now())
 }
@@ -69,4 +69,15 @@ model Order {
 enum Role {
   ADMIN
   USER
+}
+
+enum Status {
+  PENDING
+  SHIPPED
+}
+
+enum shippingMethod {
+  PICKUP
+  DELIVERY_DEFAULT
+  DELIVERY_BILLING
 }
