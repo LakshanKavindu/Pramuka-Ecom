@@ -32,4 +32,17 @@ export const get_products_by_filter=async(filterval)=>{
 
 
 }
+export const get_product_names=async()=>{
+   
+    const products =await prisma.product.findMany({
+        select:{
+            productName:true
+        }
+    })
+    // console.log(products)
+    return products;
+
+
+}
+
 

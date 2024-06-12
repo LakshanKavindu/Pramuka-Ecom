@@ -1,6 +1,6 @@
 
 import { all_products 
-    ,get_products_by_Search,
+    ,get_product_names,get_products_by_Search,
     get_products_by_filter
 } from "../service/home.service.js";
 
@@ -58,6 +58,27 @@ export const  get_products_for_filterhValue=async(req,res)=>{
         const filteredProducts=await get_products_by_filter(filterval)
         res.status(200).send({filteredProducts})
         console.log(filteredProducts)
+
+
+
+
+    }catch(e){
+        res.status(400).send({"error":e})
+
+    }
+
+}
+export const  get_all_product_names=async(req,res)=>{
+    
+    try{
+       const send=[]
+        const productnames=await get_product_names()
+      
+        productnames.map((i)=>{
+            send.push(i.productName)
+        })
+        res.status(200).send({send})
+        
 
 
 
