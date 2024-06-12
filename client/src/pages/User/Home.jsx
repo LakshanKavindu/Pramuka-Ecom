@@ -13,23 +13,28 @@ import { Card } from "flowbite-react";
 import "../../Styles/User/home.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import axiosClient from "../../utils/axiosClient";
+
 
 const Home = () => {
   const [searchval, setSearchval] = useState("");
   const [searchresult, setSearchresult] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [filter, setFilter] = useState("Categories");
+  const [items,setItems]=useState(["chocolate","biscuit maliban","biscuits munchee"])
 
   const filterhandle = (val) => {
     setIsSearching(true);
     setSearchval("");
     setFilter(val);
+   
     axios
       .get(`http://localhost:8080/api/home/filter/${val}`)
       .then((res) => {
         console.log("inside then");
         console.log(res.data);
         setSearchresult(res.data.filteredProducts);
+        setSearchval("")
       })
       .catch((error) => {
         console.log("error occured");
@@ -41,28 +46,42 @@ const Home = () => {
     setIsSearching(true);
     setFilter("Categories");
 
-    console.log("search");
-    console.log(searchval);
+   
+    console.log("handle search search value",searchval);
     axios
       .get(`http://localhost:8080/api/home/search/${searchval}`)
       .then((res) => {
         setSearchresult(res.data.searchedProducts);
+        setSearchval("")
       })
       .catch((error) => {
         console.log(error);
       });
   };
+  const getAllProducts = () => {
+    axiosClient
+      .get("/home/productnames")
+      .then((res) => {
+        setItems(res.data.send)
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      console.log(items)
+  };
 
   useEffect(() => {
     setIsSearching(false);
+    getAllProducts();
   }, []);
   return (
-    <div>
+    <div  >
       <Nav isActive={"home"} />
       <Slider />
 
       <div className=" px-20 mb-8">
-        <form className="max-w-md mt-8 flex min-w-full justify-center flex-wrap">
+        <div><form className="max-w-md mt-8 flex min-w-full justify-center flex-wrap">
           <label
             htmlFor="default-search"
             className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -84,6 +103,7 @@ const Home = () => {
                   onClick={() => {
                     setIsSearching(false);
                     setFilter("Categories");
+                    setSearchval("")
                   }}
                 >
                   All Products
@@ -161,10 +181,54 @@ const Home = () => {
               </div>
             </button>
           </div>
-        </form>
+        </form></div>
+        <div >
+       <div className="flex-column bg-black  ">
+       {items
+  .filter((item) => {
+    return searchval && item.toLowerCase().includes(searchval.toLowerCase());
+  })
+  .map((item, index) => {
+    return (
+      <div
+      className="ml-30"
+       key={index} 
+      onClick={()=>{
+        setSearchval(item)
+       
+      console.log("item",item)
+      console.log("serchval",searchval)
+      // handleSearch()
+      
+
+      
+      }}
+      
+   
+      >
+        
+
+         
+<div class="block w-64 h-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+
+<p class="font-normal text-gray-700 dark:text-gray-400">{item}</p>
+
+
+</div>
+
+      </div>
+    );
+  })
+}
+
+       
+        
+
+       </div>
+        </div>
       </div>
 
-      <AllProducts isSearching={isSearching} searchresult={searchresult} />
+      <AllProducts isSearching={isSearching} searchresult={searchresult}  />
       <div></div>
 
       <Card className="border-none bg-orange-50 shadow-none mt-10">
