@@ -46,12 +46,13 @@ const Home = () => {
     setIsSearching(true);
     setFilter("Categories");
 
-    console.log("search");
-    console.log(searchval);
+   
+    console.log("handle search search value",searchval);
     axios
       .get(`http://localhost:8080/api/home/search/${searchval}`)
       .then((res) => {
         setSearchresult(res.data.searchedProducts);
+        setSearchval("")
       })
       .catch((error) => {
         console.log(error);
@@ -102,6 +103,7 @@ const Home = () => {
                   onClick={() => {
                     setIsSearching(false);
                     setFilter("Categories");
+                    setSearchval("")
                   }}
                 >
                   All Products
@@ -184,7 +186,7 @@ const Home = () => {
        <div className="flex-column bg-black  ">
        {items
   .filter((item) => {
-    return (isSearching==false) && searchval && item.toLowerCase().includes(searchval.toLowerCase());
+    return searchval && item.toLowerCase().includes(searchval.toLowerCase());
   })
   .map((item, index) => {
     return (
@@ -192,8 +194,13 @@ const Home = () => {
       className="ml-30"
        key={index} 
       onClick={()=>{
-      setSearchval(item)
-      handleSearch()
+        setSearchval(item)
+       
+      console.log("item",item)
+      console.log("serchval",searchval)
+      // handleSearch()
+      
+
       
       }}
       
@@ -221,7 +228,7 @@ const Home = () => {
         </div>
       </div>
 
-      <AllProducts isSearching={isSearching} searchresult={searchresult} />
+      <AllProducts isSearching={isSearching} searchresult={searchresult}  />
       <div></div>
 
       <Card className="border-none bg-orange-50 shadow-none mt-10">
