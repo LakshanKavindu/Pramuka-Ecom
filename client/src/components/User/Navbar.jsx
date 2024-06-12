@@ -54,13 +54,11 @@ const Nav = ({ isActive }) => {
             console.log(res.data, "login");
             if (!res.data.userExist) {
               setOpenRegistration(true);
-              sessionStorage.setItem("isLoggin", false);
-              setIsLoggin(false);
               sessionStorage.setItem("isUpdateContact", false);
-            } else {
-              sessionStorage.setItem("isLoggin", true);
-              setIsLoggin(true);
             }
+            sessionStorage.setItem("isLoggin", true);
+            setIsLoggin(true);
+
             sessionStorage.setItem("role", res.data.role);
             sessionStorage.setItem("token", res.data.token);
             sessionStorage.setItem(
@@ -162,8 +160,6 @@ const Nav = ({ isActive }) => {
       <RegistrationPopup
         openModal={openRegistration}
         setOpenModal={setOpenRegistration}
-        setIsLoggin={setIsLoggin}
-        email={user.email}
       />
     </>
   );
