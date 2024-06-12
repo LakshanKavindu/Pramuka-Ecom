@@ -9,6 +9,7 @@ export const createProduct = async ({
   image,
   stock,
   price,
+  oldPrice,
 }) => {
   return await prisma.product.create({
     data: {
@@ -19,7 +20,9 @@ export const createProduct = async ({
       productImage: image,
       productPrice: parseInt(price),
       productStock: parseInt(stock),
+      productPrevPrice: parseInt(oldPrice) || 0,
       productSold: 0,
+      productVisibility: true,
     },
   });
 };
@@ -69,6 +72,7 @@ export const updateProduct = async ({
   productPrice,
   productImage,
   productId,
+  productPrevPrice,
 }) => {
   return await prisma.product.update({
     where: {
@@ -82,6 +86,7 @@ export const updateProduct = async ({
       productStock: parseInt(productStock),
       productPrice: parseInt(productPrice),
       productImage: productImage,
+      productPrevPrice: parseInt(productPrevPrice) || 0,
     },
   });
 }

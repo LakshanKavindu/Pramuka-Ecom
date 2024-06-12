@@ -24,6 +24,9 @@ const AdminProductDetails = () => {
   const [productStock, setProductStock] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productImage, setProductImage] = useState("");
+  const [productPrevPrice, setproductPrevPrice] = useState("");
+
+  console.log("productPrevPrice", productPrevPrice);
 
   useEffect(() => {
     axiosClient
@@ -66,6 +69,7 @@ const AdminProductDetails = () => {
     setProductStock(product.productStock);
     setProductPrice(product.productPrice);
     setProductImage(product.productImage);
+    setproductPrevPrice(product.productPrevPrice);
 
     console.log(product);
   };
@@ -112,6 +116,7 @@ const AdminProductDetails = () => {
         productStock: productStock,
         productPrice: productPrice,
         productImage: productImage,
+        productPrevPrice: productPrevPrice,
       })
       .then((res) => {
         const newProducts = products.map((product) => {
@@ -125,6 +130,7 @@ const AdminProductDetails = () => {
               productStock: productStock,
               productPrice: productPrice,
               productImage: productImage,
+              productPrevPrice: productPrevPrice,
             };
           }
           return product;
@@ -157,6 +163,7 @@ const AdminProductDetails = () => {
                 <Table.HeadCell>Category</Table.HeadCell>
                 <Table.HeadCell>Stock</Table.HeadCell>
                 <Table.HeadCell>Price</Table.HeadCell>
+                <Table.HeadCell>Old Price</Table.HeadCell>
 
                 <Table.HeadCell>
                   <span className="sr-only">Edit</span>
@@ -179,6 +186,7 @@ const AdminProductDetails = () => {
                     <Table.Cell>{product.productCategory}</Table.Cell>
                     <Table.Cell>{product.productStock}</Table.Cell>
                     <Table.Cell>{product.productPrice}</Table.Cell>
+                    <Table.Cell>{product.productPrevPrice}</Table.Cell>
                     <Table.Cell>
                       <FaEdit
                         onClick={() => {
@@ -213,6 +221,7 @@ const AdminProductDetails = () => {
         productStock={productStock}
         productPrice={productPrice}
         productImage={productImage}
+        productPrevPrice={productPrevPrice}
         setProductName={setProductName}
         setProductDescription={setProductDescription}
         setProductBrand={setProductBrand}
@@ -220,6 +229,7 @@ const AdminProductDetails = () => {
         setProductStock={setProductStock}
         setProductPrice={setProductPrice}
         setProductImage={setProductImage}
+        setproductPrevPrice={setproductPrevPrice}
         handleSave={handleSave}
         alertSuccess={alertSuccess}
         alertInvalid={alertInvalid}
