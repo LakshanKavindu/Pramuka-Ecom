@@ -59,11 +59,9 @@ const Home = () => {
   };
   const getAllProducts = () => {
     axiosClient
-      .get("/home/allproducts")
-      .then((products) => {
-        (products.data.products).map((item=>{
-          setItems((prevItems) => [...prevItems, ...productNames]);
-        }))
+      .get("/home/productnames")
+      .then((res) => {
+        setItems(res.data.send)
 
       })
       .catch((error) => {
