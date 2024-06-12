@@ -13,6 +13,8 @@ import { Card } from "flowbite-react";
 import "../../Styles/User/home.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import axiosClient from "../../utils/axiosClient";
+
 
 const Home = () => {
   const [searchval, setSearchval] = useState("");
@@ -25,6 +27,7 @@ const Home = () => {
     setIsSearching(true);
     setSearchval("");
     setFilter(val);
+   
     axios
       .get(`http://localhost:8080/api/home/filter/${val}`)
       .then((res) => {
@@ -54,9 +57,24 @@ const Home = () => {
         console.log(error);
       });
   };
+  const getAllProducts = () => {
+    axiosClient
+      .get("/home/allproducts")
+      .then((products) => {
+        (products.data.products).map((item=>{
+          setItems((prevItems) => [...prevItems, ...productNames]);
+        }))
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      console.log(items)
+  };
 
   useEffect(() => {
     setIsSearching(false);
+    getAllProducts();
   }, []);
   return (
     <div  >
