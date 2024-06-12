@@ -12,6 +12,7 @@
     .card_container .text_container{
         width:auto;
     }
+
         
 }
 
@@ -27,6 +28,26 @@
 
     .card_container .card_container_title{
         text-align: center;
+    }
+
+    .search_bar_text{
+        display: none;
+
+    }
+
+    .search_btn{
+        width:35px !important;
+        height: 35px;
+        border-radius: 50% !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      
+    }
+
+    .search_icon{
+        padding-inline-start: 0.55rem !important;
+
     }
     
 }
