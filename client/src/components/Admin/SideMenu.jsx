@@ -7,6 +7,7 @@ import {
   HiShoppingBag,
   HiUser,
   HiOutlineLogout,
+  HiClipboardList,
 } from "react-icons/hi";
 
 export function SideMenu() {
@@ -26,8 +27,8 @@ export function SideMenu() {
               Product Details
             </Sidebar.Item>
           </Sidebar.Collapse>
-          <Sidebar.Item href="#" icon={HiInbox}>
-            Inbox
+          <Sidebar.Item href="#" icon={HiClipboardList}>
+            Orders
           </Sidebar.Item>
           <Sidebar.Item href="#" icon={HiUser}>
             Users
