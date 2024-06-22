@@ -4,7 +4,7 @@ import TextInputCom from "./InputField/TextInputCom";
 import { FaWhatsapp } from "react-icons/fa";
 import axiosClient from "../../utils/axiosClient";
 
-const RegistrationPopup = ({ openModal, setOpenModal, setIsLoggin, email }) => {
+const RegistrationPopup = ({ openModal, setOpenModal }) => {
   const regex = /^(?:0\d{9}|\+94\d{9})$/;
   const [contactNo, setContactNo] = useState("");
   const [err, setErr] = useState(false);
@@ -20,13 +20,10 @@ const RegistrationPopup = ({ openModal, setOpenModal, setIsLoggin, email }) => {
     if (!err) {
       axiosClient
         .post("/auth/user/updateContactNumber", {
-          email: email,
           contactNo: contactNo,
         })
         .then(() => {
-          sessionStorage.setItem("isLoggin", true);
           sessionStorage.removeItem("isUpdateContact");
-          setIsLoggin(true);
           setOpenModal(false);
         });
     }
