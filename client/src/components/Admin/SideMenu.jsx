@@ -27,7 +27,7 @@ export function SideMenu() {
               Product Details
             </Sidebar.Item>
           </Sidebar.Collapse>
-          <Sidebar.Item href="#" icon={HiClipboardList}>
+          <Sidebar.Item href="/admin/orders" icon={HiClipboardList}>
             Orders
           </Sidebar.Item>
           <Sidebar.Item href="#" icon={HiUser}>

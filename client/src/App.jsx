@@ -19,6 +19,7 @@ import customTheme from "./assets/theme";
 import ProductPreview from "./pages/User/ProductPreview";
 import AdminAddProduct from "./pages/Admin/AdminAddProduct";
 import AdminProductDetails from "./pages/Admin/AdminProductDetails";
+import AdminOrders from "./pages/Admin/AdminOrders";
 
 export const PrivateRoute = ({ allowedRole }) => {
   const isLoggedin = sessionStorage.getItem("isLoggin") === "true";
@@ -54,6 +55,7 @@ function App() {
                   path="/admin/productdetails"
                   element={<AdminProductDetails />}
                 />
+                <Route path="/admin/orders" element={<AdminOrders />} />
               </Route>
             </Routes>
           </BrowserRouter>
