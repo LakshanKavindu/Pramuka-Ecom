@@ -12,7 +12,6 @@ const Cart = () => {
 
   const [activeImg, setActiveImage] = useState("");
 
-
   const [mycart, setMycart] = useState([]);
   const [carttotal, setCarttotal] = useState(0);
 
@@ -50,7 +49,7 @@ const Cart = () => {
   return (
     <>
       <Nav isActive={""} />
-      <div className="flex flex-col mt-14">
+      <div className="flex flex-col mt-16">
         <div>
           <h4 className="text-black1  flex justify-center items-center text-2xl font-semibold py-3">
             Your Cart Items
@@ -58,12 +57,13 @@ const Cart = () => {
         </div>
         <div>
           {mycart.length === 0 && (
-            <div className="text-3xl flex flex-col items-center mt-[7rem] border-dotted h-32  ">
-              <h1>Nothing to Show</h1>
+            <div className="text-3xl flex flex-col items-center mt-[3rem] h-[120px]">
+              <h1 className=" text-gray-600 border-dashed border-[3px] border-gray-600 rounded-md p-8">
+                Nothing to Show
+              </h1>
             </div>
           )}
           <table className="w-full">
-
             {mycart.length > 0 && (
               <tr className=" text-center text-xl font-semibold py-4">
                 <td className="w-3/5 py-4">Product</td>
@@ -101,14 +101,12 @@ const Cart = () => {
                 )}
               </td>
               <td className="py-4 text-center">
-
                 {mycart.length > 0 && (
                   <p className="   font-semibold text-xl">
                     LKR {carttotal}
                     {".00"}
                   </p>
                 )}
-
               </td>
               <td className="py-4 items-center">
                 {mycart.length > 0 && (
