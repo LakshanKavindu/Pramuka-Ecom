@@ -57,7 +57,7 @@ const Cart = () => {
         </div>
         <div>
           {mycart.length === 0 && (
-            <div className="text-3xl flex flex-col items-center mt-[3rem] h-[120px]">
+            <div className="text-3xl flex flex-col items-center mt-[3rem] h-[128px]">
               <h1 className=" text-gray-600 border-dashed border-[3px] border-gray-600 rounded-md p-8">
                 Nothing to Show
               </h1>
