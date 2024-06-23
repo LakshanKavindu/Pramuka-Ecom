@@ -19,25 +19,23 @@ const ProductCard = ({ item }) => {
   const handleAddToCart = () => {
     setCartButton(true);
   };
-  
-  const addtocart=()=>{
-  
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    console.log(user.email)
-    axiosClient.post('/product/addtocart',{
-      productid:item.id,
-      userid:user.email,
-      quantity:amount
 
-
-    })
-    .then((res)=>{
-      console.log(res)
-    })
-    .catch((Error)=>{
-      console.log(Error)
-    })
-  }
+  const addtocart = () => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    console.log(user.email);
+    axiosClient
+      .post("/product/addtocart", {
+        productid: item.id,
+        userid: user.email,
+        quantity: amount,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((Error) => {
+        console.log(Error);
+      });
+  };
 
   return (
     <div className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md justify-between">
@@ -94,15 +92,15 @@ const ProductCard = ({ item }) => {
                 </Button>
               </div>
               <div>
-                <FaCartPlus
-              disabled={!sessionStorage.getItem('isLoggin')}  
-                className="text-center w-6 h-6 flex justify-center items-center text-primary cursor-pointer" 
-                onClick={()=>{
-                  addtocart()
-                }}
-                
-                />
-                
+                <Button className=" bg-primary hover:bg-orange-400" size="sm">
+                  <FaCartPlus
+                    disabled={!sessionStorage.getItem("isLoggin")}
+                    className="text-center w-4 h-4 flex justify-center items-center text-white cursor-pointer"
+                    onClick={() => {
+                      addtocart();
+                    }}
+                  />
+                </Button>
               </div>
             </div>
           ) : (
