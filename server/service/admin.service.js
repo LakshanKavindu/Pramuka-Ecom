@@ -90,3 +90,30 @@ export const updateProduct = async ({
     },
   });
 }
+
+
+export const all_products = async () => {
+  const products = await prisma.product.findMany({
+    orderBy: {
+      productStock: 'asc',
+    },
+  })
+  return products;
+
+}
+
+export const get_products_by_filter = async (filterval) => {
+
+  const products = await prisma.product.findMany({
+    where: {
+      productCategory: filterval
+    },
+    orderBy: {
+      productStock: 'asc',
+    },
+  })
+  // console.log(products)
+  return products;
+
+
+}

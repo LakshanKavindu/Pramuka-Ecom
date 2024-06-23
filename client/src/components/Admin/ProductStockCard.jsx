@@ -1,19 +1,27 @@
-export const ProductStockCard = () => {
+export const ProductStockCard = ({ name, brand, stock, image }) => {
   return (
-    <div
-      className=" bg-gray-50 px-2 py-0.5 text-xs font-medium shadow-gray-900
-    "
-    >
-      <div className="product-stock-card__image">
+    <div className=" bg-gray-50 text-xs w-[150px] h-[220px] shadow-gray-400 shadow-sm mb-2 flex-col justify-between rounded-lg px-2 py-6 ">
+      <div className="product-stock-card__image w-full flex justify-center h-30 mb-2">
         <img
-          src="https://m.media-amazon.com/images/I/51Mn7ieOqNL._AC_UF894,1000_QL80_.jpg"
+          src={image}
           alt=""
-          className="w-20 h-20 object-cover rounded-lg shadow-custom-light"
+          className="h-20 object-cover rounded-lg shadow-custom-light w-full"
         />
       </div>
-      <div className="product-stock-card__info">
-        <h3 className="product-stock-card__title">Product Title</h3>
-        <p className="product-stock-card__stock">Stock: 50</p>
+      <div className="product-stock-card__info pt-5">
+        <h3 className="product-stock-card__brand font-medium text-[1.1rem] mb-2 text-gray-700">
+          {brand}
+        </h3>
+        <h3 className="product-stock-card__title font-normal text-[0.8rem] mb-2 text-gray-500">
+          {name}
+        </h3>
+
+        <p className="product-stock-card__stock font-medium text-[1rem] text-gray-700">
+          Stock:{" "}
+          <span className={stock <= 20 ? "text-red-700" : "text-gray-700"}>
+            {stock}
+          </span>
+        </p>
       </div>
     </div>
   );
