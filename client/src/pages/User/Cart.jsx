@@ -62,7 +62,7 @@ const getmycart=()=>{
           <table className="w-full">
             <tr className=" text-center text-xl font-semibold py-4">
               <td className="w-3/5 py-4">Product</td>
-              <td className="py-4">Price</td>
+              <td className="py-4">Price.</td>
               <td className="py-4">Quantity</td>
               <td className="py-4">Total</td>
             </tr>
