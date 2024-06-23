@@ -36,7 +36,7 @@ function App() {
   return (
     <>
       <Flowbite theme={{ theme: customTheme }}>
-        <GoogleOAuthProvider clientId="84109881920-sn28qu39ep0k12tl8qhkhbml7308rbhq.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
           <BrowserRouter>
             <Suspense fallback={<div>Loading...</div>}></Suspense>
             <Routes>
