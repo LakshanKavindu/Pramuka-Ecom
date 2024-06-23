@@ -77,7 +77,7 @@ const AdminProductDetails = () => {
   const handleSave = (pId) => {
     if (
       productName === "" ||
-      productDescription === "" ||
+      // productDescription === "" ||
       productBrand === "" ||
       productCategory === "" ||
       productStock === "" ||

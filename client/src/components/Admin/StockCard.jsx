@@ -2,19 +2,32 @@
 import axiosClient from "../../utils/axiosClient";
 import { Card } from "flowbite-react";
 import { Dropdown } from "flowbite-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProductStockCard } from "./ProductStockCard";
 
 const StockCard = () => {
   const [filter, setFilter] = useState("Categories");
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    axiosClient
+      .get("/admin/allproductsinorder")
+      .then((res) => {
+        console.log(res.data);
+        setProducts(res.data.products);
+      })
+      .catch((error) => {
+        console.log("error occured");
+        console.log(error);
+      });
+  }, []);
   const filterhandle = (val) => {
     setFilter(val);
     axiosClient
-      .get(`http://localhost:8080/api/home/filter/${val}`)
+      .get(`/admin/filterproducts/${val}`)
       .then((res) => {
-        console.log("inside then");
-        console.log(res.data);
-        // setSearchresult(res.data.filteredProducts);
+        setProducts(res.data.filteredProducts);
+        console.log(products);
       })
       .catch((error) => {
         console.log("error occured");
@@ -23,7 +36,7 @@ const StockCard = () => {
   };
 
   return (
-    <Card className="max-w-md w-full">
+    <Card className="max-w-xl w-full">
       <div>
         <h5 className="mb-3 text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
           Product Stocks
@@ -35,7 +48,7 @@ const StockCard = () => {
           // gradientDuoTone="pinkToOrange"
           label={<span className="text-black">{filter}</span>}
           // dismissOnClick={false}
-          className=" focus:ring-white bg-transparent"
+          className=" focus:ring-white bg-white"
           value={filter}
         >
           <Dropdown.Item
@@ -81,13 +94,18 @@ const StockCard = () => {
           </Dropdown.Item>
         </Dropdown>
       </div>
-      <div>
-        <ProductStockCard />
-        <ProductStockCard />
-        <ProductStockCard />
-        <ProductStockCard />
-        <ProductStockCard />
-        <ProductStockCard />
+      <div className=" w-full flex flex-wrap gap-6 justify-between max-h-[380px] h-[380px] overflow-y-scroll ">
+        {products.map((item) => {
+          return (
+            <ProductStockCard
+              key={item.id}
+              brand={item.productBrand}
+              name={item.productName}
+              stock={item.productStock}
+              image={item.productImage}
+            />
+          );
+        })}
       </div>
     </Card>
   );

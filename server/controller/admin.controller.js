@@ -1,7 +1,6 @@
 
-import { all_products } from "../service/home.service.js";
 import { deleteProduct } from "../service/admin.service.js";
-import { createProduct, getTotalRevenue, sellingForCategory, updateProduct } from "../service/admin.service.js";
+import { all_products, createProduct, getTotalRevenue, sellingForCategory, updateProduct, get_products_by_filter } from "../service/admin.service.js";
 
 
 export const addProduct = async (req, res) => {
@@ -100,3 +99,31 @@ export const get_sellings_of_Category = async (req, res) => {
   }
 }
 
+export const get_all_products_inorder = async (req, res) => {
+  try {
+    const products = await all_products();
+    console.log("products", products)
+
+
+
+    res.status(200).send({ products })
+  } catch (e) {
+    res.status(500).send({ error: e });
+  }
+}
+
+
+export const get_filter_products_inorder = async (req, res) => {
+  const filterval = req.params.filterval;
+  console.log(filterval)
+  try {
+    console.log(filterval)
+    const filteredProducts = await get_products_by_filter(filterval)
+    res.status(200).send({ filteredProducts })
+    console.log("filterd", filteredProducts)
+  } catch (e) {
+    res.status(400).send({ "error": e })
+
+  }
+
+}
