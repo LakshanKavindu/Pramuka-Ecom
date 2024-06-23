@@ -85,7 +85,7 @@ export default function OrderCard({ order, activeTab, onStatusUpdate }) {
                         {user.username}
                     </h5>
                     <span className="text-sm text-gray-700 dark:text-gray-400">
-                        {product.price}
+                        {product.productPrice}
                     </span>
                 </div>
                 <div className="items-center ml-20">
