@@ -1,6 +1,6 @@
 
-import { deleteProduct } from "../service/admin.service.js";
-import { all_products, createProduct, getTotalRevenue, sellingForCategory, updateProduct, get_products_by_filter } from "../service/admin.service.js";
+
+import { all_products, createProduct, getTotalRevenue, sellingForCategory, updateProduct, get_products_by_filter,deleteProduct, getAllOrders, updateOrderStatus  } from "../service/admin.service.js";
 
 
 export const addProduct = async (req, res) => {
@@ -77,9 +77,6 @@ export const updateOneProduct = async (req, res) => {
   }
 }
 
-
-
-
 export const get_Total_Revenue = async (req, res) => {
   try {
     const TotalRev = await getTotalRevenue();
@@ -98,6 +95,33 @@ export const get_sellings_of_Category = async (req, res) => {
 
   }
 }
+
+export const get_all_orders = async (req, res) => {
+  try {
+    const orders = await getAllOrders();
+    res.status(200).send({ orders });
+  } catch (e) {
+    res.status(400).send({ error: e.message });
+  }
+};
+
+export const update_order_status = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const updatedOrder = await updateOrderStatus(id, status);
+    if (updatedOrder) {
+      res.status(200).send({ message: 'Order status updated successfully', order: updatedOrder });
+    } else {
+      res.status(404).send({ error: 'Order not found' });
+    }
+  } catch (e) {
+    res.status(400).send({ error: e.message });
+  }
+};
+
+
 
 export const get_all_products_inorder = async (req, res) => {
   try {
@@ -127,3 +151,4 @@ export const get_filter_products_inorder = async (req, res) => {
   }
 
 }
+

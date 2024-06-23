@@ -91,6 +91,28 @@ export const updateProduct = async ({
   });
 }
 
+export const getAllOrders = async () => {
+  return await prisma.order.findMany({
+    include: {
+      user: true,
+      product: true,
+    },
+  });
+};
+
+export const updateOrderStatus = async (id, status) => {
+  try {
+    const order = await prisma.order.update({
+      where: { id },
+      data: { status },
+    });
+    return order;
+  } catch (error) {
+    throw new Error('Error updating order status: ' + error.message);
+  }
+};
+
+
 
 export const all_products = async () => {
   const products = await prisma.product.findMany({
@@ -117,3 +139,4 @@ export const get_products_by_filter = async (filterval) => {
 
 
 }
+
