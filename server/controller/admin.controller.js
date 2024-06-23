@@ -1,6 +1,6 @@
 
 import { all_products } from "../service/home.service.js";
-import { deleteProduct } from "../service/admin.service.js";
+import { deleteProduct, getAllOrders, updateOrderStatus  } from "../service/admin.service.js";
 import { createProduct, getTotalRevenue, sellingForCategory, updateProduct } from "../service/admin.service.js";
 
 
@@ -78,9 +78,6 @@ export const updateOneProduct = async (req, res) => {
   }
 }
 
-
-
-
 export const get_Total_Revenue = async (req, res) => {
   try {
     const TotalRev = await getTotalRevenue();
@@ -99,4 +96,30 @@ export const get_sellings_of_Category = async (req, res) => {
 
   }
 }
+
+export const get_all_orders = async (req, res) => {
+  try {
+    const orders = await getAllOrders();
+    res.status(200).send({ orders });
+  } catch (e) {
+    res.status(400).send({ error: e.message });
+  }
+};
+
+export const update_order_status = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const updatedOrder = await updateOrderStatus(id, status);
+    if (updatedOrder) {
+      res.status(200).send({ message: 'Order status updated successfully', order: updatedOrder });
+    } else {
+      res.status(404).send({ error: 'Order not found' });
+    }
+  } catch (e) {
+    res.status(400).send({ error: e.message });
+  }
+};
+
 
