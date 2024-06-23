@@ -5,7 +5,7 @@ const Footern = () => {
   return (
     <Footer
       container
-      className="mt-10 bg-gray-50 shadow-footer-shadow"
+      className="mt-10 bg-gray-50 shadow-footer-shadow fixed bottom-0"
       id="footer"
     >
       <div className="w-full px-1 ">
