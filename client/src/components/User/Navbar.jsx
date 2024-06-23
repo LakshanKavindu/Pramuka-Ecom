@@ -80,8 +80,9 @@ const Nav = ({ isActive }) => {
   return (
     <>
       <Navbar
-        container
-        className=" pt-3 pb-2 shadow-bottom-shadow fixed w-full max-w-[1440px] top-0 z-50"
+        fluid
+        rounded
+        className=" pt-3 pb-2 shadow-bottom-shadow fixed w-full max-w-[1440px] top-0 z-50 !m-0"
       >
         <Navbar.Brand href="/" className="">
           <img
