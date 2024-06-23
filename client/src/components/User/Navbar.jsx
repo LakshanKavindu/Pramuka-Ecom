@@ -4,10 +4,12 @@ import { FiShoppingCart } from "react-icons/fi";
 import { FaCaretDown } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
 import axiosClient from "../../utils/axiosClient";
 import RegistrationPopup from "./RegistrationPopup";
 
 const Nav = ({ isActive }) => {
+  const navigate = useNavigate();
   const [isLoggin, setIsLoggin] = useState(
     sessionStorage.getItem("isLoggin") === "true" ? true : false
   );
@@ -68,17 +70,18 @@ const Nav = ({ isActive }) => {
       console.error("Login failed: ", error);
     },
   });
-
   const handleLogout = () => {
     setIsLoggin(false);
+    setUserRole("");
     sessionStorage.clear();
+    navigate("/");
   };
 
   return (
     <>
       <Navbar
         container
-        className=" pt-3 pb-2 shadow-bottom-shadow fixed w-full top-0 z-50"
+        className=" pt-3 pb-2 shadow-bottom-shadow fixed w-full max-w-[1440px] top-0 z-50"
       >
         <Navbar.Brand href="/" className="">
           {/* <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" /> */}
@@ -100,8 +103,7 @@ const Nav = ({ isActive }) => {
                 </Link>
               </div>
             </div>
-            <div className="md:flex hidden justify-center">
-              {/* <Link to="/user/profile"> */}{" "}
+            <div className="md:flex hidden justify-center mr-5">
               <Dropdown
                 arrowIcon={false}
                 inline
@@ -142,7 +144,7 @@ const Nav = ({ isActive }) => {
             <Navbar.Toggle />
           </div>
         ) : (
-          <div className="flex gap-4 md:order-2 items-center ">
+          <div className="flex gap-4 md:order-2 items-center">
             <Button
               className="bg-primary text-white h-[40px]"
               onClick={() => login()}
@@ -162,7 +164,10 @@ const Nav = ({ isActive }) => {
             </div>
           </div>
           {userRole === "ADMIN" && (
-            <Navbar.Link href="/admin/dashboard" className="hover:text-primary">
+            <Navbar.Link
+              href="/admin/dashboard"
+              className="hover:text-secondary text-gray-900 font-bold"
+            >
               Admin Dashboard
             </Navbar.Link>
           )}
