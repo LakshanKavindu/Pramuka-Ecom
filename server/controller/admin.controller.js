@@ -78,9 +78,6 @@ export const updateOneProduct = async (req, res) => {
   }
 }
 
-
-
-
 export const get_Total_Revenue = async (req, res) => {
   try {
     const TotalRev = await getTotalRevenue();
