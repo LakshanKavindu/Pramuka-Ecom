@@ -1,22 +1,36 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import ViewOrderPopup from "./ViewOrderPopup";
 
-export default function OrderCard({ order, activeTab, onStatusUpdate }) {
-
+export default function OrderCard({ order, activeTab, onStatusUpdate, onPinToTop, isPinned, disablePin }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(prevState => !prevState);
     };
 
+    const closeDropdown = () => {
+        setIsDropdownOpen(false);
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                closeDropdown();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const handleMarkAsDelivered = async () => {
         try {
             const response = await axios.put(`http://localhost:8080/api/admin/updateorder/${order.id}`, { status: 'SHIPPED' });
-            console.log("status", response.status)
             if (response.status === 200) {
-              console.log('Order status updated successfully:', response.data.order);
                 onStatusUpdate(order.id, 'SHIPPED');
             }
         } catch (error) {
@@ -24,12 +38,22 @@ export default function OrderCard({ order, activeTab, onStatusUpdate }) {
         }
     };
 
+    const handlePinToTop = () => {
+        onPinToTop(order.id);
+        closeDropdown();
+    };
+
     const { user, product, quantity, status, shippingMethod, createdAt } = order;
 
     return (
         <div className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative mb-5">
+            {isPinned && (
+                <div className="absolute top-0 left-4 text-blue-500">
+                    📌
+                </div>
+            )}
             <div className="absolute top-0 right-4">
-                <div className="relative">
+                <div className="relative" ref={dropdownRef}>
                     <button
                         id="dropdownButton"
                         className="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
@@ -53,21 +77,14 @@ export default function OrderCard({ order, activeTab, onStatusUpdate }) {
                             className="absolute top-full right-0 z-10 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
                         >
                             <ul className="py-2" aria-labelledby="dropdownButton">
-                                <li>
-                                    <a
-                                        href="#"
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                <li className="text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                    <button
+                                        onClick={handlePinToTop}
+                                        disabled={disablePin}
+                                        className={`block px-4 py-2 text-sm ${disablePin ? 'text-gray-300 cursor-not-allowed' : 'text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'}`}
                                     >
-                                        Export Data
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="#"
-                                        className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                    >
-                                        Delete
-                                    </a>
+                                        {isPinned ? 'Unpin' : 'Pin to Top'}
+                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -85,7 +102,7 @@ export default function OrderCard({ order, activeTab, onStatusUpdate }) {
                         {user.username}
                     </h5>
                     <span className="text-sm text-gray-700 dark:text-gray-400">
-                        {product.productPrice}
+                        Rs. {product.productPrice}
                     </span>
                 </div>
                 <div className="items-center ml-20">
@@ -106,6 +123,8 @@ export default function OrderCard({ order, activeTab, onStatusUpdate }) {
                     status={status} 
                     shippingMethod={shippingMethod}
                     createdAt={createdAt}
+                    activeTab={activeTab}
+                    
                 />
                 {activeTab === 'pending' && (
                     <button
@@ -118,5 +137,4 @@ export default function OrderCard({ order, activeTab, onStatusUpdate }) {
             </div>
         </div>
     );
-
 }

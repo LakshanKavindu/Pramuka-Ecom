@@ -1,6 +1,3 @@
-
-// AdminOrders.jsx
-
 import { useState, useEffect } from "react";
 import { SideMenu } from "../../components/Admin/SideMenu";
 import OrderCard from "../../components/Admin/OrderCard";
@@ -9,7 +6,8 @@ import axios from 'axios';
 const AdminOrders = () => {
   const [activeTab, setActiveTab] = useState('pending');
   const [orders, setOrders] = useState([]);
-  
+  const [pinnedOrders, setPinnedOrders] = useState([]);
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
@@ -29,12 +27,30 @@ const AdminOrders = () => {
 
   const updateOrderStatus = (orderId, newStatus) => {
     setOrders(prevOrders => {
-      return prevOrders.map(order => {
+      const updatedOrders = prevOrders.map(order => {
         if (order.id === orderId) {
           return { ...order, status: newStatus };
         }
         return order;
       });
+
+      if (newStatus.toLowerCase() === 'shipped') {
+        setPinnedOrders(pinnedOrders.filter(id => id !== orderId));
+      }
+
+      return updatedOrders;
+    });
+  };
+
+  const pinOrderToTop = (orderId) => {
+    setPinnedOrders(prevPinnedOrders => {
+      if (prevPinnedOrders.includes(orderId)) {
+        return prevPinnedOrders.filter(id => id !== orderId);
+      }
+      if (prevPinnedOrders.length < 2) {
+        return [orderId, ...prevPinnedOrders];
+      }
+      return prevPinnedOrders;
     });
   };
 
@@ -44,7 +60,17 @@ const AdminOrders = () => {
     } else if (activeTab === 'completed') {
       return order.status.toLowerCase() === 'shipped';
     }
-    return true; 
+    return true; // Show all orders if activeTab is neither 'pending' nor 'completed'
+  });
+
+  const sortedOrders = [...filteredOrders].sort((a, b) => {
+    if (pinnedOrders.includes(a.id) && !pinnedOrders.includes(b.id)) {
+      return -1;
+    }
+    if (!pinnedOrders.includes(a.id) && pinnedOrders.includes(b.id)) {
+      return 1;
+    }
+    return 0;
   });
 
   return (
@@ -87,12 +113,15 @@ const AdminOrders = () => {
             </ul>
           </div>
           <div id="default-tab-content" className="flex-grow overflow-y-auto mb-10">
-            {filteredOrders.map(order => (
+            {sortedOrders.map(order => (
               <OrderCard
                 key={order.id}
                 order={order}
                 activeTab={activeTab}
                 onStatusUpdate={updateOrderStatus}
+                onPinToTop={pinOrderToTop}
+                isPinned={pinnedOrders.includes(order.id)}
+                disablePin={pinnedOrders.length >= 2 && !pinnedOrders.includes(order.id)}
               />
             ))}
           </div>
@@ -100,7 +129,6 @@ const AdminOrders = () => {
       </div>
     </div>
   );
-
 };
 
 export default AdminOrders;
