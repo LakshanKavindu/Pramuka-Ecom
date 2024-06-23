@@ -1,18 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
+import axiosClient from "../../utils/axiosClient";
 
 export default function CartItems(props) {
     const [amount, setAmount] = useState(props.item.quantity);
-    const decreaseAmount = () => {
-        if (amount > 1) {
-          setAmount((prev) => prev - 1);
-        }
+    const decreaseAmount =() => {
+       
+     
+          if (amount > 1) {
+             setAmount((prev) => prev - 1);
+            
+          }
+       
+       
       };
     
       const increaseAmount = () => {
         setAmount((prev) => prev + 1);
       };
       const totalPrice = props.unitPrice * amount;
+
+      const updatecart=()=>{
+
+  
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        console.log('update cart called',amount)
+        axiosClient.put('/product/updatecart',{
+          productid:props.item.product.id,
+          userid:user.email,
+          quantity:amount
+    
+    
+        })
+        .then((res)=>{
+          console.log(res)
+        })
+        .catch((Error)=>{
+          console.log(Error)
+        })
+      } 
+      const handledecrese=()=>{
+        decreaseAmount()
+        .then(()=>{
+          updatecart()
+        })
+      }
+
+      useEffect(()=>{
+        updatecart()
+
+      },[amount])
 
   return (
     <tr className="border-y border-solid text-xl border-[#E5E5E5]  bg-[#f2f2f2] ">
@@ -41,7 +78,11 @@ export default function CartItems(props) {
   <div className="flex flex-row items-center m-auto border border-solid border-primary rounded-xl w-fit">
     <button
       className="px-3   text-secondary text-[2rem] "
-      onClick={decreaseAmount}
+      onClick={()=>{
+        decreaseAmount()
+        // updatecart()
+        // handledecrese()
+      }}
     >
       -
     </button>
@@ -50,7 +91,10 @@ export default function CartItems(props) {
     </span>
     <button
       className=" px-3   text-secondary text-[1.5rem] "
-      onClick={increaseAmount}
+      onClick={()=>{
+        increaseAmount()
+        // updatecart()
+      }}
     >
       +
     </button>
