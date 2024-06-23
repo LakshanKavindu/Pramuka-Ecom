@@ -32,7 +32,7 @@ const userLogin = async (req, res) => {
         res.status(201).send({
           message: "success",
           userExist: false,
-          role: user.role,
+          role: newUser.role,
           token: token,
           user: newUser,
         });
