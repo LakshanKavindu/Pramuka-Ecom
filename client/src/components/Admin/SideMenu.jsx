@@ -1,5 +1,3 @@
-"use client";
-
 import { Sidebar } from "flowbite-react";
 import {
   HiChartPie,
@@ -8,8 +6,14 @@ import {
   HiOutlineLogout,
   HiClipboardList,
 } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 export function SideMenu() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate("/");
+  };
   return (
     <Sidebar
       aria-label="Sidebar with multi-level dropdown example"
@@ -32,7 +36,7 @@ export function SideMenu() {
           <Sidebar.Item href="#" icon={HiUser}>
             Users
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiOutlineLogout}>
+          <Sidebar.Item href="#" icon={HiOutlineLogout} onClick={handleLogout}>
             LogOut
           </Sidebar.Item>
         </Sidebar.ItemGroup>

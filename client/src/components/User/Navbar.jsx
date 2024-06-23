@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { Button, Navbar, Avatar } from "flowbite-react";
+import { Button, Navbar, Avatar, Dropdown } from "flowbite-react";
 import { FiShoppingCart } from "react-icons/fi";
+import { FaCaretDown } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import axiosClient from "../../utils/axiosClient";
-import axios from "axios";
 import RegistrationPopup from "./RegistrationPopup";
 
 const Nav = ({ isActive }) => {
   const [isLoggin, setIsLoggin] = useState(
     sessionStorage.getItem("isLoggin") === "true" ? true : false
+  );
+  const [userRole, setUserRole] = useState(
+    sessionStorage.getItem("role") || ""
   );
   const [user, setUser] = useState(
     JSON.parse(sessionStorage.getItem("user")) || {}
@@ -28,63 +31,48 @@ const Nav = ({ isActive }) => {
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log(tokenResponse);
-
-      const accessToken = tokenResponse.access_token;
-
-      try {
-        // Fetch user profile information using the access token
-        const res = await axios.get(
-          "https://www.googleapis.com/oauth2/v1/userinfo?alt=json",
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
+      await axiosClient
+        .post("/user/login", {
+          token: tokenResponse.access_token,
+        })
+        .then((res) => {
+          console.log(res.data, "login");
+          if (!res.data.userExist) {
+            setOpenRegistration(true);
+            sessionStorage.setItem("isUpdateContact", false);
           }
-        );
-
-        // The user profile information
-        const userProfile = res.data;
-        axiosClient
-          .post("/user/login", {
-            email: userProfile.email,
-            userName: userProfile.name,
-            imageUrl: userProfile.picture,
-          })
-          .then((res) => {
-            console.log(res.data, "login");
-            if (!res.data.userExist) {
-              setOpenRegistration(true);
-              sessionStorage.setItem("isUpdateContact", false);
-            }
-            sessionStorage.setItem("isLoggin", true);
-            setIsLoggin(true);
-
-            sessionStorage.setItem("role", res.data.role);
-            sessionStorage.setItem("token", res.data.token);
-            sessionStorage.setItem(
-              "user",
-              JSON.stringify({
-                email: userProfile.email,
-                userName: userProfile.name,
-                imageUrl: userProfile.picture,
-              })
-            );
-
-            setUser({
-              email: userProfile.email,
-              userName: userProfile.name,
-              imageUrl: userProfile.picture,
-            });
-            console.log(res);
+          sessionStorage.setItem("isLoggin", true);
+          setIsLoggin(true);
+          sessionStorage.setItem("role", res.data.role);
+          sessionStorage.setItem("token", res.data.token);
+          sessionStorage.setItem(
+            "user",
+            JSON.stringify({
+              email: res.data.user.email,
+              userName: res.data.user.username,
+              imageUrl: res.data.user.image,
+            })
+          );
+          setUserRole(res.data.role);
+          setUser({
+            email: res.data.user.email,
+            userName: res.data.user.username,
+            imageUrl: res.data.user.image,
           });
-      } catch (error) {
-        console.error("Failed to fetch user profile: ", error);
-      }
+        })
+        .catch((e) => {
+          console.error("Failed to fetch user profile: ", e.message);
+        });
     },
     onError: (error) => {
       console.error("Login failed: ", error);
     },
   });
+
+  const handleLogout = () => {
+    setIsLoggin(false);
+    sessionStorage.clear();
+  };
 
   return (
     <>
@@ -113,33 +101,72 @@ const Nav = ({ isActive }) => {
               </div>
             </div>
             <div className="md:flex hidden justify-center">
-              <Link to="/user/profile">
-                <Avatar img={user.imageUrl} rounded bordered />
-              </Link>
+              {/* <Link to="/user/profile"> */}{" "}
+              <Dropdown
+                arrowIcon={false}
+                inline
+                label={
+                  <div className="flex flex-row justify-center items-center">
+                    <Avatar img={user.imageUrl} rounded bordered />
+                    <div className="flex flex-row items-baseline mx-3 text-base font-medium">
+                      <span
+                        style={{
+                          fontFamily: "Playwrite NG Modern",
+                        }}
+                        className="text-sm pr-2"
+                      >
+                        👋Hi,
+                      </span>
+
+                      {user.userName}
+                    </div>
+                    <FaCaretDown />
+                  </div>
+                }
+              >
+                <Dropdown.Header>
+                  <div className="flex flex-row">
+                    <Avatar img={user.imageUrl} rounded bordered />
+                    <div className="flex flex-col ml-4">
+                      <p className="text-sm font-semibold">{user.userName}</p>
+                      <p className="text-xs text-gray-400">{user.email}</p>
+                    </div>
+                  </div>
+                </Dropdown.Header>
+                <Link to="/user/profile">
+                  <Dropdown.Item>View Profile</Dropdown.Item>
+                </Link>
+                <Dropdown.Item onClick={handleLogout}>Log Out</Dropdown.Item>
+              </Dropdown>
             </div>
             <Navbar.Toggle />
           </div>
         ) : (
-          <div className="flex gap-4 md:order-2 items-center pt-2 ">
-            <Button className="bg-primary text-white" onClick={() => login()}>
+          <div className="flex gap-4 md:order-2 items-center ">
+            <Button
+              className="bg-primary text-white h-[40px]"
+              onClick={() => login()}
+              size={"sm"}
+            >
               Login
             </Button>
-
             <Navbar.Toggle />
           </div>
         )}
         <Navbar.Collapse>
-          <div className="flex md:hidden">
-            <Navbar.Link href="/user/profile">
-              <div className="flex flex-row">
-                <Avatar img={user.imageUrl} rounded bordered />
-                <div className="flex flex-col ml-4">
-                  <p className="text-sm font-semibold">{user.userName}</p>
-                  <p className="text-xs text-gray-400">{user.email}</p>
-                </div>
-              </div>
-            </Navbar.Link>
+          <div className="flex flex-row md:hidden">
+            <Avatar img={user.imageUrl} rounded bordered />
+            <div className="flex flex-col ml-4">
+              <p className="text-sm font-semibold">{user.userName}</p>
+              <p className="text-xs text-gray-400">{user.email}</p>
+            </div>
           </div>
+          {userRole === "ADMIN" && (
+            <Navbar.Link href="/admin/dashboard" className="hover:text-primary">
+              Admin Dashboard
+            </Navbar.Link>
+          )}
+
           <Navbar.Link
             href="/"
             className={`hover:text-primary ${
@@ -157,6 +184,18 @@ const Nav = ({ isActive }) => {
             onClick={handleContactClick}
           >
             Contact
+          </Navbar.Link>
+          <Navbar.Link
+            href="/user/profile"
+            className="hover:text-primary flex md:hidden"
+          >
+            View Profile
+          </Navbar.Link>
+          <Navbar.Link
+            className="hover:text-primary flex md:hidden"
+            onClick={handleLogout}
+          >
+            Logout
           </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
