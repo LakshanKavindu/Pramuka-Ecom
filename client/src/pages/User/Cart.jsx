@@ -3,6 +3,7 @@ import { FaArrowAltCircleLeft } from "react-icons/fa";
 import CartItems from "../../components/User/CartItems.jsx";
 import Nav from "../../components/User/Navbar.jsx";
 import Footern from "../../components/User/Footer.jsx";
+import axios from "axios";
 
 const Cart = () => {
   const [images, setImages] = useState({
@@ -12,10 +13,26 @@ const Cart = () => {
   const [activeImg, setActiveImage] = useState("");
   const [unitPrice, setUnitPrice] = useState(240.0);
   const [productName, setProductName] = useState("Soy Sauce");
+  const [mycart,setMycart]=useState([])
+
+const getmycart=()=>{
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  
+  axios.get(`http://localhost:8080/api/product/getcart/${user.email}`)
+  .then((res)=>{
+    console.log('my',res.data)
+    setMycart(res.data)
+  })
+  .catch((error)=>{
+    console.log(error)
+  })
+}
+
 
   useEffect(() => {
     setActiveImage(images.img1);
-  }, [images]);
+    getmycart()
+  }, []);
 
   return (
     <>
@@ -35,7 +52,7 @@ const Cart = () => {
               <td className="py-4">Total</td>
             </tr>
 
-            <CartItems
+            {/* <CartItems
               activeImg={activeImg}
               productName={productName}
               unitPrice={unitPrice}
@@ -59,8 +76,19 @@ const Cart = () => {
               activeImg={activeImg}
               productName={productName}
               unitPrice={unitPrice}
-            />
-
+            /> */}
+        
+        {
+          mycart.map((item)=>(
+            <CartItems
+            activeImg={activeImg}
+            productName={productName}
+            unitPrice={unitPrice}
+            item={item}
+          />
+          ))
+        }
+        
             <tr>
               <td className="w-3/5 py-4 ">
                 <div className="flex flex-row gap-2 text-primary pl-5 flex items-center text-xl ">

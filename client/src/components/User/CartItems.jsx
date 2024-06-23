@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
 
 export default function CartItems(props) {
-    const [amount, setAmount] = useState(1);
+    const [amount, setAmount] = useState(props.item.quantity);
     const decreaseAmount = () => {
         if (amount > 1) {
           setAmount((prev) => prev - 1);
@@ -19,12 +19,12 @@ export default function CartItems(props) {
     <td className="py-5 w-3/5">
     <div className="flex flex-row gap-20 pl-4">
         <img
-        src={props.activeImg}
+        src={props.item.product.productImage}
         alt="product"
         className="w-[200px] h-[200px] rounded-lg shadow-custom-light"
         />
         <div className="flex flex-col text-xl  justify-center gap-4 ">
-        <h4 className="text-black1 text-2xl font-semibold">{props.productName}</h4>
+        <h4 className="text-black1 text-2xl font-semibold">{props.item.product.productName}</h4>
         <div className="flex flex-row items-center gap-1 text-center text-primary">
 <MdDeleteForever className="text-center w-6 h-6 flex justify-center items-center"/>
 <a href="" >Remove</a>
@@ -33,7 +33,7 @@ export default function CartItems(props) {
     </div>
     </td>
     <td className="">
-        <p className="  text-center">LKR {props.unitPrice.toFixed(2)}</p>
+        <p className="  text-center">LKR {props.item.product.productPrice}{".00"}</p>
         
     </td>
     <td className=" text-center ">
@@ -57,7 +57,7 @@ export default function CartItems(props) {
   </div>
     </td>
     <td className="">
-    <p className="  text-center ">LKR {totalPrice.toFixed(2)}</p>
+    <p className="  text-center ">LKR {amount*props.item.product.productPrice}{".00"}</p>
     </td>
 
  </tr>
