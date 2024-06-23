@@ -33,21 +33,33 @@ export default function CartItems(props) {
     
         })
         .then((res)=>{
+          props.getmycart()
           console.log(res)
         })
         .catch((Error)=>{
           console.log(Error)
         })
       } 
-      const handledecrese=()=>{
-        decreaseAmount()
-        .then(()=>{
-          updatecart()
+
+
+      const removefromcart=()=>{
+
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        axiosClient.delete(`http://localhost:8080/api/product/deletefromcart/${props.item.product.id}/${user.email}`)
+        .then((res)=>{
+          props.getmycart();
+          props.updatesubtotal()
+
+          console.log(res)
+        })
+        .catch((Error)=>{
+          console.log(Error)
         })
       }
-
+ 
       useEffect(()=>{
         updatecart()
+
 
       },[amount])
 
@@ -63,8 +75,18 @@ export default function CartItems(props) {
         <div className="flex flex-col text-xl  justify-center gap-4 ">
         <h4 className="text-black1 text-2xl font-semibold">{props.item.product.productName}</h4>
         <div className="flex flex-row items-center gap-1 text-center text-primary">
-<MdDeleteForever className="text-center w-6 h-6 flex justify-center items-center"/>
-<a href="" >Remove</a>
+<MdDeleteForever className="text-center w-6 h-6 flex justify-center items-center"
+onClick={()=>{
+  console.log('remove from cart')
+  removefromcart()
+}}
+
+/>
+<button onClick={()=>{
+  console.log('remove from cart')
+  removefromcart()
+}}>remove</button>
+{/* <a href="" >Remove</a> */}
 </div>
         </div>  
     </div>

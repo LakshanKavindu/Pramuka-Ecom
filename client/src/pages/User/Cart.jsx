@@ -14,6 +14,7 @@ const Cart = () => {
   const [unitPrice, setUnitPrice] = useState(240.0);
   const [productName, setProductName] = useState("Soy Sauce");
   const [mycart,setMycart]=useState([])
+  const [carttotal,setCarttotal]=useState(0)
 
 const getmycart=()=>{
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -33,6 +34,20 @@ const getmycart=()=>{
     setActiveImage(images.img1);
     getmycart()
   }, []);
+
+ const updatesubtotal=()=>{
+  let total = 0;
+    mycart.map((item) => {
+      const itemTotal = item.quantity * item.product.productPrice;
+      total += itemTotal;
+    });
+    setCarttotal(total)
+ }
+  useEffect(() => {
+   
+   updatesubtotal()
+    
+  }, [mycart]);
 
   return (
     <>
@@ -79,14 +94,18 @@ const getmycart=()=>{
             /> */}
         
         {
-          mycart.map((item)=>(
+          mycart.map((item)=>{
+            
+            
+            return(
+           
             <CartItems
-            activeImg={activeImg}
-            productName={productName}
-            unitPrice={unitPrice}
+         
             item={item}
+            getmycart={getmycart}
+            updatesubtotal={updatesubtotal}
           />
-          ))
+          )})
         }
         
             <tr>
@@ -104,11 +123,11 @@ const getmycart=()=>{
                 <p className="font-semibold text-xl text-center">Sub Total</p>
               </td>
               <td className="py-4 text-center">
-                <p className="   font-semibold text-xl">LKR 20.00</p>
+                <p className="   font-semibold text-xl">LKR {carttotal}{".00"}</p>
               </td>
               <td className="py-4 items-center">
                 <button className="bg-primary m-auto text-white font-semibold py-3 px-10 rounded-xl h-full hidden lg:block">
-                  Add to Cart
+                  Place Order
                 </button>
               </td>
             </tr>
