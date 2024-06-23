@@ -17,7 +17,7 @@ export function SideMenu() {
   return (
     <Sidebar
       aria-label="Sidebar with multi-level dropdown example"
-      style={{ height: "100vh" }}
+      style={{ height: "100vh", padding: "10px" }}
     >
       <Sidebar.Items>
         <Sidebar.ItemGroup>

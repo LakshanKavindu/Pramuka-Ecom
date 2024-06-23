@@ -76,7 +76,10 @@ const Nav = ({ isActive }) => {
 
   return (
     <>
-      <Navbar container className=" py-5 shadow-bottom-shadow">
+      <Navbar
+        container
+        className=" pt-3 pb-2 shadow-bottom-shadow fixed w-full top-0 z-50"
+      >
         <Navbar.Brand href="/" className="">
           {/* <img src="/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" /> */}
           <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">

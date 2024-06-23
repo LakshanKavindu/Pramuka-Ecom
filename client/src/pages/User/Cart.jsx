@@ -3,6 +3,7 @@ import { FaArrowAltCircleLeft } from "react-icons/fa";
 import CartItems from "../../components/User/CartItems.jsx";
 import Nav from "../../components/User/Navbar.jsx";
 import Footern from "../../components/User/Footer.jsx";
+import axios from "axios";
 
 const Cart = () => {
   const [images, setImages] = useState({
@@ -12,10 +13,41 @@ const Cart = () => {
   const [activeImg, setActiveImage] = useState("");
   const [unitPrice, setUnitPrice] = useState(240.0);
   const [productName, setProductName] = useState("Soy Sauce");
+  const [mycart,setMycart]=useState([])
+  const [carttotal,setCarttotal]=useState(0)
+
+const getmycart=()=>{
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  
+  axios.get(`http://localhost:8080/api/product/getcart/${user.email}`)
+  .then((res)=>{
+    console.log('my',res.data)
+    setMycart(res.data)
+  })
+  .catch((error)=>{
+    console.log(error)
+  })
+}
+
 
   useEffect(() => {
     setActiveImage(images.img1);
-  }, [images]);
+    getmycart()
+  }, []);
+
+ const updatesubtotal=()=>{
+  let total = 0;
+    mycart.map((item) => {
+      const itemTotal = item.quantity * item.product.productPrice;
+      total += itemTotal;
+    });
+    setCarttotal(total)
+ }
+  useEffect(() => {
+   
+   updatesubtotal()
+    
+  }, [mycart]);
 
   return (
     <>
@@ -30,12 +62,12 @@ const Cart = () => {
           <table className="w-full">
             <tr className=" text-center text-xl font-semibold py-4">
               <td className="w-3/5 py-4">Product</td>
-              <td className="py-4">Price</td>
+              <td className="py-4">Price.</td>
               <td className="py-4">Quantity</td>
               <td className="py-4">Total</td>
             </tr>
 
-            <CartItems
+            {/* <CartItems
               activeImg={activeImg}
               productName={productName}
               unitPrice={unitPrice}
@@ -59,8 +91,23 @@ const Cart = () => {
               activeImg={activeImg}
               productName={productName}
               unitPrice={unitPrice}
-            />
-
+            /> */}
+        
+        {
+          mycart.map((item)=>{
+            
+            
+            return(
+           
+            <CartItems
+         
+            item={item}
+            getmycart={getmycart}
+            updatesubtotal={updatesubtotal}
+          />
+          )})
+        }
+        
             <tr>
               <td className="w-3/5 py-4 ">
                 <div className="flex flex-row gap-2 text-primary pl-5 flex items-center text-xl ">
@@ -76,11 +123,11 @@ const Cart = () => {
                 <p className="font-semibold text-xl text-center">Sub Total</p>
               </td>
               <td className="py-4 text-center">
-                <p className="   font-semibold text-xl">LKR 20.00</p>
+                <p className="   font-semibold text-xl">LKR {carttotal}{".00"}</p>
               </td>
               <td className="py-4 items-center">
                 <button className="bg-primary m-auto text-white font-semibold py-3 px-10 rounded-xl h-full hidden lg:block">
-                  Add to Cart
+                  Place Order
                 </button>
               </td>
             </tr>
