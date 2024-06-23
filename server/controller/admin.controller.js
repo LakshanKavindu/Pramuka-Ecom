@@ -121,8 +121,6 @@ export const update_order_status = async (req, res) => {
   }
 };
 
-
-
 export const get_all_products_inorder = async (req, res) => {
   try {
     const products = await all_products();
@@ -135,7 +133,6 @@ export const get_all_products_inorder = async (req, res) => {
     res.status(500).send({ error: e });
   }
 }
-
 
 export const get_filter_products_inorder = async (req, res) => {
   const filterval = req.params.filterval;
@@ -151,4 +148,5 @@ export const get_filter_products_inorder = async (req, res) => {
   }
 
 }
+
 
