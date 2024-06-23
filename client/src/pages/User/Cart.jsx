@@ -59,13 +59,26 @@ const getmycart=()=>{
           </h4>
         </div>
         <div>
+          {mycart.length===0 && <div className="text-3xl flex flex-col items-center mt-[7rem]"><h1>Nothing to Show</h1></div>}
           <table className="w-full">
-            <tr className=" text-center text-xl font-semibold py-4">
+            {/* <tr className=" text-center text-xl font-semibold py-4">
               <td className="w-3/5 py-4">Product</td>
+              
               <td className="py-4">Price.</td>
               <td className="py-4">Quantity</td>
               <td className="py-4">Total</td>
-            </tr>
+            </tr> */}
+            {mycart.length>0 &&
+             <tr className=" text-center text-xl font-semibold py-4">
+             <td className="w-3/5 py-4">Product</td>
+             
+             <td className="py-4">Price.</td>
+             <td className="py-4">Quantity</td>
+             <td className="py-4">Total</td>
+           </tr>
+
+            
+            }
 
             {/* <CartItems
               activeImg={activeImg}
@@ -119,17 +132,18 @@ const getmycart=()=>{
                   </a>
                 </div>
               </td>
-              <td className="py-4">
-                <p className="font-semibold text-xl text-center">Sub Total</p>
+            <td className="py-4">
+                {mycart.length>0 && <p className="font-semibold text-xl text-center">Sub Total</p>}
               </td>
               <td className="py-4 text-center">
-                <p className="   font-semibold text-xl">LKR {carttotal}{".00"}</p>
+               {mycart.length>0 &&  <p className="   font-semibold text-xl">LKR {carttotal}{".00"}</p>}
               </td>
               <td className="py-4 items-center">
-                <button className="bg-primary m-auto text-white font-semibold py-3 px-10 rounded-xl h-full hidden lg:block">
+               {mycart.length>0 &&  <button className="bg-primary m-auto text-white font-semibold py-3 px-10 rounded-xl h-full hidden lg:block">
                   Place Order
-                </button>
+                </button>}
               </td>
+            
             </tr>
           </table>
           {/* comment */}
