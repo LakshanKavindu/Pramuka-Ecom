@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import cartIcon from "../../../src/assets/icon-cart.svg";
+import { useState } from "react";
 import closeIcon from "../../../src/assets/icon-close-white.svg";
 import prevIcon from "../../../src/assets/icon-previous.svg";
 import nextIcon from "../../../src/assets/icon-next.svg";

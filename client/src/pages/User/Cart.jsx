@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import CartItems from "../../components/User/CartItems.jsx";
 import Nav from "../../components/User/Navbar.jsx";
@@ -11,48 +11,45 @@ const Cart = () => {
   });
 
   const [activeImg, setActiveImage] = useState("");
-  const [unitPrice, setUnitPrice] = useState(240.0);
-  const [productName, setProductName] = useState("Soy Sauce");
-  const [mycart,setMycart]=useState([])
-  const [carttotal,setCarttotal]=useState(0)
 
-const getmycart=()=>{
-  const user = JSON.parse(sessionStorage.getItem('user'));
-  
-  axios.get(`http://localhost:8080/api/product/getcart/${user.email}`)
-  .then((res)=>{
-    console.log('my',res.data)
-    setMycart(res.data)
-  })
-  .catch((error)=>{
-    console.log(error)
-  })
-}
+  const [mycart, setMycart] = useState([]);
+  const [carttotal, setCarttotal] = useState(0);
 
+  const getmycart = () => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+
+    axios
+      .get(`http://localhost:8080/api/product/getcart/${user.email}`)
+      .then((res) => {
+        console.log("my", res.data);
+        setMycart(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     setActiveImage(images.img1);
-    getmycart()
+    getmycart();
   }, []);
 
- const updatesubtotal=()=>{
-  let total = 0;
+  const updatesubtotal = () => {
+    let total = 0;
     mycart.map((item) => {
       const itemTotal = item.quantity * item.product.productPrice;
       total += itemTotal;
     });
-    setCarttotal(total)
- }
+    setCarttotal(total);
+  };
   useEffect(() => {
-   
-   updatesubtotal()
-    
+    updatesubtotal();
   }, [mycart]);
 
   return (
     <>
       <Nav isActive={""} />
-      <div className="flex flex-col">
+      <div className="flex flex-col mt-14">
         <div>
           <h4 className="text-black1  flex justify-center items-center text-2xl font-semibold py-3">
             Your Cart Items
@@ -66,48 +63,16 @@ const getmycart=()=>{
               <td className="py-4">Quantity</td>
               <td className="py-4">Total</td>
             </tr>
+            {mycart.map((item) => {
+              return (
+                <CartItems
+                  item={item}
+                  getmycart={getmycart}
+                  updatesubtotal={updatesubtotal}
+                />
+              );
+            })}
 
-            {/* <CartItems
-              activeImg={activeImg}
-              productName={productName}
-              unitPrice={unitPrice}
-            />
-            <CartItems
-              activeImg={activeImg}
-              productName={productName}
-              unitPrice={unitPrice}
-            />
-            <CartItems
-              activeImg={activeImg}
-              productName={productName}
-              unitPrice={unitPrice}
-            />
-            <CartItems
-              activeImg={activeImg}
-              productName={productName}
-              unitPrice={unitPrice}
-            />
-            <CartItems
-              activeImg={activeImg}
-              productName={productName}
-              unitPrice={unitPrice}
-            /> */}
-        
-        {
-          mycart.map((item)=>{
-            
-            
-            return(
-           
-            <CartItems
-         
-            item={item}
-            getmycart={getmycart}
-            updatesubtotal={updatesubtotal}
-          />
-          )})
-        }
-        
             <tr>
               <td className="w-3/5 py-4 ">
                 <div className="flex flex-row gap-2 text-primary pl-5 flex items-center text-xl ">
@@ -123,7 +88,10 @@ const getmycart=()=>{
                 <p className="font-semibold text-xl text-center">Sub Total</p>
               </td>
               <td className="py-4 text-center">
-                <p className="   font-semibold text-xl">LKR {carttotal}{".00"}</p>
+                <p className="   font-semibold text-xl">
+                  LKR {carttotal}
+                  {".00"}
+                </p>
               </td>
               <td className="py-4 items-center">
                 <button className="bg-primary m-auto text-white font-semibold py-3 px-10 rounded-xl h-full hidden lg:block">
