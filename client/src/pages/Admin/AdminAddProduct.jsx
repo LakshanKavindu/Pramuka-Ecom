@@ -27,7 +27,6 @@ const AdminAddProduct = () => {
   const handleSubmit = () => {
     if (
       value.name === "" ||
-      value.description === "" ||
       value.brand === "" ||
       value.category === "" ||
       value.stock === "" ||

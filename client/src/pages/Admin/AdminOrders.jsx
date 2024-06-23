@@ -1,3 +1,4 @@
+
 // AdminOrders.jsx
 
 import { useState, useEffect } from "react";
@@ -99,6 +100,7 @@ const AdminOrders = () => {
       </div>
     </div>
   );
+
 };
 
 export default AdminOrders;
