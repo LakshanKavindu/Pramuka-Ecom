@@ -1,19 +1,11 @@
-"use client";
-
 import { Footer } from "flowbite-react";
-import {
-  BsDribbble,
-  BsFacebook,
-  BsGithub,
-  BsInstagram,
-  BsTwitter,
-} from "react-icons/bs";
+import { BsFacebook, BsInstagram } from "react-icons/bs";
 
 const Footern = () => {
   return (
     <Footer
       container
-      className="mt-10 bg-gray-50 shadow-footer-shadow"
+      className="mt-10 bg-gray-50 shadow-footer-shadow max-w-[1440px]"
       id="footer"
     >
       <div className="w-full px-1 ">

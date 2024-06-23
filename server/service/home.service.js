@@ -45,4 +45,3 @@ export const get_product_names=async()=>{
 
 }
 
-

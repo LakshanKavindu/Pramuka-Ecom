@@ -1,6 +1,7 @@
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
+import axiosClient from "../../utils/axiosClient";
 
 const ProductCard = ({ item }) => {
   const [cartButton, setCartButton] = useState(false);
@@ -17,6 +18,23 @@ const ProductCard = ({ item }) => {
 
   const handleAddToCart = () => {
     setCartButton(true);
+  };
+
+  const addtocart = () => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    console.log(user.email);
+    axiosClient
+      .post("/product/addtocart", {
+        productid: item.id,
+        userid: user.email,
+        quantity: amount,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((Error) => {
+        console.log(Error);
+      });
   };
 
   return (
@@ -74,7 +92,15 @@ const ProductCard = ({ item }) => {
                 </Button>
               </div>
               <div>
-                <FaCartPlus className="text-center w-6 h-6 flex justify-center items-center text-primary cursor-pointer" />
+                <Button className=" bg-primary hover:bg-orange-400" size="sm">
+                  <FaCartPlus
+                    disabled={!sessionStorage.getItem("isLoggin")}
+                    className="text-center w-4 h-4 flex justify-center items-center text-white cursor-pointer"
+                    onClick={() => {
+                      addtocart();
+                    }}
+                  />
+                </Button>
               </div>
             </div>
           ) : (

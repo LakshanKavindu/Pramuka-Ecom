@@ -86,3 +86,4 @@ export const get_all_product_names = async (req, res) => {
     }
 
 }
+

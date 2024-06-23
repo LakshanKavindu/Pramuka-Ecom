@@ -5,7 +5,7 @@ export const ProductStockCard = ({ name, brand, stock, image }) => {
         <img
           src={image}
           alt=""
-          className="h-20 object-cover rounded-lg shadow-custom-light w-full"
+          className="h-20 object-cover rounded-lg  w-full"
         />
       </div>
       <div className="product-stock-card__info pt-5">
