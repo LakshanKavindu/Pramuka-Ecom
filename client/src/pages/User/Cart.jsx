@@ -12,6 +12,7 @@ const Cart = () => {
 
   const [activeImg, setActiveImage] = useState("");
 
+
   const [mycart, setMycart] = useState([]);
   const [carttotal, setCarttotal] = useState(0);
 
@@ -56,13 +57,23 @@ const Cart = () => {
           </h4>
         </div>
         <div>
+          {mycart.length === 0 && (
+            <div className="text-3xl flex flex-col items-center mt-[7rem] border-dotted h-32  ">
+              <h1>Nothing to Show</h1>
+            </div>
+          )}
           <table className="w-full">
-            <tr className=" text-center text-xl font-semibold py-4">
-              <td className="w-3/5 py-4">Product</td>
-              <td className="py-4">Price.</td>
-              <td className="py-4">Quantity</td>
-              <td className="py-4">Total</td>
-            </tr>
+
+            {mycart.length > 0 && (
+              <tr className=" text-center text-xl font-semibold py-4">
+                <td className="w-3/5 py-4">Product</td>
+
+                <td className="py-4">Price.</td>
+                <td className="py-4">Quantity</td>
+                <td className="py-4">Total</td>
+              </tr>
+            )}
+
             {mycart.map((item) => {
               return (
                 <CartItems
@@ -75,28 +86,36 @@ const Cart = () => {
 
             <tr>
               <td className="w-3/5 py-4 ">
-                <div className="flex flex-row gap-2 text-primary pl-5 flex items-center text-xl ">
+                <div className="flex flex-row gap-2 text-primary pl-5 items-center text-xl ">
                   <FaArrowAltCircleLeft className="w-5 h-5" />
 
-                  <a href="" className="">
+                  <a href="/" className="">
                     {" "}
                     Back to shopping
                   </a>
                 </div>
               </td>
               <td className="py-4">
-                <p className="font-semibold text-xl text-center">Sub Total</p>
+                {mycart.length > 0 && (
+                  <p className="font-semibold text-xl text-center">Sub Total</p>
+                )}
               </td>
               <td className="py-4 text-center">
-                <p className="   font-semibold text-xl">
-                  LKR {carttotal}
-                  {".00"}
-                </p>
+
+                {mycart.length > 0 && (
+                  <p className="   font-semibold text-xl">
+                    LKR {carttotal}
+                    {".00"}
+                  </p>
+                )}
+
               </td>
               <td className="py-4 items-center">
-                <button className="bg-primary m-auto text-white font-semibold py-3 px-10 rounded-xl h-full hidden lg:block">
-                  Place Order
-                </button>
+                {mycart.length > 0 && (
+                  <button className="bg-primary m-auto text-white font-semibold py-3 px-10 rounded-xl h-full hidden lg:block">
+                    Place Order
+                  </button>
+                )}
               </td>
             </tr>
           </table>
