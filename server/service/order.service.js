@@ -18,6 +18,7 @@ const groupByOrderId = async (products) => {
           product.shippingMethod === "DELIVERY_DEFAULT"
             ? product.user.defaultAddress
             : product.user.billingAddress,
+        orderDate: product.createdAt,
         orderProducts: [],
       };
     }

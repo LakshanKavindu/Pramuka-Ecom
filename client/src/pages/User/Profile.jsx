@@ -74,7 +74,7 @@ const Profile = () => {
       <Nav isActive={"profile"} />
 
       <div className="px-2 sm:px-8 py-10 mt-10 flex flex-col md:flex-row gap-10">
-        <Card className="max-w-xl w-full h-[50vh] flex flex-col">
+        <Card className="max-w-xl w-full h-[52vh] flex flex-col">
           <div className="mt-8 flex items-center mb-8">
             <FaRegUser className="text-2xl text-black2 mr-2" />
             <h2 className=" text-2xl font-semibold">Your Profile</h2>
@@ -158,12 +158,12 @@ const Profile = () => {
             </div>
           </form>
         </Card>
-        <Card className="max-w-3xl w-full flex flex-col">
+        <Card className="max-w-3xl  w-full flex flex-col">
           <div className="mt-8 flex items-center mb-8">
             <FaRegUser className="text-2xl text-black2 mr-2" />
             <h2 className=" text-2xl font-semibold">Your Orders</h2>
           </div>
-          <Accordion className="flex flex-col gap-3">
+          <Accordion className="md:h-[60vh]  overflow-y-auto">
             {myOrders &&
               myOrders.map((order) => (
                 <Accordion.Panel key={order.orderId}>
@@ -187,10 +187,12 @@ const Profile = () => {
                   <Accordion.Content>
                     <div className="flex flex-col">
                       <div className="flex flex-row">
-                        Deliver Address :{" "}
-                        <span className="font-bold">
-                          {order.deliverAddress}
-                        </span>
+                        <div className="flex flex-row ">
+                          Deliver Address :{" "}
+                          <span className="font-bold">
+                            {order.deliverAddress}
+                          </span>
+                        </div>
                       </div>
                       <hr className="h-px my-8 bg-gray-400 border-0 dark:bg-gray-700"></hr>
                       <div className="flex flex-row gap-3 font-semibold">
