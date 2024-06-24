@@ -1,16 +1,24 @@
 import { Button } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import axiosClient from "../../utils/axiosClient";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ item }) => {
   const [cartButton, setCartButton] = useState(false);
+
   const [amount, setAmount] = useState(1);
   const decreaseAmount = () => {
     if (amount > 1) {
       setAmount((prev) => prev - 1);
     }
   };
+
+  const [product, setProduct] = useState(item);
+  useEffect(() => {
+    setProduct(item);
+    console.log("product", product);
+  }, [item]);
 
   const increaseAmount = () => {
     setAmount((prev) => prev + 1);
@@ -39,35 +47,39 @@ const ProductCard = ({ item }) => {
 
   return (
     <div className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md justify-between">
-      <a
-        className="relative mx-3 mt-3 flex justify-center h-60 overflow-hidden rounded-xl"
-        href="#"
-      >
-        <img
-          className="object-cover"
-          src={item.productImage}
-          alt="product image"
-        />
-        <span className="absolute top-0 left-0 m-2 rounded-full bg-primary px-2 text-center text-sm font-medium text-white">
-          39% OFF
-        </span>
-      </a>
-      <div className="mt-4 px-5 pb-5">
-        <a href="#">
-          <h5 className="text-xl tracking-tight text-black2">
-            {item.productName}
-          </h5>
+      <Link to={`preview/${item.id}`}>
+        <a
+          className="relative mx-3 mt-3 flex justify-center h-60 overflow-hidden rounded-xl"
+          href="#"
+        >
+          <img
+            className="object-cover"
+            src={item.productImage}
+            alt="product image"
+          />
+          <span className="absolute top-0 left-0 m-2 rounded-full bg-primary px-2 text-center text-sm font-medium text-white">
+            39% OFF
+          </span>
         </a>
-        <div className="mt-2 mb-5 flex items-center justify-between">
-          <p>
-            <span className="text-sm text-gray-600 font-semibold line-through mr-1">
-              $699
-            </span>
-            <span className="text-3xl font-bold text-slate-900">
-              {item.productPrice}
-            </span>
-          </p>
-        </div>
+      </Link>
+      <div className="mt-4 px-5 pb-5">
+        <Link to={`preview/${item.id}`}>
+          <a href="#">
+            <h5 className="text-xl tracking-tight text-black2">
+              {item.productName}
+            </h5>
+          </a>
+          <div className="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span className="text-sm text-red-600 font-semibold mr-1 line-through">
+                $699
+              </span>
+              <span className="text-3xl font-bold text-slate-900">
+                {item.productPrice}
+              </span>
+            </p>
+          </div>
+        </Link>
 
         <div>
           {cartButton === true ? (
@@ -92,14 +104,14 @@ const ProductCard = ({ item }) => {
                 </Button>
               </div>
               <div>
-                <Button className=" bg-primary hover:bg-orange-400" size="sm">
-                  <FaCartPlus
-                    disabled={!sessionStorage.getItem("isLoggin")}
-                    className="text-center w-4 h-4 flex justify-center items-center text-white cursor-pointer"
-                    onClick={() => {
-                      addtocart();
-                    }}
-                  />
+                <Button
+                  className=" bg-primary hover:bg-orange-400"
+                  size="sm"
+                  onClick={() => {
+                    addtocart();
+                  }}
+                >
+                  <FaCartPlus className="text-center w-4 h-4 flex justify-center items-center text-white cursor-pointer" />
                 </Button>
               </div>
             </div>
@@ -110,6 +122,7 @@ const ProductCard = ({ item }) => {
               className=" cursor-pointer"
               gradientDuoTone="primary"
               onClick={handleAddToCart}
+              disabled={!sessionStorage.getItem("isLoggin")}
             >
               Add to Cart
             </Button>

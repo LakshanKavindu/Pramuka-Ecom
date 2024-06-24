@@ -50,7 +50,7 @@ const AllProducts = ({ isSearching, searchresult }) => {
       </div>
       <div className="flex flex-wrap justify-center w-full">
         {products.slice(0, visible).map((item) => {
-          return <ProductCard key={item.id} item={item} />;
+          return <ProductCard key={item.id} id={item.id} item={item} />;
         })}
       </div>
       <div className="w-full flex justify-center mt-4">
