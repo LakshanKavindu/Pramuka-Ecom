@@ -65,7 +65,7 @@ const userLogin = async (req, res) => {
 };
 
 const updateContactNumber = async (req, res) => {
-  const { contactNo } = req.body;
+  const { contactNo, address } = req.body;
   const id = req.userId;
   try {
     const user = await getUserById(id);
@@ -73,7 +73,7 @@ const updateContactNumber = async (req, res) => {
       res.status(404).send({ message: "User not found" });
       return;
     }
-    await updateContactNo(id, contactNo);
+    await updateContactNo(id, contactNo, address);
 
     res.status(200).send({ message: "success" });
   } catch (e) {
@@ -92,6 +92,7 @@ const getUserProfile = async (req, res) => {
     res.status(200).send({
       name: user.username,
       phoneNo: user.phoneNo,
+      defaultAddress: user.defaultAddress,
     });
   } catch (e) {
     console.log(e, "error");

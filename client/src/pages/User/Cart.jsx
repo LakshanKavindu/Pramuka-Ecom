@@ -4,6 +4,8 @@ import CartItems from "../../components/User/CartItems.jsx";
 import Nav from "../../components/User/Navbar.jsx";
 import Footern from "../../components/User/Footer.jsx";
 import axios from "axios";
+import axiosClient from "../../utils/axiosClient.js";
+import { AlertBar } from "../../components/Common/AlertBar.jsx";
 
 const Cart = () => {
   const [images, setImages] = useState({
@@ -14,6 +16,12 @@ const Cart = () => {
 
   const [mycart, setMycart] = useState([]);
   const [carttotal, setCarttotal] = useState(0);
+  const [isOrdered, setIsOrdered] = useState(false);
+  // const [alert, setAlert] = useState({
+  //   isShow: false,
+  //   type: "",
+  //   message: "",
+  // });
 
   const getmycart = () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
@@ -32,7 +40,8 @@ const Cart = () => {
   useEffect(() => {
     setActiveImage(images.img1);
     getmycart();
-  }, []);
+    setIsOrdered(false);
+  }, [isOrdered]);
 
   const updatesubtotal = () => {
     let total = 0;
@@ -45,6 +54,22 @@ const Cart = () => {
   useEffect(() => {
     updatesubtotal();
   }, [mycart]);
+
+  const handlePlaceOrder = () => {
+    axiosClient
+      .post("/auth/order", {
+        orderProducts: mycart,
+      })
+      .then((res) => {
+        setIsOrdered(true);
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    console.log("handle order");
+  };
 
   return (
     <>
@@ -110,7 +135,10 @@ const Cart = () => {
               </td>
               <td className="py-4 items-center">
                 {mycart.length > 0 && (
-                  <button className="bg-primary m-auto text-white font-semibold py-3 px-10 rounded-xl h-full hidden lg:block">
+                  <button
+                    onClick={handlePlaceOrder}
+                    className="bg-primary m-auto text-white font-semibold py-3 px-10 rounded-xl h-full hidden lg:block"
+                  >
                     Place Order
                   </button>
                 )}

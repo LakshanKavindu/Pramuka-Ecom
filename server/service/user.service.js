@@ -29,13 +29,14 @@ const createUser = async (email, userName, imageUrl) => {
   });
 };
 
-const updateContactNo = async (id, contactNo) => {
+const updateContactNo = async (id, contactNo, address) => {
   return await prisma.user.update({
     where: {
       id: id,
     },
     data: {
       phoneNo: contactNo,
+      defaultAddress: address,
     },
   });
 };

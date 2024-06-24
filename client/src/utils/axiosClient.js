@@ -27,7 +27,7 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     if (error.response.status === 401) {
-      sessionStorage.removeItem("token");
+      sessionStorage.clear();
       window.location.replace("/");
     }
     return Promise.reject(error);
