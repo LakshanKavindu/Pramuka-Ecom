@@ -2,7 +2,7 @@
 import {
     all_products
     , get_product_names, get_products_by_Search,
-    get_products_by_filter
+    get_products_by_filter, get_product_by_id
 } from "../service/home.service.js";
 
 export const all_available_products = async (req, res) => {
@@ -86,4 +86,15 @@ export const get_all_product_names = async (req, res) => {
     }
 
 }
+
+export const getOneProduct = async (req, res) => {
+    const id = req.params.productid;
+    console.log("id", id)
+    try {
+        const product = await get_product_by_id(id);
+        res.status(200).send({ product });
+    } catch (e) {
+        res.status(400).send({ error: e });
+    }
+};
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import closeIcon from "../../../src/assets/icon-close-white.svg";
 import prevIcon from "../../../src/assets/icon-previous.svg";
 import nextIcon from "../../../src/assets/icon-next.svg";
@@ -6,15 +6,47 @@ import { data } from "../../constants/images";
 import Nav from "../../components/User/Navbar";
 import Footern from "../../components/User/Footer";
 import { LuShoppingCart } from "react-icons/lu";
+import { useParams } from "react-router-dom";
+import axiosClient from "../../utils/axiosClient";
 
 const ProductPreview = () => {
-  const [price, setPrice] = useState(125.0);
-  const [previousPrice, setPreviousPrice] = useState(250.0);
+  const { productid } = useParams();
+
+  const [discount, setDiscount] = useState(0);
+  const [cateogry, setCategory] = useState("");
+  const [productNmae, setProductName] = useState("");
+  const [brand, setBrand] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
+  const [previousPrice, setPreviousPrice] = useState(0);
   const [qty, setQty] = useState(0);
   const products = [...data];
   const [value, setValue] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [modal, setModal] = useState(true);
+
+  useEffect(() => {
+    axiosClient
+      .get(`/home/product/${productid}`)
+      .then((res) => {
+        console.log("product data", res.data.product);
+        setCategory(res.data.product.productCategory);
+        setProductName(res.data.product.productName);
+        setBrand(res.data.product.productBrand);
+        setDescription(res.data.product.productDescription);
+        setPrice(res.data.product.productPrice);
+        setPreviousPrice(res.data.product.productPrevPrice);
+
+        if (previousPrice > 0) {
+          setDiscount(
+            Math.round(((previousPrice - price) / previousPrice) * 100)
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const largeImage = products[value].largeImg;
 
@@ -146,36 +178,36 @@ const ProductPreview = () => {
         </div>
         <div className="description p-6 md:basis-1/2 md:py-[40px]">
           <p className="text-primary text-[14px] tracking-widest uppercase font-[700] mb-6">
-            Soy Sauce
+            {cateogry.toLowerCase()}
           </p>
-          <h1 className="text-3xl md:text-4xl capitalize font-[700]">
-            Edinborough Soy Sauce Squ. <br /> 385g
+          <h1 className="text-3xl md:text-4xl capitalize font-[700] mb-1">
+            {productNmae}
           </h1>
+          <h1 className="text-md text-gray-400 font-semibold ">{brand}</h1>
           <p className="hidden md:block text-darkGrayishBlue my-10 leading-7">
-            Con un'ammortizzazione incredibile per sostenerti in tutti i tuoi
-            chilometri, Invincible 3 offre un livello di comfort elevatissimo
-            sotto il piede per aiutarti a dare il massimo oggi.
-          </p>
-          <p className="md:hidden text-darkGrayishBlue my-6 leading-7">
-            Con un'ammortizzazione incredibile per sostenerti in tutti i tuoi
-            chilometri, Invincible 3 offre un livello di comfort elevatissimo
-            sotto il piede per aiutarti a dare il massimo oggi.
+            {description}
           </p>
 
           <div className="price flex items-center">
             <span className="text-3xl font-[700] mr-4">
               LKR{fixedPrice * (qty == 0 ? 1 : qty)}
             </span>
-            <span className="bg-paleOrange text-primary font-[700] py-1 px-2 rounded-lg">
-              50%
-            </span>
-            <p className="md:hidden line-through text-grayishblue font-[700] translate-x-[100px] mb-2">
+            {previousPrice > 0 && (
+              <span className="bg-paleOrange text-primary font-[700] py-1 px-2 rounded-lg">
+                {discount}% OFF
+              </span>
+            )}
+            {previousPrice > 0 && (
+              <p className="md:hidden line-through text-red-600 font-[700] translate-x-[100px] mb-2">
+                LKR{previousPrice * (qty == 0 ? 1 : qty)}
+              </p>
+            )}
+          </div>
+          {previousPrice > 0 && (
+            <p className="hidden md:block line-through text-red-600 font-[700] mt-2">
               LKR{previousPrice * (qty == 0 ? 1 : qty)}
             </p>
-          </div>
-          <p className="hidden md:block line-through text-grayishblue font-[700] mt-2">
-            LKR{previousPrice * (qty == 0 ? 1 : qty)}
-          </p>
+          )}
 
           <div className="buttons-container flex flex-col md:flex-row mt-8">
             <div className="state w-[100%] flex justify-around md:justify-center items-center space-x-10 bg-lightGrayishBlue rounded-lg p-3 md:p-2 md:mr-4 md:w-[150px]">

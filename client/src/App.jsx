@@ -44,7 +44,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/product" element={<ProductPage />} />
-              <Route path="/preview" element={<ProductPreview />} />
+              <Route path="/preview/:productid" element={<ProductPreview />} />
               <Route element={<PrivateRoute allowedRole={["USER", "ADMIN"]} />}>
                 <Route path="/user/profile" element={<Profile />} />
                 <Route path="/cart" element={<Cart />} />
