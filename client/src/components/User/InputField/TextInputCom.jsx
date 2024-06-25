@@ -23,14 +23,14 @@ const TextInputCom = ({
   };
 
   return (
-    <div className="max-w-md mt-3">
+    <div className="w-full mt-3">
       <div className="mb-2 block">
         <Label htmlFor={id} value={lable} />
       </div>
       <div className="relative">
         <TextInput
           id={id}
-          disabled={disabled?true:false}
+          disabled={disabled ? true : false}
           sizing={size ? size : "md"}
           type={type ? type : "text"}
           icon={icon ? icon : null}
@@ -40,6 +40,7 @@ const TextInputCom = ({
           onChange={(e) => handleValue(e.target.value)}
           helperText={helperText ? helperText : ""}
           required
+          className="w-full"
         />
       </div>
     </div>
