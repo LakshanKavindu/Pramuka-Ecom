@@ -5,6 +5,7 @@ import Nav from "../../components/User/Navbar.jsx";
 import Footern from "../../components/User/Footer.jsx";
 import axios from "axios";
 import PlaceOrder from "../../components/User/PlaceOrder.jsx";
+import CartCard from "../../components/User/CartCard.jsx";
 
 const Cart = () => {
   const [images, setImages] = useState({
@@ -83,16 +84,25 @@ const Cart = () => {
               </tr>
             )}
 
-            {mycart.map((item) => {
+         
+
+           {mycart.map((item) => {
               return (
-                <CartItems
-                  item={item}
-                  getmycart={getmycart}
-                  updatesubtotal={updatesubtotal}
+                // <CartItems
+                //   item={item}
+                //   getmycart={getmycart}
+                //   updatesubtotal={updatesubtotal}
+                // />
+                <CartCard
+                item={item}
+                getmycart={getmycart}
+                updatesubtotal={updatesubtotal}
+                
                 />
               );
             })}
 
+         
             <tr>
               <td className="w-3/5 py-4 ">
                 <div className="flex flex-row gap-2 text-primary pl-5 items-center text-xl ">
