@@ -107,10 +107,10 @@ export const get_all_orders = async (req, res) => {
 
 export const update_order_status = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { orderId } = req.params;
     const { status } = req.body;
 
-    const updatedOrder = await updateOrderStatus(id, status);
+    const updatedOrder = await updateOrderStatus(orderId, status);
     if (updatedOrder) {
       res.status(200).send({ message: 'Order status updated successfully', order: updatedOrder });
     } else {

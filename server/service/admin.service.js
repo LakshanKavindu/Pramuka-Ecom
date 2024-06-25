@@ -100,10 +100,10 @@ export const getAllOrders = async () => {
   });
 };
 
-export const updateOrderStatus = async (id, status) => {
+export const updateOrderStatus = async (orderId, status) => {
   try {
     const order = await prisma.order.update({
-      where: { id },
+      where: { orderId },
       data: { status },
     });
     return order;

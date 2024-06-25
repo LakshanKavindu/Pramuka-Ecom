@@ -115,13 +115,13 @@ const AdminOrders = () => {
           <div id="default-tab-content" className="flex-grow overflow-y-auto mb-10">
             {sortedOrders.map(order => (
               <OrderCard
-                key={order.id}
+                key={order.orderId}
                 order={order}
                 activeTab={activeTab}
                 onStatusUpdate={updateOrderStatus}
                 onPinToTop={pinOrderToTop}
-                isPinned={pinnedOrders.includes(order.id)}
-                disablePin={pinnedOrders.length >= 2 && !pinnedOrders.includes(order.id)}
+                isPinned={pinnedOrders.includes(order.orderId)}
+                disablePin={pinnedOrders.length >= 2 && !pinnedOrders.includes(order.orderId)}
               />
             ))}
           </div>
