@@ -7,8 +7,11 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import axiosClient from "../../utils/axiosClient";
 import RegistrationPopup from "./RegistrationPopup";
+import { useLogedContext } from "../../context/LogedContext";
 
 const Nav = ({ isActive }) => {
+  //context
+  const {isloggedin, setIsloggedin} = useLogedContext()
   const navigate = useNavigate();
   const [isLoggin, setIsLoggin] = useState(
     sessionStorage.getItem("isLoggin") === "true" ? true : false
@@ -38,6 +41,7 @@ const Nav = ({ isActive }) => {
           token: tokenResponse.access_token,
         })
         .then((res) => {
+          setIsloggedin(true)
           console.log(res.data, "login");
           if (!res.data.userExist) {
             setOpenRegistration(true);
@@ -71,6 +75,7 @@ const Nav = ({ isActive }) => {
     },
   });
   const handleLogout = () => {
+    setIsloggedin(false)
     setIsLoggin(false);
     setUserRole("");
     sessionStorage.clear();

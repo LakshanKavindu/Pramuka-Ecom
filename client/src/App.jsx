@@ -20,6 +20,7 @@ import ProductPreview from "./pages/User/ProductPreview";
 import AdminAddProduct from "./pages/Admin/AdminAddProduct";
 import AdminProductDetails from "./pages/Admin/AdminProductDetails";
 import AdminOrders from "./pages/Admin/AdminOrders";
+import { LogedProvider } from "./context/LogedContext";
 
 export const PrivateRoute = ({ allowedRole }) => {
   const isLoggedin = sessionStorage.getItem("isLoggin") === "true";
@@ -36,6 +37,7 @@ function App() {
   return (
     <>
       <Flowbite theme={{ theme: customTheme }}>
+        <LogedProvider>
         <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
           <BrowserRouter>
             <Suspense fallback={<div>Loading...</div>}></Suspense>
@@ -60,6 +62,7 @@ function App() {
             </Routes>
           </BrowserRouter>
         </GoogleOAuthProvider>
+        </LogedProvider>
       </Flowbite>
     </>
   );
