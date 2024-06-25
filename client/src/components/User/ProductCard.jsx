@@ -6,10 +6,19 @@ import { Link } from "react-router-dom";
 import { useLogedContext } from "../../context/LogedContext";
 
 const ProductCard = ({ item }) => {
+  const [cartItems, setCartItems] = useState([]);
   const [cartButton, setCartButton] = useState(false);
-
   const [amount, setAmount] = useState(1);
   const { isloggedin, setIsloggedin } = useLogedContext();
+  const { itemCount, setItemCount } = useLogedContext();
+
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    axiosClient.get(`/product/getcart/${user.email}`).then((res) => {
+      setCartItems(res.data);
+    });
+  }, []);
+
   const decreaseAmount = () => {
     if (amount > 1) {
       setAmount((prev) => prev - 1);
@@ -19,7 +28,6 @@ const ProductCard = ({ item }) => {
   const [product, setProduct] = useState(item);
   useEffect(() => {
     setProduct(item);
-    console.log("product", product);
   }, [item]);
 
   const increaseAmount = () => {
@@ -42,6 +50,12 @@ const ProductCard = ({ item }) => {
       .then((res) => {
         console.log(res);
         setCartButton(false);
+        for (let i = 0; i < cartItems.length; i++) {
+          if (cartItems[i].product.id === item.id) {
+            return;
+          }
+        }
+        setItemCount(itemCount + 1);
       })
       .catch((Error) => {
         console.log(Error);

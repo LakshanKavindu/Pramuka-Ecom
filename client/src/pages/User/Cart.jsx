@@ -6,6 +6,7 @@ import Footern from "../../components/User/Footer.jsx";
 import axios from "axios";
 import PlaceOrder from "../../components/User/PlaceOrder.jsx";
 import { FaCartArrowDown } from "react-icons/fa6";
+import { useLogedContext } from "../../context/LogedContext";
 
 const Cart = () => {
   const [images, setImages] = useState({
@@ -13,16 +14,11 @@ const Cart = () => {
   });
 
   const [activeImg, setActiveImage] = useState("");
-
+  const { itemCount, setItemCount } = useLogedContext();
   const [mycart, setMycart] = useState([]);
   const [carttotal, setCarttotal] = useState(0);
   const [isOrdered, setIsOrdered] = useState(false);
   const [openOrderModal, setOpenOrderModal] = useState(false);
-  // const [alert, setAlert] = useState({
-  //   isShow: false,
-  //   type: "",
-  //   message: "",
-  // });
 
   const getmycart = () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
@@ -30,7 +26,7 @@ const Cart = () => {
     axios
       .get(`http://localhost:8080/api/product/getcart/${user.email}`)
       .then((res) => {
-        console.log("my", res.data);
+        console.log("my cart", res.data);
         setMycart(res.data);
       })
       .catch((error) => {
@@ -54,6 +50,7 @@ const Cart = () => {
   };
   useEffect(() => {
     updatesubtotal();
+    setItemCount(mycart.length);
   }, [mycart]);
 
   return (
