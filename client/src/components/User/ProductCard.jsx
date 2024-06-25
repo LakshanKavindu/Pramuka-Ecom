@@ -9,7 +9,7 @@ const ProductCard = ({ item }) => {
   const [cartButton, setCartButton] = useState(false);
 
   const [amount, setAmount] = useState(1);
-  const {isloggedin, setIsloggedin} = useLogedContext()
+  const { isloggedin, setIsloggedin } = useLogedContext();
   const decreaseAmount = () => {
     if (amount > 1) {
       setAmount((prev) => prev - 1);
@@ -106,16 +106,6 @@ const ProductCard = ({ item }) => {
                 </Button>
               </div>
               <div>
-                <Button className=" bg-primary hover:bg-orange-400" size="sm"
-                 onClick={() => {
-                  addtocart();
-                }}
-                >
-                  <FaCartPlus
-                    // disabled={!sessionStorage.getItem("isLoggin")}
-                    className="text-center w-4 h-4 flex justify-center items-center text-white cursor-pointer"
-                   
-                  />
                 <Button
                   className=" bg-primary hover:bg-orange-400"
                   size="sm"
@@ -123,7 +113,10 @@ const ProductCard = ({ item }) => {
                     addtocart();
                   }}
                 >
-                  <FaCartPlus className="text-center w-4 h-4 flex justify-center items-center text-white cursor-pointer" />
+                  <FaCartPlus
+                    // disabled={!sessionStorage.getItem("isLoggin")}
+                    className="text-center w-4 h-4 flex justify-center items-center text-white cursor-pointer"
+                  />
                 </Button>
               </div>
             </div>
@@ -135,7 +128,6 @@ const ProductCard = ({ item }) => {
               gradientDuoTone="primary"
               onClick={handleAddToCart}
               disabled={!isloggedin}
-              disabled={!sessionStorage.getItem("isLoggin")}
             >
               Add to Cart
             </Button>
