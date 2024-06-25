@@ -86,7 +86,7 @@ const ProductCard = ({ item }) => {
           <p>
             LKR
             {item.productPrevPrice && item.productPrevPrice > 0 ? (
-              <span className="text-sm text-gray-600 font-semibold line-through mr-1">
+              <span className="text-sm text-red-600 font-semibold line-through mr-1">
                 {item.productPrevPrice}
               </span>
             ) : (

@@ -5,6 +5,7 @@ import Nav from "../../components/User/Navbar.jsx";
 import Footern from "../../components/User/Footer.jsx";
 import axios from "axios";
 import PlaceOrder from "../../components/User/PlaceOrder.jsx";
+import { FaCartArrowDown } from "react-icons/fa6";
 
 const Cart = () => {
   const [images, setImages] = useState({
@@ -66,10 +67,11 @@ const Cart = () => {
         </div>
         <div>
           {mycart.length === 0 && (
-            <div className="text-3xl flex flex-col items-center mt-[3rem] h-[128px]">
-              <h1 className=" text-gray-600 border-dashed border-[3px] border-gray-600 rounded-md p-8">
-                Nothing to Show
-              </h1>
+            <div className="text-3xl flex flex-col items-center mt-[4rem] h-[128px]">
+              <h1 className=" text-gray-400 mb-[1rem]  ">Nothing to Show</h1>
+              <div>
+                <FaCartArrowDown className=" text-[4rem] text-gray-400" />
+              </div>
             </div>
           )}
           <table className="w-full">
