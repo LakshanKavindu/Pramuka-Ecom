@@ -9,15 +9,15 @@ export default function ViewOrderPopup(props) {
 
   const {
     orderId,
-    username,
-    product,
-    quantity,
-    status,
+    orderProducts,
+    orderStatus,
     shippingMethod,
-    createdAt,
+    deliverAddress,
+    orderDate,
+    totalPrice,
     activeTab,
   } = props;
-  
+
   return (
     <div>
       <button
@@ -79,42 +79,18 @@ export default function ViewOrderPopup(props) {
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                      User:
+                      Order Date:
                     </h4>
                     <p className="text-gray-600 dark:text-gray-400">
-                      {username}
+                      {new Date(orderDate).toLocaleString()}
                     </p>
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                      Product:
+                      Total Price:
                     </h4>
                     <p className="text-gray-600 dark:text-gray-400">
-                      {product.productName}
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                      Quantity:
-                    </h4>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      {quantity}
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                      Status:
-                    </h4>
-                    <p
-                      className={`text-gray-600 dark:text-gray-400 ${
-                        status === "PENDING"
-                          ? "text-yellow-500"
-                          : status === "SHIPPED"
-                          ? "text-green-500"
-                          : "text-red-500"
-                      }`}
-                    >
-                      {status === "SHIPPED" ? "Completed" : status}
+                      Rs. {totalPrice}
                     </p>
                   </div>
                   <div>
@@ -127,12 +103,83 @@ export default function ViewOrderPopup(props) {
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                      Created At:
+                      Delivery Address:
                     </h4>
                     <p className="text-gray-600 dark:text-gray-400">
-                      {new Date(createdAt).toLocaleString()}
+                      {deliverAddress || "N/A"}
                     </p>
                   </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                      Status:
+                    </h4>
+                    <p
+                      className={`text-gray-600 dark:text-gray-400 ${
+                        orderStatus === "PENDING"
+                          ? "text-yellow-500"
+                          : orderStatus === "SHIPPED"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {orderStatus}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="accordion">
+                  {orderProducts.map((orderProduct, index) => (
+                    <div key={index} className="accordion-item">
+                      <div className="accordion-header" id={`heading${index}`}>
+                        <button
+                          className="accordion-button"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target={`#collapse${index}`}
+                          aria-expanded="true"
+                          aria-controls={`collapse${index}`}
+                        >
+                          Product {index + 1}
+                        </button>
+                      </div>
+
+                      <div
+                        id={`collapse${index}`}
+                        className="accordion-collapse collapse show"
+                        aria-labelledby={`heading${index}`}
+                        data-bs-parent="#accordionExample"
+                      >
+                        <div className="accordion-body">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                                Product Name:
+                              </h4>
+                              <p className="text-gray-600 dark:text-gray-400">
+                                {orderProduct.product.product.productName}
+                              </p>
+                            </div>
+                            <div>
+                              <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                                Quantity:
+                              </h4>
+                              <p className="text-gray-600 dark:text-gray-400">
+                                {orderProduct.product.quantity}
+                              </p>
+                            </div>
+                            <div>
+                              <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                                Price:
+                              </h4>
+                              <p className="text-gray-600 dark:text-gray-400">
+                                Rs. {orderProduct.product.product.productPrice}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -148,41 +195,13 @@ export default function ViewOrderPopup(props) {
                     Mark As Delivered
                   </button>
                 )}
-                {activeTab === "completed" && (
-                  <button
-                    disabled={activeTab === "completed"}
-                    type="button"
-                    className="flex items-center justify-center gap-1 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                  >
-                    Completed
-                    <svg
-                      class="w-6 h-6 text-white dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                      />
-                    </svg>
-                  </button>
-                )}
-                {activeTab === "pending" && (
-                  <button
-                    onClick={toggleModal}
-                    type="button"
-                    className="py-2.5 px-5 ml-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                  >
-                    Decline
-                  </button>
-                )}
+                <button
+                  onClick={toggleModal}
+                  type="button"
+                  className="py-2.5 px-5 ml-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                >
+                  Close
+                </button>
               </div>
             </div>
           </div>

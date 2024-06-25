@@ -1,4 +1,4 @@
-import { createOrder, getUserOrders } from "../service/order.service.js";
+import { createOrder, getUserOrders, getAllOrders } from "../service/order.service.js";
 import { removeUserCart } from "../service/product.service.js";
 import { updateBillingAddress } from "../service/user.service.js";
 
@@ -52,4 +52,23 @@ const userOrder = async (req, res) => {
     });
 };
 
-export { addOrder, userOrder };
+const adminOrder = async (req, res) => {
+  await getAllOrders()
+    .then((response) => {
+      response.map((order) => {
+        let totalPrice = 0;
+        order.orderProducts.map((product) => {
+          product.product.product.productPrice =
+            product.product.product.productPrice * product.product.quantity;
+          totalPrice += product.product.product.productPrice;
+        });
+        order.totalPrice = totalPrice;
+      });
+      res.status(200).json(response);
+    })
+    .catch(() => {
+      res.status(500).json({ message: "Internal server error" });
+    });
+};
+
+export { addOrder, userOrder, adminOrder };
