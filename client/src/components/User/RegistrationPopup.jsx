@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { Modal, Button } from "flowbite-react";
 import TextInputCom from "./InputField/TextInputCom";
 import { FaWhatsapp } from "react-icons/fa";
+import { IoHomeOutline } from "react-icons/io5";
 import axiosClient from "../../utils/axiosClient";
 
 const RegistrationPopup = ({ openModal, setOpenModal }) => {
   const regex = /^(?:0\d{9}|\+94\d{9})$/;
   const [contactNo, setContactNo] = useState("");
+  const [address, setAddress] = useState();
   const [err, setErr] = useState(false);
   useEffect(() => {
     if (!regex.test(contactNo) && contactNo.length > 0) {
@@ -21,6 +23,7 @@ const RegistrationPopup = ({ openModal, setOpenModal }) => {
       axiosClient
         .post("/auth/user/updateContactNumber", {
           contactNo: contactNo,
+          address: address,
         })
         .then(() => {
           sessionStorage.removeItem("isUpdateContact");
@@ -40,7 +43,7 @@ const RegistrationPopup = ({ openModal, setOpenModal }) => {
             Enter your details to continue
           </h5>
           <div className="flex justify-center gap-4">
-            <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
+            <form className="w-lvw px-8" onSubmit={handleSubmit}>
               <TextInputCom
                 value={contactNo}
                 setValue={setContactNo}
@@ -53,6 +56,19 @@ const RegistrationPopup = ({ openModal, setOpenModal }) => {
                 placeholder={"0712345678 or +94712345678"}
                 inputErr={err}
                 helperText={err ? "Invalid contact number" : ""}
+              />
+              <TextInputCom
+                value={address}
+                setValue={setAddress}
+                id={"address"}
+                lable={"Address"}
+                icon={IoHomeOutline}
+                type={"text"}
+                inputType={""}
+                size={"md"}
+                placeholder={"Enter your address"}
+                inputErr={false}
+                helperText={""}
               />
               <Button
                 fullSized

@@ -5,6 +5,7 @@ import requireUserAuth from "./middleware/user.middleware.js";
 import HomeRouter from "./router/home.router.js";
 import AdminRouter from "./router/admin.router.js";
 import ProductRouter from "./router/product.router.js";
+import orderRouter from "./router/order.router.js";
 
 const app = express();
 const PORT = 8080;
@@ -18,6 +19,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use("/api/auth/*", requireUserAuth);
 app.use("/api", userRouter);
+app.use("/api/auth/order", orderRouter);
 app.use("/api/home", HomeRouter);
 app.use("/api/admin", AdminRouter);
 app.use("/api/product", ProductRouter);

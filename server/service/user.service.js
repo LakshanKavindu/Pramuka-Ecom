@@ -29,15 +29,33 @@ const createUser = async (email, userName, imageUrl) => {
   });
 };
 
-const updateContactNo = async (id, contactNo) => {
+const updateContactNo = async (id, contactNo, address) => {
   return await prisma.user.update({
     where: {
       id: id,
     },
     data: {
       phoneNo: contactNo,
+      defaultAddress: address,
     },
   });
 };
 
-export { getUserByEmail, getUserById, createUser, updateContactNo };
+const updateBillingAddress = async (id, address) => {
+  return await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      billingAddress: address,
+    },
+  });
+};
+
+export {
+  getUserByEmail,
+  getUserById,
+  createUser,
+  updateContactNo,
+  updateBillingAddress,
+};
