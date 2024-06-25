@@ -31,6 +31,7 @@ const ProductCard = ({ item }) => {
       })
       .then((res) => {
         console.log(res);
+        setCartButton(false);
       })
       .catch((Error) => {
         console.log(Error);
@@ -48,9 +49,18 @@ const ProductCard = ({ item }) => {
           src={item.productImage}
           alt="product image"
         />
-        <span className="absolute top-0 left-0 m-2 rounded-full bg-primary px-2 text-center text-sm font-medium text-white">
-          39% OFF
-        </span>
+        {item.productPrevPrice && item.productPrevPrice > 0 ? (
+          <span className="absolute top-0 left-0 m-2 rounded-full bg-primary px-2 text-center text-sm font-medium text-white">
+            {Math.ceil(
+              ((item.productPrevPrice - item.productPrice) /
+                item.productPrevPrice) *
+                100
+            )}
+            % OFF
+          </span>
+        ) : (
+          ""
+        )}
       </a>
       <div className="mt-4 px-5 pb-5">
         <a href="#">
@@ -60,9 +70,14 @@ const ProductCard = ({ item }) => {
         </a>
         <div className="mt-2 mb-5 flex items-center justify-between">
           <p>
-            <span className="text-sm text-gray-600 font-semibold line-through mr-1">
-              $699
-            </span>
+            LKR
+            {item.productPrevPrice && item.productPrevPrice > 0 ? (
+              <span className="text-sm text-gray-600 font-semibold line-through mr-1">
+                {item.productPrevPrice}
+              </span>
+            ) : (
+              ""
+            )}
             <span className="text-3xl font-bold text-slate-900">
               {item.productPrice}
             </span>
@@ -70,7 +85,7 @@ const ProductCard = ({ item }) => {
         </div>
 
         <div>
-          {cartButton === true ? (
+          {cartButton ? (
             <div className="flex items-center justify-evenly w-[278px]">
               <div className="flex flex-row items-center w-fit">
                 <Button

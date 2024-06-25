@@ -39,7 +39,7 @@ const userLogin = async (req, res) => {
         return;
       }
       const token = createToken(user.id, user.role);
-      if (!user.phoneNo) {
+      if (!user.phoneNo || !user.defaultAddress) {
         res.status(200).send({
           message: "success",
           userExist: false,

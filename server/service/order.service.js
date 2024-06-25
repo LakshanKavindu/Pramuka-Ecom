@@ -19,6 +19,7 @@ const groupByOrderId = async (products) => {
             ? product.user.defaultAddress
             : product.user.billingAddress,
         orderDate: product.createdAt,
+        totalPrice: 0,
         orderProducts: [],
       };
     }

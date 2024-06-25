@@ -4,8 +4,7 @@ import CartItems from "../../components/User/CartItems.jsx";
 import Nav from "../../components/User/Navbar.jsx";
 import Footern from "../../components/User/Footer.jsx";
 import axios from "axios";
-import axiosClient from "../../utils/axiosClient.js";
-import { AlertBar } from "../../components/Common/AlertBar.jsx";
+import PlaceOrder from "../../components/User/PlaceOrder.jsx";
 
 const Cart = () => {
   const [images, setImages] = useState({
@@ -17,6 +16,7 @@ const Cart = () => {
   const [mycart, setMycart] = useState([]);
   const [carttotal, setCarttotal] = useState(0);
   const [isOrdered, setIsOrdered] = useState(false);
+  const [openOrderModal, setOpenOrderModal] = useState(false);
   // const [alert, setAlert] = useState({
   //   isShow: false,
   //   type: "",
@@ -54,22 +54,6 @@ const Cart = () => {
   useEffect(() => {
     updatesubtotal();
   }, [mycart]);
-
-  const handlePlaceOrder = () => {
-    axiosClient
-      .post("/auth/order", {
-        orderProducts: mycart,
-      })
-      .then((res) => {
-        setIsOrdered(true);
-        console.log(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-
-    console.log("handle order");
-  };
 
   return (
     <>
@@ -136,7 +120,7 @@ const Cart = () => {
               <td className="py-4 items-center">
                 {mycart.length > 0 && (
                   <button
-                    onClick={handlePlaceOrder}
+                    onClick={() => setOpenOrderModal(true)}
                     className="bg-primary m-auto text-white font-semibold py-3 px-10 rounded-xl h-full hidden lg:block"
                   >
                     Place Order
@@ -148,6 +132,12 @@ const Cart = () => {
           {/* comment */}
         </div>
       </div>
+      <PlaceOrder
+        openModal={openOrderModal}
+        setOpenModal={setOpenOrderModal}
+        mycart={mycart}
+        setIsOrdered={setIsOrdered}
+      />
       <Footern />
     </>
   );

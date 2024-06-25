@@ -41,4 +41,21 @@ const updateContactNo = async (id, contactNo, address) => {
   });
 };
 
-export { getUserByEmail, getUserById, createUser, updateContactNo };
+const updateBillingAddress = async (id, address) => {
+  return await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      billingAddress: address,
+    },
+  });
+};
+
+export {
+  getUserByEmail,
+  getUserById,
+  createUser,
+  updateContactNo,
+  updateBillingAddress,
+};

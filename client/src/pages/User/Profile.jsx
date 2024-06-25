@@ -5,6 +5,7 @@ import { FaRegUser } from "react-icons/fa";
 import { Button, Card, Label, TextInput, Accordion } from "flowbite-react";
 import { Modal } from "flowbite-react";
 import { IoMdCloudDone } from "react-icons/io";
+import { BiPurchaseTagAlt } from "react-icons/bi";
 import axiosClient from "../../utils/axiosClient";
 import Order from "../../components/User/Order";
 
@@ -73,7 +74,7 @@ const Profile = () => {
     <div>
       <Nav isActive={"profile"} />
 
-      <div className="px-2 sm:px-8 py-10 mt-10 flex flex-col md:flex-row gap-10">
+      <div className="px-2 sm:px-8 py-10 mt-10 flex flex-col md:flex-row gap-10 justify-center items-center md:items-start">
         <Card className="max-w-xl w-full h-[52vh] flex flex-col">
           <div className="mt-8 flex items-center mb-8">
             <FaRegUser className="text-2xl text-black2 mr-2" />
@@ -160,12 +161,12 @@ const Profile = () => {
         </Card>
         <Card className="max-w-3xl  w-full flex flex-col">
           <div className="mt-8 flex items-center mb-8">
-            <FaRegUser className="text-2xl text-black2 mr-2" />
+            <BiPurchaseTagAlt className="text-2xl text-black2 mr-2" />
             <h2 className=" text-2xl font-semibold">Your Orders</h2>
           </div>
-          <Accordion className="md:h-[60vh]  overflow-y-auto">
-            {myOrders &&
-              myOrders.map((order) => (
+          {myOrders && myOrders.length > 0 ? (
+            <Accordion className="sm:h-[60vh]  overflow-y-auto">
+              {myOrders.map((order) => (
                 <Accordion.Panel key={order.orderId}>
                   <Accordion.Title>
                     <div className="flex flex-col md:flex-row justify-center items-start md:items-center text-sm">
@@ -186,15 +187,37 @@ const Profile = () => {
                   </Accordion.Title>
                   <Accordion.Content>
                     <div className="flex flex-col">
-                      <div className="flex flex-row">
-                        <div className="flex flex-row ">
-                          Deliver Address :{" "}
-                          <span className="font-bold">
-                            {order.deliverAddress}
+                      <div className="flex flex-row justify-between">
+                        <div className="flex flex-col sm:flex-row md:flex-col">
+                          Deliver Address :
+                          <span className="font-bold flex flex-col">
+                            {order.deliverAddress
+                              .split(",")
+                              .map((line, idx) => (
+                                <p key={idx}>
+                                  {line}
+                                  {idx !==
+                                  order.deliverAddress.split(",").length - 1
+                                    ? ","
+                                    : ""}
+                                </p>
+                              ))}
+                          </span>
+                        </div>
+                        <div className="flex flex-col md:flex-row ">
+                          Order Date :
+                          <span className="font-semibold">
+                            {order.orderDate.split("T")[0]}
                           </span>
                         </div>
                       </div>
-                      <hr className="h-px my-8 bg-gray-400 border-0 dark:bg-gray-700"></hr>
+                      <div className="flex justify-end">
+                        <p className="font-semibold my-2">
+                          Total Price : LKR{" "}
+                          <span className="text-xl">{order.totalPrice}</span>
+                        </p>
+                      </div>
+                      <hr className="h-px my-5 bg-gray-400 border-0 dark:bg-gray-700"></hr>
                       <div className="flex flex-row gap-3 font-semibold">
                         <p className="w-1/6"></p>
                         <p className="w-1/2 pl-6">name</p>
@@ -215,7 +238,14 @@ const Profile = () => {
                   </Accordion.Content>
                 </Accordion.Panel>
               ))}
-          </Accordion>
+            </Accordion>
+          ) : (
+            <div>
+              <h3 className="text-center text-lg font-normal text-gray-500 dark:text-gray-400">
+                No Orders Found
+              </h3>
+            </div>
+          )}
         </Card>
       </div>
       <Footern />
