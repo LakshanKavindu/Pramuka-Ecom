@@ -13,18 +13,28 @@ const ProductCard = ({ item }) => {
   const { itemCount, setItemCount } = useLogedContext();
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    axiosClient.get(`/product/getcart/${user.email}`).then((res) => {
-      setCartItems(res.data);
-    });
+    if (sessionStorage.getItem("isLoggin") === "true") {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      axiosClient.get(`/product/getcart/${user.email}`).then((res) => {
+        setCartItems(res.data);
+      });
+    }
   }, []);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("isLoggin") === "true") {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      axiosClient.get(`/product/getcart/${user.email}`).then((res) => {
+        setCartItems(res.data);
+      });
+    }
+  }, [itemCount]);
 
   const decreaseAmount = () => {
     if (amount > 1) {
       setAmount((prev) => prev - 1);
     }
   };
-
   const [product, setProduct] = useState(item);
   useEffect(() => {
     setProduct(item);
@@ -50,6 +60,7 @@ const ProductCard = ({ item }) => {
       .then((res) => {
         console.log(res);
         setCartButton(false);
+
         for (let i = 0; i < cartItems.length; i++) {
           if (cartItems[i].product.id === item.id) {
             return;
