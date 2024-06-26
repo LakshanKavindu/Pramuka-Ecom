@@ -11,20 +11,23 @@ const ProductCard = ({ item }) => {
   const [amount, setAmount] = useState(1);
   const { isloggedin, setIsloggedin } = useLogedContext();
   const { itemCount, setItemCount } = useLogedContext();
-  const [tempCart, setTempCart] = useState([]);
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    axiosClient.get(`/product/getcart/${user.email}`).then((res) => {
-      setCartItems(res.data);
-    });
+    if (sessionStorage.getItem("isLoggin") === "true") {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      axiosClient.get(`/product/getcart/${user.email}`).then((res) => {
+        setCartItems(res.data);
+      });
+    }
   }, []);
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    axiosClient.get(`/product/getcart/${user.email}`).then((res) => {
-      setCartItems(res.data);
-    });
+    if (sessionStorage.getItem("isLoggin") === "true") {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      axiosClient.get(`/product/getcart/${user.email}`).then((res) => {
+        setCartItems(res.data);
+      });
+    }
   }, [itemCount]);
 
   const decreaseAmount = () => {
@@ -32,7 +35,6 @@ const ProductCard = ({ item }) => {
       setAmount((prev) => prev - 1);
     }
   };
-
   const [product, setProduct] = useState(item);
   useEffect(() => {
     setProduct(item);

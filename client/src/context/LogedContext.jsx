@@ -11,16 +11,18 @@ export const LogedProvider = ({ children }) => {
     sessionStorage.getItem("isLoggin")
   );
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    axiosClient
-      .get(`/product/getcart/${user.email}`)
-      .then((res) => {
-        console.log("context got", res.data);
-        setItemCount(res.data.length);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (sessionStorage.getItem("isLoggin") === "true") {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      axiosClient
+        .get(`/product/getcart/${user.email}`)
+        .then((res) => {
+          console.log("context got", res.data);
+          setItemCount(res.data.length);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, []);
 
   // the value passed in here will be accessible anywhere in our application
