@@ -29,7 +29,7 @@ export default function OrderCard({ order, activeTab, onStatusUpdate, onPinToTop
 
     const handleMarkAsDelivered = async () => {
         try {
-            const response = await axios.put(`http://localhost:8080/api/admin/updateorder/${order.id}`, { status: 'SHIPPED' });
+            const response = await axios.put(`http://localhost:8080/api/admin/updateorder/${order.orderId}`, { status: 'SHIPPED' });
             if (response.status === 200) {
                 onStatusUpdate(order.id, 'SHIPPED');
             }
@@ -116,7 +116,7 @@ export default function OrderCard({ order, activeTab, onStatusUpdate, onPinToTop
             </div>
             <div className="absolute bottom-4 right-4 flex">
                 <ViewOrderPopup 
-                    orderId={order.id}
+                    orderId={order.orderId}
                     username={user.username}
                     product={product}
                     quantity={quantity}
