@@ -11,7 +11,8 @@ import { useLogedContext } from "../../context/LogedContext";
 
 const Nav = ({ isActive }) => {
   //context
-  const {isloggedin, setIsloggedin} = useLogedContext()
+  const { isloggedin, setIsloggedin } = useLogedContext();
+  const { itemCount, setItemCount } = useLogedContext();
   const navigate = useNavigate();
   const [isLoggin, setIsLoggin] = useState(
     sessionStorage.getItem("isLoggin") === "true" ? true : false
@@ -41,7 +42,7 @@ const Nav = ({ isActive }) => {
           token: tokenResponse.access_token,
         })
         .then((res) => {
-          setIsloggedin(true)
+          setIsloggedin(true);
           console.log(res.data, "login");
           if (!res.data.userExist) {
             setOpenRegistration(true);
@@ -75,7 +76,7 @@ const Nav = ({ isActive }) => {
     },
   });
   const handleLogout = () => {
-    setIsloggedin(false)
+    setIsloggedin(false);
     setIsLoggin(false);
     setUserRole("");
     sessionStorage.clear();
@@ -105,7 +106,7 @@ const Nav = ({ isActive }) => {
               <div className="relative mr-2">
                 <div className="absolute left-4 bottom-4">
                   <p className="flex h-1 w-1 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">
-                    3
+                    {itemCount}
                   </p>
                 </div>
                 <Link to="/cart">
