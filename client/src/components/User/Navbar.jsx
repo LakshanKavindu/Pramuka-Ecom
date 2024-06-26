@@ -13,6 +13,20 @@ const Nav = ({ isActive }) => {
   //context
   const { isloggedin, setIsloggedin } = useLogedContext();
   const { itemCount, setItemCount } = useLogedContext();
+
+  const getCartItemsCount = () => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    axiosClient
+      .get(`/product/getcart/${user.email}`)
+      .then((res) => {
+        console.log("context got", res.data);
+        setItemCount(res.data.length);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const navigate = useNavigate();
   const [isLoggin, setIsLoggin] = useState(
     sessionStorage.getItem("isLoggin") === "true" ? true : false
@@ -66,6 +80,7 @@ const Nav = ({ isActive }) => {
             userName: res.data.user.username,
             imageUrl: res.data.user.image,
           });
+          getCartItemsCount();
         })
         .catch((e) => {
           console.error("Failed to fetch user profile: ", e.message);
