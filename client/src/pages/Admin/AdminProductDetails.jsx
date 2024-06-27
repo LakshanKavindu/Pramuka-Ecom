@@ -30,7 +30,7 @@ const AdminProductDetails = () => {
 
   useEffect(() => {
     axiosClient
-      .get("/admin/allproducts")
+      .get("auth/admin/allproducts")
       .then((res) => {
         console.log(res.data.products);
         setProducts(res.data.products);
@@ -44,7 +44,7 @@ const AdminProductDetails = () => {
     console.log("delete");
 
     axiosClient
-      .delete(`/admin/deleteproduct/${id}`)
+      .delete(`auth/admin/deleteproduct/${id}`)
       .then((res) => {
         console.log(res.data);
         const newProducts = products.filter((product) => product.id !== id);
@@ -107,7 +107,7 @@ const AdminProductDetails = () => {
     }
 
     axiosClient
-      .post(`/admin/updateproduct/${pId}`, {
+      .post(`auth/admin/updateproduct/${pId}`, {
         productId: pId,
         productName: productName,
         productDescription: productDescription,
