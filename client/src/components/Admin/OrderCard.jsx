@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import ViewOrderPopup from "./ViewOrderPopup";
 import axiosClient from "../../utils/axiosClient";
 
@@ -16,7 +17,6 @@ export default function OrderCard({
   const toggleDropdown = () => {
     setIsDropdownOpen((prevState) => !prevState);
   };
-
   const closeDropdown = () => {
     setIsDropdownOpen(false);
   };
@@ -34,117 +34,134 @@ export default function OrderCard({
     };
   }, []);
 
-  const handleMarkAsDelivered = async () => {
+  const handleMarkAsDelivered = async (orderId) => {
     try {
-      const response = await axiosClient.put(
-        `/auth/admin/updateorder/${order.orderId}`,
-        { status: "SHIPPED" }
+      const response = await axiosClient.post(
+        `auth/order/orderStatus/${orderId}`,
+        {
+          status: "SHIPPED",
+        }
       );
-      if (response.status === 200) {
-        onStatusUpdate(order.id, "SHIPPED");
-      }
+      onStatusUpdate(orderId, "SHIPPED");
+      closeDropdown();
     } catch (error) {
-      console.error("Error updating order status:", error);
+      console.error("Error marking as delivered:", error);
     }
   };
 
-  const handlePinToTop = () => {
-    onPinToTop(order.id);
-    closeDropdown();
+  const handleMarkAsCanceled = async (orderId) => {
+    try {
+      const response = await axiosClient.post(
+        `auth/order/orderStatus/${orderId}`,
+        {
+          status: "CANCELLED",
+        }
+      );
+      onStatusUpdate(orderId, "CANCELLED");
+      closeDropdown();
+    } catch (error) {
+      console.error("Error marking as canceled:", error);
+    }
   };
 
-  const { user, product, quantity, status, shippingMethod, createdAt } = order;
+  const handlePinToTop = async (orderId) => {
+    try {
+      const response = await axios.post(`auth/order/pinOrder/${orderId}`);
+      onPinToTop(orderId);
+      closeDropdown();
+    } catch (error) {
+      console.error("Error pinning order:", error);
+    }
+  };
+
+  const orderDate = new Date(order.orderDate).toLocaleString();
+  const products = order.orderProducts
+    .map((orderProduct) => orderProduct.product.product.productName)
+    .join(", ");
 
   return (
-    <div className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative mb-5">
-      {isPinned && (
-        <div className="absolute top-0 left-4 text-blue-500">📌</div>
-      )}
-      <div className="absolute top-0 right-4">
-        <div className="relative" ref={dropdownRef}>
+    <div
+      className={`relative ${
+        isPinned ? "bg-yellow-100 border-yellow-500 border-2" : ""
+      }`}
+    >
+      <div className="p-4 shadow-md rounded-lg bg-white dark:bg-gray-800">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+            Order ID: {order.orderId}
+          </h2>
           <button
-            id="dropdownButton"
-            className="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
+            ref={dropdownRef}
             onClick={toggleDropdown}
-            type="button"
+            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
           >
-            <span className="sr-only">Open dropdown</span>
             <svg
-              className="w-5 h-5"
-              aria-hidden="true"
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 16 3"
             >
-              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 6h.01M12 12h.01M12 18h.01"
+              />
             </svg>
           </button>
+        </div>
+        <div className="flex flex-wrap justify-between items-center mb-2 max-w-100 overflow-hidden">
+          <p className="text-gray-600 dark:text-gray-400 mr-4">
+            Customer: {order.orderProducts[0].product.user.username}
+          </p>
+          <p className="text-gray-600 dark:text-gray-400 mr-4">
+            Order Date: {orderDate}
+          </p>
+          <p className="text-gray-600 dark:text-gray-400 mr-4">
+            Total Price: Rs. {order.totalPrice}
+          </p>
+          <ViewOrderPopup
+            orderId={order.orderId}
+            customerName={order.orderProducts[0].product.user.username}
+            orderProducts={order.orderProducts}
+            orderStatus={order.orderStatus}
+            shippingMethod={order.shippingMethod}
+            deliverAddress={order.deliverAddress}
+            orderDate={order.orderDate}
+            totalPrice={order.totalPrice}
+            activeTab={activeTab}
+            onMarkAsDelivered={handleMarkAsDelivered}
+          />
           {isDropdownOpen && (
-            <div
-              id="dropdown"
-              className="absolute top-full right-0 z-10 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-            >
-              <ul className="py-2" aria-labelledby="dropdownButton">
-                <li className="text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+            <div className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg w-48 z-10">
+              {activeTab === "pending" && (
+                <>
                   <button
-                    onClick={handlePinToTop}
-                    disabled={disablePin}
-                    className={`block px-4 py-2 text-sm ${
-                      disablePin
-                        ? "text-gray-300 cursor-not-allowed"
-                        : "text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                    }`}
+                    onClick={() => handleMarkAsDelivered(order.orderId)}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
-                    {isPinned ? "Unpin" : "Pin to Top"}
+                    Mark as Delivered
                   </button>
-                </li>
-              </ul>
+                  <button
+                    onClick={() => handleMarkAsCanceled(order.orderId)}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Mark as Cancelled
+                  </button>
+                  {!disablePin && (
+                    <button
+                      onClick={() => handlePinToTop(order.orderId)}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      {isPinned ? "Unpin" : "Pin to Top"}
+                    </button>
+                  )}
+                </>
+              )}
             </div>
           )}
         </div>
-      </div>
-      <div className="flex items-center px-8 py-4">
-        <img
-          className="w-14 h-14 rounded-full shadow-lg mr-20"
-          src={user.image}
-          alt={user.username}
-        />
-        <div>
-          <h5 className="text-xl font-medium text-gray-900 dark:text-white">
-            {user.username}
-          </h5>
-          <span className="text-sm text-gray-700 dark:text-gray-400">
-            Rs. {product.productPrice}
-          </span>
-        </div>
-        <div className="items-center ml-20">
-          <h5 className="text-l font-medium text-gray-900 dark:text-white">
-            {shippingMethod}
-          </h5>
-          <span className="text-sm text-gray-500 dark:text-gray-400">
-            {new Date(createdAt).toLocaleDateString()}
-          </span>
-        </div>
-      </div>
-      <div className="absolute bottom-4 right-4 flex">
-        <ViewOrderPopup
-          orderId={order.orderId}
-          username={user.username}
-          product={product}
-          quantity={quantity}
-          status={status}
-          shippingMethod={shippingMethod}
-          createdAt={createdAt}
-          activeTab={activeTab}
-        />
-        {activeTab === "pending" && (
-          <button
-            onClick={handleMarkAsDelivered}
-            className="inline-flex items-center px-4 py-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-          >
-            Mark As Delivered
-          </button>
-        )}
       </div>
     </div>
   );

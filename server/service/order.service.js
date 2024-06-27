@@ -73,6 +73,7 @@ const getAllOrders = async () => {
       },
       user: {
         select: {
+          username: true,
           billingAddress: true,
           defaultAddress: true,
         },

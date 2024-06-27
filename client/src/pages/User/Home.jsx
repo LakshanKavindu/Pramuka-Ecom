@@ -226,18 +226,21 @@ const Home = () => {
           </div>
           <div className="w-[500px] text_container">
             <h5 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white card_container_title">
-              Work fast from anywhere
+              Discover a new way to shop
             </h5>
-            <p className="mb-5 w-300 text-base text-primary dark:text-gray-400 sm:text-lg">
-              <p>Stay up to date and move work forward with Flowbite</p>
+            <p className="mb-5 w-300 text-base text-primary font-bold dark:text-gray-400 sm:text-lg">
+              <p> fast, convenient, and from anywhere.</p>
             </p>
-            <p className=" text-justify para">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Necessitatibus voluptatum ut dolor aperiam inventore ullam
-              suscipit ea officia nam ducimus id beatae, rem sunt. Quibusdam
-              aliquid laborum corrupti ipsam nisi? Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Maiores maxime reprehenderit illo
-              sed aspernatur repellat placeat quia cumque delectus. Dolores.
+            <p className=" text-justify para text-gray-600 font-medium">
+              At PStore, we bring you the best selection of products, curated
+              for quality and value. Whether you’re at home or on the go, you
+              can easily browse our store, find the latest deals, and make
+              purchases with just a few clicks. Our user-friendly interface and
+              seamless shopping experience ensure that you spend less time
+              navigating and more time enjoying your finds. Stay connected and
+              keep up with our latest collections, special offers, and seasonal
+              trends. We are committed to making your shopping experience as
+              efficient and enjoyable as possible.
             </p>
           </div>
         </div>

@@ -15,8 +15,8 @@ const AdminOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axiosClient.get("/auth/admin/orders");
-        setOrders(response.data.orders);
+        const response = await axiosClient.get("auth/admin/adminorders");
+        setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
@@ -28,8 +28,8 @@ const AdminOrders = () => {
   const updateOrderStatus = (orderId, newStatus) => {
     setOrders((prevOrders) => {
       const updatedOrders = prevOrders.map((order) => {
-        if (order.id === orderId) {
-          return { ...order, status: newStatus };
+        if (order.orderId === orderId) {
+          return { ...order, orderStatus: newStatus };
         }
         return order;
       });
@@ -56,18 +56,18 @@ const AdminOrders = () => {
 
   const filteredOrders = orders.filter((order) => {
     if (activeTab === "pending") {
-      return order.status.toLowerCase() === "pending";
+      return order.orderStatus.toLowerCase() === "pending";
     } else if (activeTab === "completed") {
-      return order.status.toLowerCase() === "shipped";
+      return order.orderStatus.toLowerCase() === "shipped";
     }
     return true; // Show all orders if activeTab is neither 'pending' nor 'completed'
   });
 
   const sortedOrders = [...filteredOrders].sort((a, b) => {
-    if (pinnedOrders.includes(a.id) && !pinnedOrders.includes(b.id)) {
+    if (pinnedOrders.includes(a.orderId) && !pinnedOrders.includes(b.orderId)) {
       return -1;
     }
-    if (!pinnedOrders.includes(a.id) && pinnedOrders.includes(b.id)) {
+    if (!pinnedOrders.includes(a.orderId) && pinnedOrders.includes(b.orderId)) {
       return 1;
     }
     return 0;
