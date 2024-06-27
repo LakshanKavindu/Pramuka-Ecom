@@ -85,3 +85,17 @@ export const removeUserCart = async (userId) => {
     },
   });
 };
+
+export const updateProductStock = async (productId, sell) => {
+  return await prisma.product.update({
+    where: {
+      id: productId,
+    },
+    data: {
+      productSold: sell,
+      productStock: {
+        decrement: sell,
+      },
+    },
+  });
+};

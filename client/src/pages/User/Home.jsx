@@ -3,6 +3,7 @@ import AllProducts from "../../components/User/AllProducts";
 import Footer from "../../components/User/Footer";
 import Nav from "../../components/User/Navbar";
 import Slider from "../../components/User/Slider";
+import sideImage from "../../assets/images/sideImage.png";
 
 ("use client");
 
@@ -218,30 +219,29 @@ const Home = () => {
       <AllProducts isSearching={isSearching} searchresult={searchresult} />
       <div></div>
 
-      <Card className="border-none bg-orange-50 shadow-none mt-10">
-        <div className="flex justify-center items-center px-14 m-auto card_container gap-6">
+      <Card className="border-none shadow-none mt-10">
+        <div className="flex flex-wrap justify-evenly items-center px-14  card_container gap-6">
+          <div className="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
+            <img src={sideImage} alt="product1" className="w-48" />
+          </div>
           <div className="w-[500px] text_container">
             <h5 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white card_container_title">
-              Work fast from anywhere
+              Discover a new way to shop
             </h5>
-            <p className="mb-5 w-300 text-base text-primary dark:text-gray-400 sm:text-lg">
-              <p>Stay up to date and move work forward with Flowbite</p>
+            <p className="mb-5 w-300 text-base text-primary font-bold dark:text-gray-400 sm:text-lg">
+              <p> fast, convenient, and from anywhere.</p>
             </p>
-            <p className=" text-justify para">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Necessitatibus voluptatum ut dolor aperiam inventore ullam
-              suscipit ea officia nam ducimus id beatae, rem sunt. Quibusdam
-              aliquid laborum corrupti ipsam nisi? Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Maiores maxime reprehenderit illo
-              sed aspernatur repellat placeat quia cumque delectus. Dolores.
+            <p className=" text-justify para text-gray-600 font-medium">
+              At PStore, we bring you the best selection of products, curated
+              for quality and value. Whether you’re at home or on the go, you
+              can easily browse our store, find the latest deals, and make
+              purchases with just a few clicks. Our user-friendly interface and
+              seamless shopping experience ensure that you spend less time
+              navigating and more time enjoying your finds. Stay connected and
+              keep up with our latest collections, special offers, and seasonal
+              trends. We are committed to making your shopping experience as
+              efficient and enjoyable as possible.
             </p>
-          </div>
-          <div className="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
-            <img
-              src="https://essstr.blob.core.windows.net/essimg/350x/Small/Pic10602.jpg"
-              alt="product1"
-              className="w-96 h-96"
-            />
           </div>
         </div>
       </Card>

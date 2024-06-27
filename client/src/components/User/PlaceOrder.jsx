@@ -1,6 +1,8 @@
 import { Button, Modal, Select } from "flowbite-react";
 import { useEffect, useState } from "react";
 import axiosClient from "../../utils/axiosClient";
+import toast from "react-hot-toast";
+import CustomeToastBar from "../Common/CustomeToastBar";
 import TextInputCom from "./InputField/TextInputCom";
 
 const PlaceOrder = ({ openModal, setOpenModal, mycart, setIsOrdered }) => {
@@ -15,20 +17,28 @@ const PlaceOrder = ({ openModal, setOpenModal, mycart, setIsOrdered }) => {
 
   const handlePlaceOrder = (e) => {
     e.preventDefault();
-    axiosClient
-      .post("/auth/order", {
-        orderProducts: mycart,
-        address: billingAddress,
-        shippingMethod: shippingMethod,
-      })
-      .then((res) => {
-        setIsOrdered(true);
-        setOpenModal(false);
-        console.log(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+
+    toast.promise(
+      axiosClient
+        .post("/auth/order", {
+          orderProducts: mycart,
+          address: billingAddress,
+          shippingMethod: shippingMethod,
+        })
+        .then((res) => {
+          setIsOrdered(true);
+          setOpenModal(false);
+          console.log(res.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        }),
+      {
+        loading: "Placing order...",
+        error: "Error placing order.",
+        success: "Order placed!",
+      }
+    );
 
     console.log("handle order");
   };
@@ -80,7 +90,12 @@ const PlaceOrder = ({ openModal, setOpenModal, mycart, setIsOrdered }) => {
                   />
                 )}
                 <div className="flex flex-row gap-6 justify-end">
-                  <Button className="mt-8" outline size="sm">
+                  <Button
+                    className="mt-8"
+                    outline
+                    size="sm"
+                    onClick={() => setOpenModal(false)}
+                  >
                     Cancel
                   </Button>
                   <Button
@@ -97,6 +112,7 @@ const PlaceOrder = ({ openModal, setOpenModal, mycart, setIsOrdered }) => {
           </div>
         </Modal.Body>
       </Modal>
+      <CustomeToastBar />
     </>
   );
 };

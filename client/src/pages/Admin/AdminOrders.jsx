@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { SideMenu } from "../../components/Admin/SideMenu";
 import OrderCard from "../../components/Admin/OrderCard";
-import axios from 'axios';
+import axiosClient from "../../utils/axiosClient";
 
 const AdminOrders = () => {
-  const [activeTab, setActiveTab] = useState('pending');
+  const [activeTab, setActiveTab] = useState("pending");
   const [orders, setOrders] = useState([]);
   const [pinnedOrders, setPinnedOrders] = useState([]);
 
@@ -18,7 +18,7 @@ const AdminOrders = () => {
         const response = await axios.get('http://localhost:8080/api/admin/adminorders');
         setOrders(response.data);
       } catch (error) {
-        console.error('Error fetching orders:', error);
+        console.error("Error fetching orders:", error);
       }
     };
 
@@ -34,8 +34,8 @@ const AdminOrders = () => {
         return order;
       });
 
-      if (newStatus.toLowerCase() === 'shipped') {
-        setPinnedOrders(pinnedOrders.filter(id => id !== orderId));
+      if (newStatus.toLowerCase() === "shipped") {
+        setPinnedOrders(pinnedOrders.filter((id) => id !== orderId));
       }
 
       return updatedOrders;
@@ -43,9 +43,9 @@ const AdminOrders = () => {
   };
 
   const pinOrderToTop = (orderId) => {
-    setPinnedOrders(prevPinnedOrders => {
+    setPinnedOrders((prevPinnedOrders) => {
       if (prevPinnedOrders.includes(orderId)) {
-        return prevPinnedOrders.filter(id => id !== orderId);
+        return prevPinnedOrders.filter((id) => id !== orderId);
       }
       if (prevPinnedOrders.length < 2) {
         return [orderId, ...prevPinnedOrders];
@@ -54,11 +54,13 @@ const AdminOrders = () => {
     });
   };
 
+
   const filteredOrders = orders.filter(order => {
     if (activeTab === 'pending') {
       return order.orderStatus.toLowerCase() === 'pending';
     } else if (activeTab === 'completed') {
       return order.orderStatus.toLowerCase() === 'shipped';
+
     }
     return true; // Show all orders if activeTab is neither 'pending' nor 'completed'
   });
@@ -83,37 +85,52 @@ const AdminOrders = () => {
         </div>
         <div className="flex flex-col w-full h-full">
           <div className="sticky top-0 mb-4 text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 bg-white z-10">
-            <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" role="tablist">
+            <ul
+              className="flex flex-wrap -mb-px text-sm font-medium text-center"
+              id="default-tab"
+              role="tablist"
+            >
               <li className="me-2" role="presentation">
                 <button
-                  className={`inline-block p-4 rounded-t-lg ${activeTab === 'pending' ? 'text-blue-600 border-b-2 border-blue-600 active' : 'hover:text-gray-600 hover:border-gray-400'}`}
+                  className={`inline-block p-4 rounded-t-lg ${
+                    activeTab === "pending"
+                      ? "text-blue-600 border-b-2 border-blue-600 active"
+                      : "hover:text-gray-600 hover:border-gray-400"
+                  }`}
                   id="profile-tab"
                   type="button"
                   role="tab"
                   aria-controls="profile"
-                  aria-selected={activeTab === 'pending'}
-                  onClick={() => handleTabClick('pending')}
+                  aria-selected={activeTab === "pending"}
+                  onClick={() => handleTabClick("pending")}
                 >
                   Pending Orders
                 </button>
               </li>
               <li className="me-2" role="presentation">
                 <button
-                  className={`inline-block p-4 rounded-t-lg ${activeTab === 'completed' ? 'text-blue-600 border-b-2 border-blue-600 active' : 'hover:text-gray-600 hover:border-gray-400'}`}
+                  className={`inline-block p-4 rounded-t-lg ${
+                    activeTab === "completed"
+                      ? "text-blue-600 border-b-2 border-blue-600 active"
+                      : "hover:text-gray-600 hover:border-gray-400"
+                  }`}
                   id="dashboard-tab"
                   type="button"
                   role="tab"
                   aria-controls="dashboard"
-                  aria-selected={activeTab === 'completed'}
-                  onClick={() => handleTabClick('completed')}
+                  aria-selected={activeTab === "completed"}
+                  onClick={() => handleTabClick("completed")}
                 >
                   Completed Orders
                 </button>
               </li>
             </ul>
           </div>
-          <div id="default-tab-content" className="flex-grow overflow-y-auto mb-10">
-            {sortedOrders.map(order => (
+          <div
+            id="default-tab-content"
+            className="flex-grow overflow-y-auto mb-10"
+          >
+            {sortedOrders.map((order) => (
               <OrderCard
                 key={order.orderId}
                 order={order}
@@ -121,7 +138,10 @@ const AdminOrders = () => {
                 onStatusUpdate={updateOrderStatus}
                 onPinToTop={pinOrderToTop}
                 isPinned={pinnedOrders.includes(order.orderId)}
-                disablePin={pinnedOrders.length >= 2 && !pinnedOrders.includes(order.orderId)}
+                disablePin={
+                  pinnedOrders.length >= 2 &&
+                  !pinnedOrders.includes(order.orderId)
+                }
               />
             ))}
           </div>

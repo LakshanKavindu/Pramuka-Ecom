@@ -8,10 +8,26 @@ import { useNavigate } from "react-router-dom";
 import axiosClient from "../../utils/axiosClient";
 import RegistrationPopup from "./RegistrationPopup";
 import { useLogedContext } from "../../context/LogedContext";
+import logo from "../../assets/images/logo.png";
 
 const Nav = ({ isActive }) => {
   //context
-  const {isloggedin, setIsloggedin} = useLogedContext()
+  const { isloggedin, setIsloggedin } = useLogedContext();
+  const { itemCount, setItemCount } = useLogedContext();
+
+  const getCartItemsCount = () => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    axiosClient
+      .get(`/product/getcart/${user.email}`)
+      .then((res) => {
+        console.log("context got", res.data);
+        setItemCount(res.data.length);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const navigate = useNavigate();
   const [isLoggin, setIsLoggin] = useState(
     sessionStorage.getItem("isLoggin") === "true" ? true : false
@@ -41,7 +57,7 @@ const Nav = ({ isActive }) => {
           token: tokenResponse.access_token,
         })
         .then((res) => {
-          setIsloggedin(true)
+          setIsloggedin(true);
           console.log(res.data, "login");
           if (!res.data.userExist) {
             setOpenRegistration(true);
@@ -65,6 +81,7 @@ const Nav = ({ isActive }) => {
             userName: res.data.user.username,
             imageUrl: res.data.user.image,
           });
+          getCartItemsCount();
         })
         .catch((e) => {
           console.error("Failed to fetch user profile: ", e.message);
@@ -75,7 +92,7 @@ const Nav = ({ isActive }) => {
     },
   });
   const handleLogout = () => {
-    setIsloggedin(false)
+    setIsloggedin(false);
     setIsLoggin(false);
     setUserRole("");
     sessionStorage.clear();
@@ -87,16 +104,17 @@ const Nav = ({ isActive }) => {
       <Navbar
         fluid
         rounded
-        className=" pt-3 pb-2 shadow-bottom-shadow fixed w-full max-w-[1440px] top-0 z-50 !m-0"
+        className=" pt-3  pb-2 shadow-bottom-shadow fixed w-full max-w-[1440px] top-0 z-50 !m-0"
       >
-        <Navbar.Brand href="/" className="">
+        <Navbar.Brand href="/" className="pl-6">
           <img
-            src="https://flowbite.com/docs/images/logo.svg"
+            src={logo}
             className="mr-3 h-6 sm:h-9"
             alt="Flowbite React Logo"
           />
-          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-            Pramuka Stores
+          <span className="self-center whitespace-nowrap font-semibold text-[#e76800] text-2xl">
+            Store
+            {/* <span className="text-[#a04604] font-bold">P </span>Store */}
           </span>
         </Navbar.Brand>
         {isLoggin ? (
@@ -105,7 +123,7 @@ const Nav = ({ isActive }) => {
               <div className="relative mr-2">
                 <div className="absolute left-4 bottom-4">
                   <p className="flex h-1 w-1 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">
-                    3
+                    {itemCount}
                   </p>
                 </div>
                 <Link to="/cart">
