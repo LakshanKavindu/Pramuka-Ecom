@@ -156,6 +156,7 @@ const AdminAddProduct = () => {
                   setValue({ ...value, category: e.target.value })
                 }
                 value={value.category}
+                color={"primary"}
               >
                 <option selected value="none">
                   Select Category
