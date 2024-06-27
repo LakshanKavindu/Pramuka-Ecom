@@ -61,4 +61,30 @@ const getUserOrders = async (userId) => {
   return await groupByOrderId(product);
 };
 
-export { createOrder, getUserOrders };
+const getAllOrders = async () => {
+  const products = await prisma.order.findMany({
+    include: {
+      product: {
+        select: {
+          productName: true,
+          productImage: true,
+          productPrice: true,
+        },
+      },
+      user: {
+        select: {
+          username: true,
+          billingAddress: true,
+          defaultAddress: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return await groupByOrderId(products);
+};
+
+export { createOrder, getUserOrders, getAllOrders };
