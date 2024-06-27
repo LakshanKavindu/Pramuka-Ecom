@@ -25,7 +25,7 @@ export default {
         "4xl": "2rem",
       },
       colors: {
-        primary: "#FF7141",
+        primary: "#E76800",
         secondary: "#FF014E",
         paleOrange: "hsl(25, 100%, 94%)",
         white: "#FFFFFF",
