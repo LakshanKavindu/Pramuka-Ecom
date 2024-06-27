@@ -74,7 +74,7 @@ const AdminAddProduct = () => {
     }
 
     axiosClient
-      .post("/admin/addproduct", {
+      .post("/auth/admin/addproduct", {
         ...value,
         image: productImage,
       })

@@ -8,7 +8,7 @@ const SellingsForCategory = () => {
   console.log(catsellings, "catsellings");
   const getsellings = () => {
     axiosClient
-      .get("/admin/sellings")
+      .get("/aUTH/admin/sellings")
       .then((res) => {
         setCatsellings(res.data.sellings);
       })
