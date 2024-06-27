@@ -12,7 +12,7 @@ const TotalRev = () => {
   const getTotalRev = () => {
     console.log("gtr");
     axiosClient
-      .get("/admin/totalrevenue")
+      .get("auth/admin/totalrevenue")
       .then((res) => {
         setTotalrevenue(res.data.TotalRev);
         console.log(res);
