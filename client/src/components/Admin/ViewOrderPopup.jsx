@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Accordion } from "flowbite-react";
 
 export default function ViewOrderPopup(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -8,6 +9,7 @@ export default function ViewOrderPopup(props) {
   };
 
   const {
+    userId,
     orderId,
     orderProducts,
     orderStatus,
@@ -35,7 +37,7 @@ export default function ViewOrderPopup(props) {
           aria-hidden="true"
           className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full overflow-y-auto overflow-x-hidden bg-black bg-opacity-50"
         >
-          <div className="relative p-4 w-full max-w-2xl max-h-full">
+          <div className="relative p-4 w-full max-w-2xl max-height-full">
             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 flex flex-col h-full">
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -69,6 +71,12 @@ export default function ViewOrderPopup(props) {
                 style={{ maxHeight: "300px" }}
               >
                 <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                      User Name:
+                    </h4>
+                    <p className="text-gray-600 dark:text-gray-400">{props.customerName}</p>
+                  </div>
                   <div>
                     <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
                       Order ID:
@@ -126,61 +134,71 @@ export default function ViewOrderPopup(props) {
                     </p>
                   </div>
                 </div>
-
-                <div className="accordion">
-                  {orderProducts.map((orderProduct, index) => (
-                    <div key={index} className="accordion-item">
-                      <div className="accordion-header" id={`heading${index}`}>
-                        <button
-                          className="accordion-button"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target={`#collapse${index}`}
-                          aria-expanded="true"
-                          aria-controls={`collapse${index}`}
-                        >
-                          Product {index + 1}
-                        </button>
+                <Accordion>
+                  <Accordion.Panel>
+                    <Accordion.Title>Products</Accordion.Title>
+                    <Accordion.Content>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                          <thead className="bg-gray-50">
+                            <tr>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                              >
+                                Product Image
+                              </th>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                              >
+                                Product Name
+                              </th>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                              >
+                                Quantity
+                              </th>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                              >
+                                Price
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="bg-white divide-y divide-gray-200">
+                            {orderProducts.map((orderProduct, index) => (
+                              <tr key={index}>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="flex-shrink-0 h-10 w-10">
+                                    <img
+                                      className="h-10 w-10 rounded-full"
+                                      src={orderProduct.product.product.productImage}
+                                      alt={orderProduct.product.product.productName}
+                                    />
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="text-sm font-medium text-gray-900">
+                                    {orderProduct.product.product.productName}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                  {orderProduct.product.quantity}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                  Rs. {orderProduct.product.product.productPrice}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
-
-                      <div
-                        id={`collapse${index}`}
-                        className="accordion-collapse collapse show"
-                        aria-labelledby={`heading${index}`}
-                        data-bs-parent="#accordionExample"
-                      >
-                        <div className="accordion-body">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                                Product Name:
-                              </h4>
-                              <p className="text-gray-600 dark:text-gray-400">
-                                {orderProduct.product.product.productName}
-                              </p>
-                            </div>
-                            <div>
-                              <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                                Quantity:
-                              </h4>
-                              <p className="text-gray-600 dark:text-gray-400">
-                                {orderProduct.product.quantity}
-                              </p>
-                            </div>
-                            <div>
-                              <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                                Price:
-                              </h4>
-                              <p className="text-gray-600 dark:text-gray-400">
-                                Rs. {orderProduct.product.product.productPrice}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    </Accordion.Content>
+                  </Accordion.Panel>
+                </Accordion>
               </div>
               <div className="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                 {activeTab === "pending" && (
