@@ -73,8 +73,8 @@ const Cart = () => {
               </h1>
             </div>
           )}
-          <table className="w-full">
-            {mycart.length > 0 && (
+          <table className="w-full ">
+            {/* {mycart.length > 0 && (
               <tr className=" text-center text-xl font-semibold py-4">
                 <td className="w-3/5 py-4">Product</td>
 
@@ -82,11 +82,12 @@ const Cart = () => {
                 <td className="py-4">Quantity</td>
                 <td className="py-4">Total</td>
               </tr>
-            )}
+            )} */}
 
          
 
-           {mycart.map((item) => {
+      <div className="flex-col justify-center items-center " >
+      {mycart.map((item) => {
               return (
                 // <CartItems
                 //   item={item}
@@ -101,18 +102,13 @@ const Cart = () => {
                 />
               );
             })}
+      </div>
 
          
-            <tr>
+            {/* <tr>
               <td className="w-3/5 py-4 ">
-                <div className="flex flex-row gap-2 text-primary pl-5 items-center text-xl ">
-                  <FaArrowAltCircleLeft className="w-5 h-5" />
-
-                  <a href="/" className="">
-                    {" "}
-                    Back to shopping
-                  </a>
-                </div>
+              
+              
               </td>
               <td className="py-4">
                 {mycart.length > 0 && (
@@ -137,9 +133,67 @@ const Cart = () => {
                   </button>
                 )}
               </td>
-            </tr>
+            </tr> */}
           </table>
           {/* comment */}
+          <div>
+            <div >
+
+            <tr className="w-full flex  flex-row justify-end items-center">
+            
+              <td className="py-4 ">
+                {mycart.length > 0 && (
+                  <p className="font-semibold text-xl text-center ">Sub Total</p>
+                )}
+              </td>
+              <td className="py-4 text-center">
+                {mycart.length > 0 && (
+                  <p className="   font-semibold text-xl ml-10">
+                    LKR {carttotal}
+                    {".00"}
+                  </p>
+                )}
+              </td>
+              <td className="items-center">
+                {mycart.length > 0 && (
+                  <button
+                    onClick={() => setOpenOrderModal(true)}
+                    className="bg-primary m-auto text-white font-semibold py-3 px-10 rounded-xl h-full ml-10 "
+                  >
+                    Place Order
+                  </button>
+                )}
+              </td>
+            </tr>
+
+            </div>
+
+          <div className="flex flex-row gap-2 text-primary pl-5 items-center text-xl ">
+                  <FaArrowAltCircleLeft className="w-5 h-5" />
+
+                  <a href="/" className="">
+                    {" "}
+                    Back to shopping
+                  </a>
+                </div>
+                {/* <div>
+                {mycart.length > 0 && (
+                  <p className="font-semibold text-xl text-center">Sub Total</p>
+                )}
+                </div>
+ */}
+
+                <div>
+
+              
+                  
+                </div>
+                
+
+
+
+
+          </div>
         </div>
       </div>
       <PlaceOrder
