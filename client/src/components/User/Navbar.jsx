@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import axiosClient from "../../utils/axiosClient";
 import RegistrationPopup from "./RegistrationPopup";
 import { useLogedContext } from "../../context/LogedContext";
+import logo from "../../assets/images/logo.png";
 
 const Nav = ({ isActive }) => {
   //context
@@ -103,16 +104,17 @@ const Nav = ({ isActive }) => {
       <Navbar
         fluid
         rounded
-        className=" pt-3 pb-2 shadow-bottom-shadow fixed w-full max-w-[1440px] top-0 z-50 !m-0"
+        className=" pt-3  pb-2 shadow-bottom-shadow fixed w-full max-w-[1440px] top-0 z-50 !m-0"
       >
-        <Navbar.Brand href="/" className="">
+        <Navbar.Brand href="/" className="pl-6">
           <img
-            src="https://flowbite.com/docs/images/logo.svg"
+            src={logo}
             className="mr-3 h-6 sm:h-9"
             alt="Flowbite React Logo"
           />
-          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-            Pramuka Stores
+          <span className="self-center whitespace-nowrap font-semibold text-[#e76800] text-2xl">
+            Store
+            {/* <span className="text-[#a04604] font-bold">P </span>Store */}
           </span>
         </Navbar.Brand>
         {isLoggin ? (

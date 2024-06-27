@@ -3,6 +3,7 @@ import AllProducts from "../../components/User/AllProducts";
 import Footer from "../../components/User/Footer";
 import Nav from "../../components/User/Navbar";
 import Slider from "../../components/User/Slider";
+import sideImage from "../../assets/images/sideImage.png";
 
 ("use client");
 
@@ -218,8 +219,11 @@ const Home = () => {
       <AllProducts isSearching={isSearching} searchresult={searchresult} />
       <div></div>
 
-      <Card className="border-none bg-orange-50 shadow-none mt-10">
-        <div className="flex justify-center items-center px-14 m-auto card_container gap-6">
+      <Card className="border-none shadow-none mt-10">
+        <div className="flex flex-wrap justify-evenly items-center px-14  card_container gap-6">
+          <div className="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
+            <img src={sideImage} alt="product1" className="w-48" />
+          </div>
           <div className="w-[500px] text_container">
             <h5 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white card_container_title">
               Work fast from anywhere
@@ -235,13 +239,6 @@ const Home = () => {
               consectetur adipisicing elit. Maiores maxime reprehenderit illo
               sed aspernatur repellat placeat quia cumque delectus. Dolores.
             </p>
-          </div>
-          <div className="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
-            <img
-              src="https://essstr.blob.core.windows.net/essimg/350x/Small/Pic10602.jpg"
-              alt="product1"
-              className="w-96 h-96"
-            />
           </div>
         </div>
       </Card>
