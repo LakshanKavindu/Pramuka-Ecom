@@ -77,7 +77,7 @@ const ProductCard = ({ item }) => {
       {
         loading: "Adding to cart...",
         error: "Error adding item.",
-        success: "Item added!",
+        success: "Item added to the cart!",
       }
     );
   };
