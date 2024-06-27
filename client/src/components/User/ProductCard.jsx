@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import axiosClient from "../../utils/axiosClient";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import { useLogedContext } from "../../context/LogedContext";
+import CustomeToastBar from "../Common/CustomeToastBar";
 
 const ProductCard = ({ item }) => {
   const [cartItems, setCartItems] = useState([]);
   const [cartButton, setCartButton] = useState(false);
   const [amount, setAmount] = useState(1);
-  const { isloggedin, setIsloggedin } = useLogedContext();
+  const { isloggedin } = useLogedContext();
   const { itemCount, setItemCount } = useLogedContext();
 
   useEffect(() => {
@@ -51,26 +53,33 @@ const ProductCard = ({ item }) => {
   const addtocart = () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     console.log(user.email);
-    axiosClient
-      .post("/product/addtocart", {
-        productid: item.id,
-        userid: user.email,
-        quantity: amount,
-      })
-      .then((res) => {
-        console.log(res);
-        setCartButton(false);
+    toast.promise(
+      axiosClient
+        .post("/product/addtocart", {
+          productid: item.id,
+          userid: user.email,
+          quantity: amount,
+        })
+        .then((res) => {
+          console.log(res);
+          setCartButton(false);
 
-        for (let i = 0; i < cartItems.length; i++) {
-          if (cartItems[i].product.id === item.id) {
-            return;
+          for (let i = 0; i < cartItems.length; i++) {
+            if (cartItems[i].product.id === item.id) {
+              return;
+            }
           }
-        }
-        setItemCount(itemCount + 1);
-      })
-      .catch((Error) => {
-        console.log(Error);
-      });
+          setItemCount(itemCount + 1);
+        })
+        .catch((Error) => {
+          console.log(Error);
+        }),
+      {
+        loading: "Adding to cart...",
+        error: "Error adding item.",
+        success: "Item added to the cart!",
+      }
+    );
   };
 
   return (
@@ -174,6 +183,7 @@ const ProductCard = ({ item }) => {
           )}
         </div>
       </div>
+      <CustomeToastBar />
     </div>
   );
 };

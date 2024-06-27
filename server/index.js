@@ -21,7 +21,7 @@ app.use("/api/auth/*", requireUserAuth);
 app.use("/api", userRouter);
 app.use("/api/auth/order", orderRouter);
 app.use("/api/home", HomeRouter);
-app.use("/api/admin", AdminRouter);
+app.use("/api/auth/admin", AdminRouter);
 app.use("/api/product", ProductRouter);
 
 app.listen(PORT, () => {
