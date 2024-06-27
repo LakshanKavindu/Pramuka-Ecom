@@ -106,7 +106,7 @@ const Nav = ({ isActive }) => {
         rounded
         className=" pt-3  pb-2 shadow-bottom-shadow fixed w-full max-w-[1440px] top-0 z-50 !m-0"
       >
-        <Navbar.Brand href="/" className="pl-6">
+        <Navbar.Brand href="/" className="pl-6 mr-20">
           <img
             src={logo}
             className="mr-3 h-6 sm:h-9"
