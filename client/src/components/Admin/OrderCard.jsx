@@ -36,8 +36,8 @@ export default function OrderCard({
 
   const handleMarkAsDelivered = async (orderId) => {
     try {
-      const response = await axios.post(
-        `http://localhost:8080/api/order/orderStatus/${orderId}`,
+      const response = await axiosClient.post(
+        `auth/order/orderStatus/${orderId}`,
         {
           status: "SHIPPED",
         }
@@ -51,8 +51,8 @@ export default function OrderCard({
 
   const handleMarkAsCanceled = async (orderId) => {
     try {
-      const response = await axios.post(
-        `http://localhost:8080/api/order/orderStatus/${orderId}`,
+      const response = await axiosClient.post(
+        `auth/order/orderStatus/${orderId}`,
         {
           status: "CANCELLED",
         }
@@ -66,9 +66,7 @@ export default function OrderCard({
 
   const handlePinToTop = async (orderId) => {
     try {
-      const response = await axios.post(
-        `http://localhost:8080/api/order/pinOrder/${orderId}`
-      );
+      const response = await axios.post(`auth/order/pinOrder/${orderId}`);
       onPinToTop(orderId);
       closeDropdown();
     } catch (error) {
