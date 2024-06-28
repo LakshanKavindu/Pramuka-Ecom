@@ -16,7 +16,7 @@ const AdminOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/admin/adminorders');
+        const response = await axiosClient.get("auth/admin/adminorders");
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -27,8 +27,8 @@ const AdminOrders = () => {
   }, []);
 
   const updateOrderStatus = (orderId, newStatus) => {
-    setOrders(prevOrders => {
-      const updatedOrders = prevOrders.map(order => {
+    setOrders((prevOrders) => {
+      const updatedOrders = prevOrders.map((order) => {
         if (order.orderId === orderId) {
           return { ...order, orderStatus: newStatus };
         }
@@ -55,13 +55,11 @@ const AdminOrders = () => {
     });
   };
 
-
-  const filteredOrders = orders.filter(order => {
-    if (activeTab === 'pending') {
-      return order.orderStatus.toLowerCase() === 'pending';
-    } else if (activeTab === 'completed') {
-      return order.orderStatus.toLowerCase() === 'shipped';
-
+  const filteredOrders = orders.filter((order) => {
+    if (activeTab === "pending") {
+      return order.orderStatus.toLowerCase() === "pending";
+    } else if (activeTab === "completed") {
+      return order.orderStatus.toLowerCase() === "shipped";
     }
     return true; // Show all orders if activeTab is neither 'pending' nor 'completed'
   });
