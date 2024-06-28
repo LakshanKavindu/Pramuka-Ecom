@@ -3,23 +3,43 @@ import { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import axiosClient from "../../utils/axiosClient";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import { useLogedContext } from "../../context/LogedContext";
+import CustomeToastBar from "../Common/CustomeToastBar";
 
 const ProductCard = ({ item }) => {
+  const [cartItems, setCartItems] = useState([]);
   const [cartButton, setCartButton] = useState(false);
-
   const [amount, setAmount] = useState(1);
-  const { isloggedin, setIsloggedin } = useLogedContext();
+  const { isloggedin } = useLogedContext();
+  const { itemCount, setItemCount } = useLogedContext();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("isLoggin") === "true") {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      axiosClient.get(`/product/getcart/${user.email}`).then((res) => {
+        setCartItems(res.data);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("isLoggin") === "true") {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      axiosClient.get(`/product/getcart/${user.email}`).then((res) => {
+        setCartItems(res.data);
+      });
+    }
+  }, [itemCount]);
+
   const decreaseAmount = () => {
     if (amount > 1) {
       setAmount((prev) => prev - 1);
     }
   };
-
   const [product, setProduct] = useState(item);
   useEffect(() => {
     setProduct(item);
-    console.log("product", product);
   }, [item]);
 
   const increaseAmount = () => {
@@ -33,19 +53,33 @@ const ProductCard = ({ item }) => {
   const addtocart = () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     console.log(user.email);
-    axiosClient
-      .post("/product/addtocart", {
-        productid: item.id,
-        userid: user.email,
-        quantity: amount,
-      })
-      .then((res) => {
-        console.log(res);
-        setCartButton(false);
-      })
-      .catch((Error) => {
-        console.log(Error);
-      });
+    toast.promise(
+      axiosClient
+        .post("/product/addtocart", {
+          productid: item.id,
+          userid: user.email,
+          quantity: amount,
+        })
+        .then((res) => {
+          console.log(res);
+          setCartButton(false);
+
+          for (let i = 0; i < cartItems.length; i++) {
+            if (cartItems[i].product.id === item.id) {
+              return;
+            }
+          }
+          setItemCount(itemCount + 1);
+        })
+        .catch((Error) => {
+          console.log(Error);
+        }),
+      {
+        loading: "Adding to cart...",
+        error: "Error adding item.",
+        success: "Item added to the cart!",
+      }
+    );
   };
 
   return (
@@ -86,7 +120,7 @@ const ProductCard = ({ item }) => {
           <p>
             LKR
             {item.productPrevPrice && item.productPrevPrice > 0 ? (
-              <span className="text-sm text-gray-600 font-semibold line-through mr-1">
+              <span className="text-sm text-red-600 font-semibold line-through mr-1">
                 {item.productPrevPrice}
               </span>
             ) : (
@@ -149,6 +183,7 @@ const ProductCard = ({ item }) => {
           )}
         </div>
       </div>
+      <CustomeToastBar />
     </div>
   );
 };

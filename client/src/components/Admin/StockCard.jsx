@@ -11,7 +11,7 @@ const StockCard = () => {
 
   useEffect(() => {
     axiosClient
-      .get("/admin/allproductsinorder")
+      .get("/auth/admin/allproductsinorder")
       .then((res) => {
         console.log(res.data);
         setProducts(res.data.products);
@@ -24,7 +24,7 @@ const StockCard = () => {
   const filterhandle = (val) => {
     setFilter(val);
     axiosClient
-      .get(`/admin/filterproducts/${val}`)
+      .get(`/auth/admin/filterproducts/${val}`)
       .then((res) => {
         setProducts(res.data.filteredProducts);
         console.log(products);

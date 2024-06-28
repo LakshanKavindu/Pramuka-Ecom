@@ -3,9 +3,9 @@ import Footern from "../../components/User/Footer";
 import Nav from "../../components/User/Navbar";
 import { FaRegUser } from "react-icons/fa";
 import { Button, Card, Label, TextInput, Accordion } from "flowbite-react";
-import { Modal } from "flowbite-react";
-import { IoMdCloudDone } from "react-icons/io";
 import { BiPurchaseTagAlt } from "react-icons/bi";
+import toast from "react-hot-toast";
+import CustomeToastBar from "../../components/Common/CustomeToastBar";
 import axiosClient from "../../utils/axiosClient";
 import Order from "../../components/User/Order";
 
@@ -13,7 +13,6 @@ const Profile = () => {
   const [editDisabled, setEditDisabled] = useState(false);
   const [saveDisabled, setSaveDisabled] = useState(true);
   const [phoneDisabled, setPhoneDisabled] = useState(true);
-  const [openModal, setOpenModal] = useState(false);
   const [name, setName] = useState("Booshana namudhara");
   const [phone, setPhone] = useState("0771234567");
   const [tempPhone, setTempPhone] = useState("0771234567");
@@ -38,25 +37,43 @@ const Profile = () => {
 
   const handleEdit = () => {
     setPhoneDisabled(false);
-    setSaveDisabled(false);
     setEditDisabled(true);
   };
+  const regex = /^(?:0\d{9}|\+94\d{9})$/;
+  useEffect(() => {
+    if (
+      address.length > 0 &&
+      phone.length > 0 &&
+      regex.test(phone) &&
+      (address !== tempAddress || phone !== tempPhone)
+    ) {
+      setSaveDisabled(false);
+    } else {
+      setSaveDisabled(true);
+    }
+  }, [address, phone, tempAddress, tempPhone]);
 
   const handleSave = () => {
-    axiosClient
-      .post("/auth/user/updateContactNumber", {
-        contactNo: phone,
-        address: tempAddress,
-      })
-      .then(() => {
-        setOpenModal(true);
-        setPhoneDisabled(true);
-        setSaveDisabled(true);
-        setEditDisabled(false);
-        setTempPhone(phone);
-        setTempAddress(address);
-      })
-      .catch(() => {});
+    toast.promise(
+      axiosClient
+        .post("/auth/user/updateContactNumber", {
+          contactNo: phone,
+          address: tempAddress,
+        })
+        .then(() => {
+          setPhoneDisabled(true);
+          setSaveDisabled(true);
+          setEditDisabled(false);
+          setTempPhone(phone);
+          setTempAddress(address);
+        })
+        .catch(() => {}),
+      {
+        loading: "Updating profile...",
+        error: "Error updating profile.",
+        success: "Profile updated!",
+      }
+    );
   };
 
   const handleCancel = () => {
@@ -75,7 +92,7 @@ const Profile = () => {
       <Nav isActive={"profile"} />
 
       <div className="px-2 sm:px-8 py-10 mt-10 flex flex-col md:flex-row gap-10 justify-center items-center md:items-start">
-        <Card className="max-w-xl w-full h-[52vh] flex flex-col">
+        <Card className="max-w-xl w-full h-[55vh] flex flex-col">
           <div className="mt-8 flex items-center mb-8">
             <FaRegUser className="text-2xl text-black2 mr-2" />
             <h2 className=" text-2xl font-semibold">Your Profile</h2>
@@ -92,6 +109,7 @@ const Profile = () => {
                 placeholder=""
                 required
                 disabled={true}
+                color={"primary"}
                 value={name}
               />
             </div>
@@ -105,6 +123,7 @@ const Profile = () => {
                 type="text"
                 placeholder=""
                 required
+                color={!regex.test(phone) ? "failure" : "primary"}
                 disabled={phoneDisabled}
                 value={phone}
                 onChange={handlePhoneChange}
@@ -120,6 +139,7 @@ const Profile = () => {
                 type="text"
                 placeholder=""
                 required
+                color={"primary"}
                 disabled={phoneDisabled}
                 value={tempAddress}
                 onChange={(e) => setTempAddress(e.target.value)}
@@ -250,36 +270,7 @@ const Profile = () => {
       </div>
       <Footern />
 
-      {/* modal for save button */}
-      <Modal
-        show={openModal}
-        size="md"
-        onClose={() => setOpenModal(false)}
-        popup
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <div className="flex justify-center items-center">
-              <IoMdCloudDone className="text-5xl text-green-400 " />
-            </div>
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Your have successfully updated your profile
-            </h3>
-            <div className="flex justify-center gap-4">
-              {/* <Button color="failure" onClick={() => setOpenModal(false)}>
-                {"Yes, I'm sure"}
-              </Button> */}
-              <Button
-                gradientDuoTone={"primary"}
-                onClick={() => setOpenModal(false)}
-              >
-                close
-              </Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
+      <CustomeToastBar />
     </div>
   );
 };

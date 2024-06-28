@@ -34,7 +34,7 @@ const groupByOrderId = async (products) => {
 };
 
 const getUserOrders = async (userId) => {
-  const product = await prisma.order.findMany({
+  const products = await prisma.order.findMany({
     where: {
       userId: userId,
     },
@@ -58,7 +58,32 @@ const getUserOrders = async (userId) => {
     },
   });
 
-  return await groupByOrderId(product);
+  return await groupByOrderId(products);
 };
 
-export { createOrder, getUserOrders };
+const getAllOrders = async () => {
+  const products = await prisma.order.findMany({
+    include: {
+      product: {
+        select: {
+          productName: true,
+          productImage: true,
+          productPrice: true,
+        },
+      },
+      user: {
+        select: {
+          username: true,
+          billingAddress: true,
+          defaultAddress: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return await groupByOrderId(products);
+};
+
+export { createOrder, getUserOrders, getAllOrders };
