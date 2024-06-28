@@ -52,10 +52,19 @@ const updateBillingAddress = async (id, address) => {
   });
 };
 
+const getAllUsers = async () => {
+  return await prisma.user.findMany({
+    orderBy: {
+      username: "asc",
+    },
+  });
+};
+
 export {
   getUserByEmail,
   getUserById,
   createUser,
   updateContactNo,
   updateBillingAddress,
+  getAllUsers,
 };

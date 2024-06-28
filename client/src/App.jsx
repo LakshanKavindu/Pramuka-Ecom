@@ -20,6 +20,7 @@ import ProductPreview from "./pages/User/ProductPreview";
 import AdminAddProduct from "./pages/Admin/AdminAddProduct";
 import AdminProductDetails from "./pages/Admin/AdminProductDetails";
 import AdminOrders from "./pages/Admin/AdminOrders";
+import AdminUsers from "./pages/Admin/AdminUsers";
 import { LogedProvider } from "./context/LogedContext";
 
 export const PrivateRoute = ({ allowedRole }) => {
@@ -66,6 +67,7 @@ function App() {
                     element={<AdminProductDetails />}
                   />
                   <Route path="/admin/orders" element={<AdminOrders />} />
+                  <Route path="/admin/users" element={<AdminUsers />} />
                 </Route>
               </Routes>
             </BrowserRouter>
