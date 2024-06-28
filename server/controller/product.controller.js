@@ -95,3 +95,20 @@ export const remove_from_cart=async(req,res)=>{
 
 
 }
+
+// export const get_brands_to_category=async(req,res)=>{
+
+//     try{
+           
+//         const group=await get_brands_to_category()
+//         res.status(200).send(group)
+
+
+
+//     }catch(e){
+//         res.status(400).send({e})
+
+
+//     }
+
+// }
