@@ -6,6 +6,7 @@ import HomeRouter from "./router/home.router.js";
 import AdminRouter from "./router/admin.router.js";
 import ProductRouter from "./router/product.router.js";
 import orderRouter from "./router/order.router.js";
+import PaymentRouter from "./router/payment.router.js";
 
 const app = express();
 const PORT = 8080;
@@ -23,6 +24,7 @@ app.use("/api/auth/order", orderRouter);
 app.use("/api/home", HomeRouter);
 app.use("/api/auth/admin", AdminRouter);
 app.use("/api/product", ProductRouter);
+app.use("/api/auth/payment", PaymentRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
