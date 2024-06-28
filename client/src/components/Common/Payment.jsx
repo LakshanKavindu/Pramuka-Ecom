@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../utils/axiosClient";
 
-export const Payment = ({ orderId, amount, currency }) => {
+export const Payment = ({
+  orderId,
+  amount,
+  currency,
+  buttonText,
+  setPaymentCompleted,
+}) => {
   const [hash, setHash] = useState("");
 
   const fetchHash = async () => {
@@ -24,6 +30,8 @@ export const Payment = ({ orderId, amount, currency }) => {
   const handlePayment = () => {
     payhere.onCompleted = function onCompleted(orderId) {
       console.log("Payment completed. OrderID:" + orderId);
+      setPaymentCompleted(true);
+
       // Note: validate the payment and show success or failure page to the customer
     };
 
@@ -69,7 +77,7 @@ export const Payment = ({ orderId, amount, currency }) => {
 
   return (
     <div>
-      <button onClick={handlePayment}>payment</button>{" "}
+      <button onClick={handlePayment}>{buttonText}</button>{" "}
     </div>
   );
 };

@@ -7,7 +7,6 @@ import axios from "axios";
 import PlaceOrder from "../../components/User/PlaceOrder.jsx";
 import { FaCartArrowDown } from "react-icons/fa6";
 import { useLogedContext } from "../../context/LogedContext";
-import { Payment } from "../../components/Common/Payment.jsx";
 
 const Cart = () => {
   const [images, setImages] = useState({
@@ -126,13 +125,6 @@ const Cart = () => {
                     Place Order
                   </button>
                 )}
-              </td>
-              <td>
-                <Payment
-                  orderId={"order1"}
-                  amount={"2000.00"}
-                  currency={"LKR"}
-                />
               </td>
             </tr>
           </table>
