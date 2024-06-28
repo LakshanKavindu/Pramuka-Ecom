@@ -38,30 +38,38 @@ function App() {
     <>
       <Flowbite theme={{ theme: customTheme }}>
         <LogedProvider>
-        <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
-          <BrowserRouter>
-            <Suspense fallback={<div>Loading...</div>}></Suspense>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/product" element={<ProductPage />} />
-              <Route path="/preview/:productid" element={<ProductPreview />} />
-              <Route element={<PrivateRoute allowedRole={["USER", "ADMIN"]} />}>
-                <Route path="/user/profile" element={<Profile />} />
-                <Route path="/cart" element={<Cart />} />
-              </Route>
-              <Route path="/admin" element={<AdminLogin />} />
-              <Route element={<PrivateRoute allowedRole={["ADMIN"]} />}>
-                <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                <Route path="/admin/addproduct" element={<AdminAddProduct />} />
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+            <BrowserRouter>
+              <Suspense fallback={<div>Loading...</div>}></Suspense>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/product" element={<ProductPage />} />
                 <Route
-                  path="/admin/productdetails"
-                  element={<AdminProductDetails />}
+                  path="/preview/:productid"
+                  element={<ProductPreview />}
                 />
-                <Route path="/admin/orders" element={<AdminOrders />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </GoogleOAuthProvider>
+                <Route
+                  element={<PrivateRoute allowedRole={["USER", "ADMIN"]} />}
+                >
+                  <Route path="/user/profile" element={<Profile />} />
+                  <Route path="/cart" element={<Cart />} />
+                </Route>
+                <Route path="/admin" element={<AdminLogin />} />
+                <Route element={<PrivateRoute allowedRole={["ADMIN"]} />}>
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  <Route
+                    path="/admin/addproduct"
+                    element={<AdminAddProduct />}
+                  />
+                  <Route
+                    path="/admin/productdetails"
+                    element={<AdminProductDetails />}
+                  />
+                  <Route path="/admin/orders" element={<AdminOrders />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </GoogleOAuthProvider>
         </LogedProvider>
       </Flowbite>
     </>
