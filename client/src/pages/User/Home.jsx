@@ -6,7 +6,9 @@ import Slider from "../../components/User/Slider";
 
 ("use client");
 
-import { Dropdown } from "flowbite-react";
+// import { Dropdown } from "flowbite-react";
+
+import Dropdown from "react-multilevel-dropdown";
 
 import { Card } from "flowbite-react";
 
@@ -25,6 +27,24 @@ const Home = () => {
     "biscuit maliban",
     "biscuits munchee",
   ]);
+
+  const filterhandle_brand = (val) => {
+    setIsSearching(true);
+    setSearchval("");
+    setFilter(val);
+    axios
+      .get(`http://localhost:8080/api/home/filterbrand/${val}`)
+      .then((res) => {
+        console.log("inside then");
+        console.log(res.data);
+        setSearchresult(res.data.filteredProducts);
+        setSearchval("");
+      })
+      .catch((error) => {
+        console.log("error occured");
+        console.log(error);
+      });
+  };
 
   const filterhandle = (val) => {
     setIsSearching(true);
@@ -93,6 +113,7 @@ const Home = () => {
               <div className="absolute inset-y-0 start-2.5 flex items-center  z-40">
                 <Dropdown
                   outline
+                  title={filter}
                   // gradientDuoTone="pinkToOrange"
                   label={<span className="text-black">{filter}</span>}
                   // dismissOnClick={false}
@@ -111,11 +132,32 @@ const Home = () => {
                   </Dropdown.Item>
                   <Dropdown.Item
                     value="Chocolate"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       filterhandle("Chocolate");
+                      console.log('mainchoc')
+                      
                     }}
                   >
                     Chocolate
+                    <Dropdown.Submenu>
+                      <Dropdown.Item
+                       value="Kandos"
+                       onClick={(e) => {
+                        e.stopPropagation();
+                        filterhandle_brand("Kandos");
+                      }}
+                      >Kandos</Dropdown.Item>
+                      <Dropdown.Item
+                      value="Ritzbury"
+                     
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        filterhandle_brand("Ritzbury");
+                        console.log('ritz')
+                      }}
+                      >Ritzbury</Dropdown.Item>
+                    </Dropdown.Submenu>
                   </Dropdown.Item>
                   <Dropdown.Item
                     value="Biscuits"

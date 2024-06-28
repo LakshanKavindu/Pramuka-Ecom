@@ -2,7 +2,7 @@
 import {
     all_products
     , get_product_names, get_products_by_Search,
-    get_products_by_filter, get_product_by_id
+    get_products_by_filter, get_product_by_id, get_products_by_filter_Brand
 } from "../service/home.service.js";
 
 export const all_available_products = async (req, res) => {
@@ -57,6 +57,21 @@ export const get_products_for_filterhValue = async (req, res) => {
     try {
         console.log(filterval)
         const filteredProducts = await get_products_by_filter(filterval)
+        res.status(200).send({ filteredProducts })
+        console.log(filteredProducts)
+    } catch (e) {
+        res.status(400).send({ "error": e })
+
+    }
+
+}
+
+export const get_products_for_filterhValue_brand = async (req, res) => {
+    const filterval = req.params.filterval;
+    console.log(filterval)
+    try {
+        console.log(filterval)
+        const filteredProducts = await get_products_by_filter_Brand(filterval)
         res.status(200).send({ filteredProducts })
         console.log(filteredProducts)
     } catch (e) {
