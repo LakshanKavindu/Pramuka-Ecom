@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { SideMenu } from "../../components/Admin/SideMenu";
 import OrderCard from "../../components/Admin/OrderCard";
 import axiosClient from "../../utils/axiosClient";
-import axios from "axios";
 
 const AdminOrders = () => {
   const [activeTab, setActiveTab] = useState("pending");
   const [orders, setOrders] = useState([]);
-  const [pinnedOrders, setPinnedOrders] = useState([]);
+  const [pinnedOrders, setPinnedOrders] = useState([]); // State to manage pinned orders
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -26,33 +25,14 @@ const AdminOrders = () => {
     fetchOrders();
   }, []);
 
-  const updateOrderStatus = (orderId, newStatus) => {
-    setOrders((prevOrders) => {
-      const updatedOrders = prevOrders.map((order) => {
-        if (order.orderId === orderId) {
-          return { ...order, orderStatus: newStatus };
-        }
-        return order;
-      });
-
-      if (newStatus.toLowerCase() === "shipped") {
-        setPinnedOrders(pinnedOrders.filter((id) => id !== orderId));
+  const handlePinOrder = (orderId) => {
+    if (!pinnedOrders.includes(orderId)) {
+      if (pinnedOrders.length < 2) {
+        setPinnedOrders([...pinnedOrders, orderId]);
       }
-
-      return updatedOrders;
-    });
-  };
-
-  const pinOrderToTop = (orderId) => {
-    setPinnedOrders((prevPinnedOrders) => {
-      if (prevPinnedOrders.includes(orderId)) {
-        return prevPinnedOrders.filter((id) => id !== orderId);
-      }
-      if (prevPinnedOrders.length < 2) {
-        return [orderId, ...prevPinnedOrders];
-      }
-      return prevPinnedOrders;
-    });
+    } else {
+      setPinnedOrders(pinnedOrders.filter((id) => id !== orderId));
+    }
   };
 
   const filteredOrders = orders.filter((order) => {
@@ -134,13 +114,9 @@ const AdminOrders = () => {
                 key={order.orderId}
                 order={order}
                 activeTab={activeTab}
-                onStatusUpdate={updateOrderStatus}
-                onPinToTop={pinOrderToTop}
-                isPinned={pinnedOrders.includes(order.orderId)}
-                disablePin={
-                  pinnedOrders.length >= 2 &&
-                  !pinnedOrders.includes(order.orderId)
-                }
+                pinnedOrders={pinnedOrders}
+                setPinnedOrders={setPinnedOrders}
+                onPinOrder={handlePinOrder}
               />
             ))}
           </div>
