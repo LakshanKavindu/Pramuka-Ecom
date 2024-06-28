@@ -32,6 +32,20 @@ export const get_products_by_filter = async (filterval) => {
 
 
 }
+
+
+export const get_products_by_filter_Brand = async (filterval) => {
+
+    const products = await prisma.product.findMany({
+        where: {
+            productBrand: filterval
+        }
+    })
+    // console.log(products)
+    return products;
+
+
+}
 export const get_product_names = async () => {
 
     const products = await prisma.product.findMany({
