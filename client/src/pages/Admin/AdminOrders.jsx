@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { SideMenu } from "../../components/Admin/SideMenu";
 import OrderCard from "../../components/Admin/OrderCard";
 import axiosClient from "../../utils/axiosClient";
+import axios from "axios";
 
 const AdminOrders = () => {
   const [activeTab, setActiveTab] = useState("pending");
