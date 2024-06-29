@@ -77,14 +77,15 @@ const AdminUsers = () => {
                     <Table.Cell>{user.email}</Table.Cell>
                     <Table.Cell>
                       <div>
-                        {user.defaultAddress.split(",").map((line, idx) => (
-                          <p key={idx}>
-                            {line}
-                            {idx !== user.defaultAddress.split(",").length - 1
-                              ? ","
-                              : ""}
-                          </p>
-                        ))}
+                        {user.defaultAddress &&
+                          user.defaultAddress.split(",").map((line, idx) => (
+                            <p key={idx}>
+                              {line}
+                              {idx !== user.defaultAddress.split(",").length - 1
+                                ? ","
+                                : ""}
+                            </p>
+                          ))}
                       </div>
                     </Table.Cell>
                     <Table.Cell>
