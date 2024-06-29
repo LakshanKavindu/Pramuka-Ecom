@@ -41,31 +41,31 @@ export const get_cart = async (req, res) => {
   }
 };
 
-export const update_cart = async (req, res) => {
-  const productID = req.body.productid;
-  const userID = req.body.userid;
-  const quantity = req.body.quantity;
-  console.log(productID, userID, quantity);
+// export const update_cart = async (req, res) => {
+//   const productID = req.body.productid;
+//   const userID = req.body.userid;
+//   const quantity = req.body.quantity;
+//   console.log(productID, userID, quantity);
 
-  try {
-    const up = await updatecart(userID, productID, quantity);
-    res.status(200).send({ up });
-  } catch (e) {
-    res.status(400).send({ e });
-  }
-};
-export const remove_from_cart = async (req, res) => {
-  const productID = req.params.productid;
-  const userID = req.params.userid;
-  console.log("remove called", productID, userID);
+//   try {
+//     const up = await updatecart(userID, productID, quantity);
+//     res.status(200).send({ up });
+//   } catch (e) {
+//     res.status(400).send({ e });
+//   }
+// };
+// export const remove_from_cart = async (req, res) => {
+//   const productID = req.params.productid;
+//   const userID = req.params.userid;
+//   console.log("remove called", productID, userID);
 
-  try {
-    const del = await removefromcart(productID, userID);
-    res.status(200).send({ del });
-  } catch (e) {
-    res.status(400).send({ e });
-  }
-};
+//   try {
+//     const del = await removefromcart(productID, userID);
+//     res.status(200).send({ del });
+//   } catch (e) {
+//     res.status(400).send({ e });
+//   }
+// };
 export const update_cart=async(req,res)=>{
     const productID=req.body.productid;
     const userID=req.body.userid;
