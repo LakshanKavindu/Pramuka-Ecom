@@ -1,0 +1,54 @@
+
+
+
+@media screen and (max-width:768px){
+    .card_container{
+        flex-direction: column;
+        padding-left:2.2rem !important;
+        padding-right:2.2rem !important;
+    
+    }
+
+    .card_container .text_container{
+        width:auto;
+    }
+
+        
+}
+
+@media screen and (max-width:640px) {
+    .card_container{
+        padding-left:0.5rem !important;
+        padding-right:0.5rem !important;
+    }
+    .card_container .text_container{
+        width:auto;
+        text-align: center;
+    }
+
+    .card_container .card_container_title{
+        text-align: center;
+    }
+
+    .search_bar_text{
+        display: none;
+
+    }
+
+    .search_btn{
+        width:35px !important;
+        height: 35px;
+        border-radius: 50% !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      
+    }
+
+    .search_icon{
+        padding-inline-start: 0.55rem !important;
+
+    }
+    
+}
+

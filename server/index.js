@@ -1,20 +1,31 @@
 import express from "express";
 import cors from "cors";
+import userRouter from "./router/user.router.js";
+import requireUserAuth from "./middleware/user.middleware.js";
+import HomeRouter from "./router/home.router.js";
+import AdminRouter from "./router/admin.router.js";
+import ProductRouter from "./router/product.router.js";
+import orderRouter from "./router/order.router.js";
+import PaymentRouter from "./router/payment.router.js";
 
 const app = express();
 const PORT = 8080;
 
 app.use(express.json());
 const corsOptions = {
-    origin: "http://localhost:3000",
-    credentials: true,
-    optionsSuccessStatus: 200
+  origin: "http://localhost:5173",
+  credentials: true,
+  optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
+app.use("/api/auth/*", requireUserAuth);
+app.use("/api", userRouter);
+app.use("/api/auth/order", orderRouter);
+app.use("/api/home", HomeRouter);
+app.use("/api/auth/admin", AdminRouter);
+app.use("/api/product", ProductRouter);
+app.use("/api/auth/payment", PaymentRouter);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
-
-
-
