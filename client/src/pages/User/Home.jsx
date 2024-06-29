@@ -28,7 +28,7 @@ const Home = () => {
     "biscuit maliban",
     "biscuits munchee",
   ]);
-  const [brands,setBrands]=useState([])
+  const [brands, setBrands] = useState([]);
 
   const filterhandle_brand = (val) => {
     setIsSearching(true);
@@ -93,22 +93,21 @@ const Home = () => {
     console.log(items);
   };
 
-const getbrands=()=>{
-  axiosClient
+  const getbrands = () => {
+    axiosClient
       .get("/home/brands")
       .then((res) => {
         setBrands(res.data);
-        console.log('brandssss',res.data)
+        console.log("brandssss", res.data);
       })
       .catch((error) => {
         console.log(error);
       });
-
-}
+  };
   useEffect(() => {
     setIsSearching(false);
     getAllProducts();
-    getbrands()
+    getbrands();
   }, []);
   return (
     <div>
@@ -145,95 +144,35 @@ const getbrands=()=>{
                   >
                     All Products
                   </Dropdown.Item>
-                  {/* <Dropdown.Item
-                    value="Chocolate"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      filterhandle("Chocolate");
-                      console.log('mainchoc')
-                      
-                    }}
-                  >
-                    Chocolate
-                    <Dropdown.Submenu>
-                      <Dropdown.Item
-                       value="Kandos"
-                       onClick={(e) => {
-                        e.stopPropagation();
-                        filterhandle_brand("Kandos");
+
+                  {brands.map((cat) => (
+                    <Dropdown.Item
+                      value={cat.category}
+                      onClick={() => {
+                        filterhandle(cat.category);
                       }}
-                      >Kandos</Dropdown.Item>
-                      <Dropdown.Item
-                      value="Ritzbury"
-                     
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        filterhandle_brand("Ritzbury");
-                        console.log('ritz')
-                      }}
-                      >Ritzbury</Dropdown.Item>
-                    </Dropdown.Submenu>
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    value="Biscuits"
-                    onClick={() => {
-                      filterhandle("Biscuit");
-                    }}
-                  >
-                    Biscuits
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    value="Soap"
-                    onClick={() => {
-                      filterhandle("Soap");
-                    }}
-                  >
-                    Soap
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    value="Toothpaste"
-                    onClick={() => {
-                      filterhandle("Toothpaste");
-                    }}
-                  >
-                    Toothpaste
-                  </Dropdown.Item>
-                </Dropdown> */}
-                {brands.map(cat=>(
-                  
-                  <Dropdown.Item
-                  value={cat.category}
-                  onClick={() => {
-                    filterhandle(cat.category);
-                  }}
-                  
-                  >
-                    {cat.category}
-                    {
-                      cat.brands.length>1 &&
-                      <Dropdown.Submenu>
-                    {cat.brands.map(brand=>(
-                        <Dropdown.Item
-                        value={brand}
-                        onClick={(e) => {
-                         e.stopPropagation();
-                         filterhandle_brand(brand);
-                       }}
-                       >{brand}</Dropdown.Item>
-                      
-                    ))}
-
-
-                    </Dropdown.Submenu>
-
-                    }
-
-                    
-                  </Dropdown.Item>
-                ))}
+                    >
+                      {cat.category}
+                      {cat.brands.length > 1 && (
+                        <Dropdown.Submenu>
+                          {cat.brands.map((brand) => (
+                            <Dropdown.Item
+                              value={brand}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                filterhandle_brand(brand);
+                              }}
+                            >
+                              {brand}
+                            </Dropdown.Item>
+                          ))}
+                        </Dropdown.Submenu>
+                      )}
+                    </Dropdown.Item>
+                  ))}
                 </Dropdown>
               </div>
-              
+
               <input
                 type="search"
                 id="default-search"
