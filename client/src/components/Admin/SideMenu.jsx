@@ -5,6 +5,7 @@ import {
   HiUser,
   HiOutlineLogout,
   HiClipboardList,
+  HiHome,
 } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
@@ -33,8 +34,11 @@ export function SideMenu() {
           <Sidebar.Item href="/admin/orders" icon={HiClipboardList}>
             Orders
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiUser}>
+          <Sidebar.Item href="/admin/users" icon={HiUser}>
             Users
+          </Sidebar.Item>
+          <Sidebar.Item href="/" icon={HiHome}>
+            Home
           </Sidebar.Item>
           <Sidebar.Item href="#" icon={HiOutlineLogout} onClick={handleLogout}>
             LogOut
