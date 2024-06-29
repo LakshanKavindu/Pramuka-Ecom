@@ -28,6 +28,7 @@ const Home = () => {
     "biscuit maliban",
     "biscuits munchee",
   ]);
+  const [brands,setBrands]=useState([])
 
   const filterhandle_brand = (val) => {
     setIsSearching(true);
@@ -92,9 +93,22 @@ const Home = () => {
     console.log(items);
   };
 
+const getbrands=()=>{
+  axiosClient
+      .get("/home/brands")
+      .then((res) => {
+        setBrands(res.data);
+        console.log('brandssss',res.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+}
   useEffect(() => {
     setIsSearching(false);
     getAllProducts();
+    getbrands()
   }, []);
   return (
     <div>
@@ -131,7 +145,7 @@ const Home = () => {
                   >
                     All Products
                   </Dropdown.Item>
-                  <Dropdown.Item
+                  {/* <Dropdown.Item
                     value="Chocolate"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -184,8 +198,42 @@ const Home = () => {
                   >
                     Toothpaste
                   </Dropdown.Item>
+                </Dropdown> */}
+                {brands.map(cat=>(
+                  
+                  <Dropdown.Item
+                  value={cat.category}
+                  onClick={() => {
+                    filterhandle(cat.category);
+                  }}
+                  
+                  >
+                    {cat.category}
+                    {
+                      cat.brands.length>1 &&
+                      <Dropdown.Submenu>
+                    {cat.brands.map(brand=>(
+                        <Dropdown.Item
+                        value={brand}
+                        onClick={(e) => {
+                         e.stopPropagation();
+                         filterhandle_brand(brand);
+                       }}
+                       >{brand}</Dropdown.Item>
+                      
+                    ))}
+
+
+                    </Dropdown.Submenu>
+
+                    }
+
+                    
+                  </Dropdown.Item>
+                ))}
                 </Dropdown>
               </div>
+              
               <input
                 type="search"
                 id="default-search"
