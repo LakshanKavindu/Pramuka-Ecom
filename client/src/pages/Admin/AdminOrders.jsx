@@ -6,7 +6,7 @@ import axiosClient from "../../utils/axiosClient";
 const AdminOrders = () => {
   const [activeTab, setActiveTab] = useState("pending");
   const [orders, setOrders] = useState([]);
-  const [pinnedOrders, setPinnedOrders] = useState([]); // State to manage pinned orders
+  const [pinnedOrders, setPinnedOrders] = useState([]);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -35,13 +35,21 @@ const AdminOrders = () => {
     }
   };
 
+  const handleOrderStatusChange = (orderId, newStatus) => {
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order.orderId === orderId ? { ...order, orderStatus: newStatus } : order
+      )
+    );
+  };
+
   const filteredOrders = orders.filter((order) => {
     if (activeTab === "pending") {
       return order.orderStatus.toLowerCase() === "pending";
     } else if (activeTab === "completed") {
       return order.orderStatus.toLowerCase() === "shipped";
     }
-    return true; // Show all orders if activeTab is neither 'pending' nor 'completed'
+    return true;
   });
 
   const sortedOrders = [...filteredOrders].sort((a, b) => {
@@ -117,6 +125,7 @@ const AdminOrders = () => {
                 pinnedOrders={pinnedOrders}
                 setPinnedOrders={setPinnedOrders}
                 onPinOrder={handlePinOrder}
+                onOrderStatusChange={handleOrderStatusChange}
               />
             ))}
           </div>

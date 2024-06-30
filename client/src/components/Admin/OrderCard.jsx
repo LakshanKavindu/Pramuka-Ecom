@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import ViewOrderPopup from "./ViewOrderPopup";
 import axiosClient from "../../utils/axiosClient";
 
@@ -8,6 +8,7 @@ export default function OrderCard({
   pinnedOrders,
   setPinnedOrders,
   onPinOrder,
+  onOrderStatusChange,
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -22,7 +23,11 @@ export default function OrderCard({
 
   const handleMarkAsDelivered = async (orderId) => {
     try {
+      console.log("orderId", orderId);
+      await axiosClient.put(`/auth/admin/updateorder/${orderId}`, { status: "SHIPPED" });
       closeDropdown();
+      // Notify parent component to refresh the order list
+      onOrderStatusChange(orderId, "SHIPPED");
     } catch (error) {
       console.error("Error marking as delivered:", error);
     }
@@ -30,7 +35,9 @@ export default function OrderCard({
 
   const handleMarkAsCanceled = async (orderId) => {
     try {
+      await axiosClient.put(`/auth/admin/updateorder/${orderId}`, { status: "CANCELLED" });
       closeDropdown();
+      onOrderStatusChange(orderId, "CANCELLED");
     } catch (error) {
       console.error("Error marking as canceled:", error);
     }
@@ -84,17 +91,28 @@ export default function OrderCard({
           <p className="text-gray-600 dark:text-gray-400 mr-4">
             Total Price: Rs. {order.totalPrice}
           </p>
-          <ViewOrderPopup
-            orderId={order.orderId}
-            customerName={order.orderProducts[0].product.user.username}
-            orderProducts={order.orderProducts}
-            orderStatus={order.orderStatus}
-            shippingMethod={order.shippingMethod}
-            deliverAddress={order.deliverAddress}
-            orderDate={orderDate}
-            totalPrice={order.totalPrice}
-            activeTab={activeTab}
-          />
+          <div className="inline-flex">
+            {activeTab === "pending" && (
+              <button
+                className="inline-flex items-center px-4 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mr-2"
+                type="button"
+                onClick={() => handleMarkAsDelivered(order.orderId)}
+              >
+                Mark as Delivered
+              </button>
+            )}
+            <ViewOrderPopup
+              orderId={order.orderId}
+              customerName={order.orderProducts[0].product.user.username}
+              orderProducts={order.orderProducts}
+              orderStatus={order.orderStatus}
+              shippingMethod={order.shippingMethod}
+              deliverAddress={order.deliverAddress}
+              orderDate={orderDate}
+              totalPrice={order.totalPrice}
+              activeTab={activeTab}
+            />
+          </div>
           {isDropdownOpen && (
             <div className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg w-48 z-10">
               {activeTab === "pending" && (
