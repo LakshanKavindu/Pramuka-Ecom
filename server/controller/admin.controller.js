@@ -107,7 +107,7 @@ export const get_all_orders = async (req, res) => {
 
 export const update_order_status = async (req, res) => {
   try {
-    const { id } = req.params; // Ensure the parameter name matches the route
+    const { id } = req.params;
     const { status } = req.body;
 
     const updatedOrders = await updateOrderStatus(id, status);

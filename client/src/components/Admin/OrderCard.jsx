@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ViewOrderPopup from "./ViewOrderPopup";
 import axiosClient from "../../utils/axiosClient";
 
@@ -21,13 +21,29 @@ export default function OrderCard({
     setIsDropdownOpen(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   const handleMarkAsDelivered = async (orderId) => {
     try {
-      console.log("orderId", orderId);
       await axiosClient.put(`/auth/admin/updateorder/${orderId}`, { status: "SHIPPED" });
-      closeDropdown();
-      // Notify parent component to refresh the order list
       onOrderStatusChange(orderId, "SHIPPED");
+      closeDropdown();
     } catch (error) {
       console.error("Error marking as delivered:", error);
     }
@@ -49,15 +65,17 @@ export default function OrderCard({
   };
 
   const orderDate = new Date(order.orderDate).toLocaleString();
+  const isPinned = pinnedOrders.includes(order.orderId);
+  const canPinMore = pinnedOrders.length < 2;
 
   return (
-    <div className={`relative ${pinnedOrders.includes(order.orderId) ? 'border-2 border-yellow-400' : ''}`}>
+    <div className={`relative mb-4 ${isPinned ? 'border-2 border-yellow-400' : ''}`}>
       <div className="p-4 shadow-md rounded-lg bg-white dark:bg-gray-800">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
             Order ID: {order.orderId}
-            {pinnedOrders.includes(order.orderId) && (
-              <span className="ml-2 text-yellow-400">📌 Pinned</span>
+            {isPinned && (
+              <span className="ml-2 text-yellow-400"> 📌 Pinned</span>
             )}
           </h2>
           <button
@@ -132,15 +150,15 @@ export default function OrderCard({
                   <button
                     onClick={handlePinToTop}
                     className={`w-full text-left px-4 py-2 text-sm ${
-                      pinnedOrders.includes(order.orderId)
+                      isPinned
+                        ? "text-gray-700 hover:bg-gray-100"
+                        : !canPinMore
                         ? "text-gray-400 cursor-not-allowed"
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
-                    disabled={pinnedOrders.includes(order.orderId)}
+                    disabled={!isPinned && !canPinMore}
                   >
-                    {pinnedOrders.includes(order.orderId)
-                      ? "Pinned"
-                      : "Pin to Top"}
+                    {isPinned ? "Unpin" : "Pin to Top"}
                   </button>
                 </>
               )}
