@@ -78,6 +78,7 @@ export default function OrderCard({
               <span className="ml-2 text-yellow-400"> 📌 Pinned</span>
             )}
           </h2>
+          {activeTab === "pending" && (
           <button
             ref={dropdownRef}
             onClick={toggleDropdown}
@@ -98,6 +99,7 @@ export default function OrderCard({
               />
             </svg>
           </button>
+          )}
         </div>
         <div className="flex flex-wrap justify-between items-center mb-2">
           <p className="text-gray-600 dark:text-gray-400 mr-4">
