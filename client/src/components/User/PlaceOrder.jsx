@@ -4,8 +4,10 @@ import axiosClient from "../../utils/axiosClient";
 import toast from "react-hot-toast";
 import CustomeToastBar from "../Common/CustomeToastBar";
 import TextInputCom from "./InputField/TextInputCom";
+import { Payment } from "../Common/Payment";
 
 const PlaceOrder = ({ openModal, setOpenModal, mycart, setIsOrdered }) => {
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
   const [defaultAddress, setDefaultAddress] = useState();
   const [billingAddress, setBillingAddress] = useState("");
   const [shippingMethod, setShippingMethod] = useState("DELIVERY_DEFAULT");
@@ -15,9 +17,15 @@ const PlaceOrder = ({ openModal, setOpenModal, mycart, setIsOrdered }) => {
     });
   }, []);
 
-  const handlePlaceOrder = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (paymentCompleted) {
+      setIsOrdered(true);
+      setOpenModal(false);
+      handlePlaceOrder();
+    }
+  }, [paymentCompleted]);
 
+  const handlePlaceOrder = () => {
     toast.promise(
       axiosClient
         .post("/auth/order", {
@@ -26,8 +34,6 @@ const PlaceOrder = ({ openModal, setOpenModal, mycart, setIsOrdered }) => {
           shippingMethod: shippingMethod,
         })
         .then((res) => {
-          setIsOrdered(true);
-          setOpenModal(false);
           console.log(res.data);
         })
         .catch((e) => {
@@ -53,8 +59,8 @@ const PlaceOrder = ({ openModal, setOpenModal, mycart, setIsOrdered }) => {
             <h5 className="mb-5 text-sm font-normal text-gray-500 ">
               select your address and place your order
             </h5>
-            <div className="flex justify-center gap-4">
-              <form className="w-lvw px-8" onSubmit={handlePlaceOrder}>
+            <div className="flex flex-col justify-center gap-4 ">
+              <form className=" px-8">
                 <Select
                   value={shippingMethod}
                   onChange={(e) => setShippingMethod(e.target.value)}
@@ -89,25 +95,31 @@ const PlaceOrder = ({ openModal, setOpenModal, mycart, setIsOrdered }) => {
                     }
                   />
                 )}
-                <div className="flex flex-row gap-6 justify-end">
-                  <Button
-                    className="mt-8"
-                    outline
-                    size="sm"
-                    onClick={() => setOpenModal(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="mt-8"
-                    gradientDuoTone="primary"
-                    type="submit"
-                    size="sm"
-                  >
-                    Continue
-                  </Button>
-                </div>
               </form>
+              <div className="flex flex-row gap-6 justify-end">
+                <Button
+                  className="mt-8"
+                  outline
+                  size="sm"
+                  onClick={() => setOpenModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  className="mt-8"
+                  gradientDuoTone="primary"
+                  type="submit"
+                  size="sm"
+                >
+                  <Payment
+                    buttonText="Pay Now"
+                    orderId={"order1"}
+                    amount={"2000.00"}
+                    currency={"LKR"}
+                    setPaymentCompleted={setPaymentCompleted}
+                  />
+                </Button>
+              </div>
             </div>
           </div>
         </Modal.Body>

@@ -7,7 +7,9 @@ import sideImage from "../../assets/images/sideImage.png";
 
 ("use client");
 
-import { Dropdown } from "flowbite-react";
+// import { Dropdown } from "flowbite-react";
+
+import Dropdown from "react-multilevel-dropdown";
 
 import { Card } from "flowbite-react";
 
@@ -26,6 +28,25 @@ const Home = () => {
     "biscuit maliban",
     "biscuits munchee",
   ]);
+  const [brands, setBrands] = useState([]);
+
+  const filterhandle_brand = (val) => {
+    setIsSearching(true);
+    setSearchval("");
+    setFilter(val);
+    axios
+      .get(`http://localhost:8080/api/home/filterbrand/${val}`)
+      .then((res) => {
+        console.log("inside then");
+        console.log(res.data);
+        setSearchresult(res.data.filteredProducts);
+        setSearchval("");
+      })
+      .catch((error) => {
+        console.log("error occured");
+        console.log(error);
+      });
+  };
 
   const filterhandle = (val) => {
     setIsSearching(true);
@@ -72,9 +93,21 @@ const Home = () => {
     console.log(items);
   };
 
+  const getbrands = () => {
+    axiosClient
+      .get("/home/brands")
+      .then((res) => {
+        setBrands(res.data);
+        console.log("brandssss", res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
     setIsSearching(false);
     getAllProducts();
+    getbrands();
   }, []);
   return (
     <div>
@@ -94,6 +127,7 @@ const Home = () => {
               <div className="absolute inset-y-0 start-2.5 flex items-center  z-40">
                 <Dropdown
                   outline
+                  title={filter}
                   // gradientDuoTone="pinkToOrange"
                   label={<span className="text-black">{filter}</span>}
                   // dismissOnClick={false}
@@ -110,40 +144,35 @@ const Home = () => {
                   >
                     All Products
                   </Dropdown.Item>
-                  <Dropdown.Item
-                    value="Chocolate"
-                    onClick={() => {
-                      filterhandle("Chocolate");
-                    }}
-                  >
-                    Chocolate
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    value="Biscuits"
-                    onClick={() => {
-                      filterhandle("Biscuit");
-                    }}
-                  >
-                    Biscuits
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    value="Soap"
-                    onClick={() => {
-                      filterhandle("Soap");
-                    }}
-                  >
-                    Soap
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    value="Toothpaste"
-                    onClick={() => {
-                      filterhandle("Toothpaste");
-                    }}
-                  >
-                    Toothpaste
-                  </Dropdown.Item>
+
+                  {brands.map((cat) => (
+                    <Dropdown.Item
+                      value={cat.category}
+                      onClick={() => {
+                        filterhandle(cat.category);
+                      }}
+                    >
+                      {cat.category}
+                      {cat.brands.length > 1 && (
+                        <Dropdown.Submenu>
+                          {cat.brands.map((brand) => (
+                            <Dropdown.Item
+                              value={brand}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                filterhandle_brand(brand);
+                              }}
+                            >
+                              {brand}
+                            </Dropdown.Item>
+                          ))}
+                        </Dropdown.Submenu>
+                      )}
+                    </Dropdown.Item>
+                  ))}
                 </Dropdown>
               </div>
+
               <input
                 type="search"
                 id="default-search"
