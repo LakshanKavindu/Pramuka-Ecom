@@ -21,13 +21,13 @@ export default function OrderCard({
     setIsDropdownOpen(false);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      closeDropdown();
+    }
+  };
 
+  useEffect(() => {
     if (isDropdownOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
@@ -52,8 +52,8 @@ export default function OrderCard({
   const handleMarkAsCanceled = async (orderId) => {
     try {
       await axiosClient.put(`/auth/admin/updateorder/${orderId}`, { status: "CANCELLED" });
-      closeDropdown();
       onOrderStatusChange(orderId, "CANCELLED");
+      closeDropdown();
     } catch (error) {
       console.error("Error marking as canceled:", error);
     }
@@ -132,7 +132,7 @@ export default function OrderCard({
             />
           </div>
           {isDropdownOpen && (
-            <div className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg w-48 z-10">
+            <div ref={dropdownRef} className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg w-48 z-10">
               {activeTab === "pending" && (
                 <>
                   <button
