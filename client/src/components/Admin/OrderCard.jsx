@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import ViewOrderPopup from "./ViewOrderPopup";
 import axiosClient from "../../utils/axiosClient";
 
 export default function OrderCard({
   order,
   activeTab,
-  onStatusUpdate,
-  onPinToTop,
-  isPinned,
-  disablePin,
+  pinnedOrders,
+  setPinnedOrders,
+  onPinOrder,
+  onOrderStatusChange,
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -17,6 +16,7 @@ export default function OrderCard({
   const toggleDropdown = () => {
     setIsDropdownOpen((prevState) => !prevState);
   };
+
   const closeDropdown = () => {
     setIsDropdownOpen(false);
   };
@@ -24,25 +24,25 @@ export default function OrderCard({
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        closeDropdown();
+        setIsDropdownOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isDropdownOpen]);
 
   const handleMarkAsDelivered = async (orderId) => {
     try {
-      const response = await axiosClient.post(
-        `auth/order/orderStatus/${orderId}`,
-        {
-          status: "SHIPPED",
-        }
-      );
-      onStatusUpdate(orderId, "SHIPPED");
+      await axiosClient.put(`/auth/admin/updateorder/${orderId}`, { status: "SHIPPED" });
+      onOrderStatusChange(orderId, "SHIPPED");
       closeDropdown();
     } catch (error) {
       console.error("Error marking as delivered:", error);
@@ -51,44 +51,32 @@ export default function OrderCard({
 
   const handleMarkAsCanceled = async (orderId) => {
     try {
-      const response = await axiosClient.post(
-        `auth/order/orderStatus/${orderId}`,
-        {
-          status: "CANCELLED",
-        }
-      );
-      onStatusUpdate(orderId, "CANCELLED");
+      await axiosClient.put(`/auth/admin/updateorder/${orderId}`, { status: "CANCELLED" });
       closeDropdown();
+      onOrderStatusChange(orderId, "CANCELLED");
     } catch (error) {
       console.error("Error marking as canceled:", error);
     }
   };
 
-  const handlePinToTop = async (orderId) => {
-    try {
-      const response = await axios.post(`auth/order/pinOrder/${orderId}`);
-      onPinToTop(orderId);
-      closeDropdown();
-    } catch (error) {
-      console.error("Error pinning order:", error);
-    }
+  const handlePinToTop = () => {
+    onPinOrder(order.orderId);
+    closeDropdown();
   };
 
   const orderDate = new Date(order.orderDate).toLocaleString();
-  const products = order.orderProducts
-    .map((orderProduct) => orderProduct.product.product.productName)
-    .join(", ");
+  const isPinned = pinnedOrders.includes(order.orderId);
+  const canPinMore = pinnedOrders.length < 2;
 
   return (
-    <div
-      className={`relative ${
-        isPinned ? "bg-yellow-100 border-yellow-500 border-2" : ""
-      }`}
-    >
+    <div className={`relative mb-4 ${isPinned ? 'border-2 border-yellow-400' : ''}`}>
       <div className="p-4 shadow-md rounded-lg bg-white dark:bg-gray-800">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
             Order ID: {order.orderId}
+            {isPinned && (
+              <span className="ml-2 text-yellow-400"> 📌 Pinned</span>
+            )}
           </h2>
           <button
             ref={dropdownRef}
@@ -111,7 +99,7 @@ export default function OrderCard({
             </svg>
           </button>
         </div>
-        <div className="flex flex-wrap justify-between items-center mb-2 max-w-100 overflow-hidden">
+        <div className="flex flex-wrap justify-between items-center mb-2">
           <p className="text-gray-600 dark:text-gray-400 mr-4">
             Customer: {order.orderProducts[0].product.user.username}
           </p>
@@ -121,18 +109,28 @@ export default function OrderCard({
           <p className="text-gray-600 dark:text-gray-400 mr-4">
             Total Price: Rs. {order.totalPrice}
           </p>
-          <ViewOrderPopup
-            orderId={order.orderId}
-            customerName={order.orderProducts[0].product.user.username}
-            orderProducts={order.orderProducts}
-            orderStatus={order.orderStatus}
-            shippingMethod={order.shippingMethod}
-            deliverAddress={order.deliverAddress}
-            orderDate={order.orderDate}
-            totalPrice={order.totalPrice}
-            activeTab={activeTab}
-            onMarkAsDelivered={handleMarkAsDelivered}
-          />
+          <div className="inline-flex">
+            {activeTab === "pending" && (
+              <button
+                className="inline-flex items-center px-4 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mr-2"
+                type="button"
+                onClick={() => handleMarkAsDelivered(order.orderId)}
+              >
+                Mark as Delivered
+              </button>
+            )}
+            <ViewOrderPopup
+              orderId={order.orderId}
+              customerName={order.orderProducts[0].product.user.username}
+              orderProducts={order.orderProducts}
+              orderStatus={order.orderStatus}
+              shippingMethod={order.shippingMethod}
+              deliverAddress={order.deliverAddress}
+              orderDate={orderDate}
+              totalPrice={order.totalPrice}
+              activeTab={activeTab}
+            />
+          </div>
           {isDropdownOpen && (
             <div className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg w-48 z-10">
               {activeTab === "pending" && (
@@ -149,14 +147,19 @@ export default function OrderCard({
                   >
                     Mark as Cancelled
                   </button>
-                  {!disablePin && (
-                    <button
-                      onClick={() => handlePinToTop(order.orderId)}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      {isPinned ? "Unpin" : "Pin to Top"}
-                    </button>
-                  )}
+                  <button
+                    onClick={handlePinToTop}
+                    className={`w-full text-left px-4 py-2 text-sm ${
+                      isPinned
+                        ? "text-gray-700 hover:bg-gray-100"
+                        : !canPinMore
+                        ? "text-gray-400 cursor-not-allowed"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                    disabled={!isPinned && !canPinMore}
+                  >
+                    {isPinned ? "Unpin" : "Pin to Top"}
+                  </button>
                 </>
               )}
             </div>

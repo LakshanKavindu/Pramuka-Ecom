@@ -102,11 +102,11 @@ export const getAllOrders = async () => {
 
 export const updateOrderStatus = async (orderId, status) => {
   try {
-    const order = await prisma.order.update({
+    const orders = await prisma.order.updateMany({
       where: { orderId },
       data: { status },
     });
-    return order;
+    return orders;
   } catch (error) {
     throw new Error('Error updating order status: ' + error.message);
   }

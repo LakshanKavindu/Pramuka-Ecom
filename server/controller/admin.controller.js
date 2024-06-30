@@ -120,20 +120,16 @@ export const get_all_orders = async (req, res) => {
 
 export const update_order_status = async (req, res) => {
   try {
-    const { orderId } = req.params;
+    const { id } = req.params;
     const { status } = req.body;
-
-    const updatedOrder = await updateOrderStatus(orderId, status);
-    if (updatedOrder) {
-      res.status(200).send({
-        message: "Order status updated successfully",
-        order: updatedOrder,
-      });
+    const updatedOrders = await updateOrderStatus(id, status);
+    if (updatedOrders.count > 0) {
+      res.status(200).send({ message: 'Order status updated successfully', orders: updatedOrders });
     } else {
       res.status(404).send({ error: "Order not found" });
     }
-  } catch (e) {
-    res.status(400).send({ error: e.message });
+  } catch (error) {
+    res.status(400).send({ error: error.message });
   }
 };
 

@@ -25,33 +25,22 @@ const AdminOrders = () => {
     fetchOrders();
   }, []);
 
-  const updateOrderStatus = (orderId, newStatus) => {
-    setOrders((prevOrders) => {
-      const updatedOrders = prevOrders.map((order) => {
-        if (order.orderId === orderId) {
-          return { ...order, orderStatus: newStatus };
-        }
-        return order;
-      });
-
-      if (newStatus.toLowerCase() === "shipped") {
-        setPinnedOrders(pinnedOrders.filter((id) => id !== orderId));
+  const handlePinOrder = (orderId) => {
+    if (!pinnedOrders.includes(orderId)) {
+      if (pinnedOrders.length < 2) {
+        setPinnedOrders([...pinnedOrders, orderId]);
       }
-
-      return updatedOrders;
-    });
+    } else {
+      setPinnedOrders(pinnedOrders.filter((id) => id !== orderId));
+    }
   };
 
-  const pinOrderToTop = (orderId) => {
-    setPinnedOrders((prevPinnedOrders) => {
-      if (prevPinnedOrders.includes(orderId)) {
-        return prevPinnedOrders.filter((id) => id !== orderId);
-      }
-      if (prevPinnedOrders.length < 2) {
-        return [orderId, ...prevPinnedOrders];
-      }
-      return prevPinnedOrders;
-    });
+  const handleOrderStatusChange = (orderId, newStatus) => {
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order.orderId === orderId ? { ...order, orderStatus: newStatus } : order
+      )
+    );
   };
 
   const filteredOrders = orders.filter((order) => {
@@ -60,7 +49,7 @@ const AdminOrders = () => {
     } else if (activeTab === "completed") {
       return order.orderStatus.toLowerCase() === "shipped";
     }
-    return true; // Show all orders if activeTab is neither 'pending' nor 'completed'
+    return true;
   });
 
   const sortedOrders = [...filteredOrders].sort((a, b) => {
@@ -133,13 +122,10 @@ const AdminOrders = () => {
                 key={order.orderId}
                 order={order}
                 activeTab={activeTab}
-                onStatusUpdate={updateOrderStatus}
-                onPinToTop={pinOrderToTop}
-                isPinned={pinnedOrders.includes(order.orderId)}
-                disablePin={
-                  pinnedOrders.length >= 2 &&
-                  !pinnedOrders.includes(order.orderId)
-                }
+                pinnedOrders={pinnedOrders}
+                setPinnedOrders={setPinnedOrders}
+                onPinOrder={handlePinOrder}
+                onOrderStatusChange={handleOrderStatusChange}
               />
             ))}
           </div>
