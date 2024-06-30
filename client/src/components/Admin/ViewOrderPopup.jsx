@@ -9,7 +9,6 @@ export default function ViewOrderPopup(props) {
   };
 
   const {
-    userId,
     orderId,
     orderProducts,
     orderStatus,
@@ -18,7 +17,9 @@ export default function ViewOrderPopup(props) {
     orderDate,
     totalPrice,
     activeTab,
+    onMarkAsDelivered,
   } = props;
+
 
   return (
     <div>
@@ -152,6 +153,12 @@ export default function ViewOrderPopup(props) {
                                 scope="col"
                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                               >
+                                Product brand
+                              </th>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                              >
                                 Product Name
                               </th>
                               <th
@@ -178,6 +185,11 @@ export default function ViewOrderPopup(props) {
                                       src={orderProduct.product.product.productImage}
                                       alt={orderProduct.product.product.productName}
                                     />
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="text-sm font-medium text-gray-900">
+                                    {orderProduct.product.product.productBrand}
                                   </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">

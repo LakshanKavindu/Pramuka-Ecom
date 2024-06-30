@@ -12,7 +12,7 @@ import axiosClient from "../../utils/axiosClient";
 const ProductPreview = () => {
   const { productid } = useParams();
 
-  const [discount, setDiscount] = useState(0);
+  // const [discount, setDiscount] = useState(0);
   const [cateogry, setCategory] = useState("");
   const [productNmae, setProductName] = useState("");
   const [brand, setBrand] = useState("");
@@ -54,6 +54,7 @@ const ProductPreview = () => {
 
   const totalPrice = fixedPrice * qty;
   const totalPriceFixed = totalPrice.toFixed(2);
+  const discount = (100 * (previousPrice - fixedPrice) / price);
 
   const decrease = () => {
     if (qty === 0) {
@@ -68,21 +69,21 @@ const ProductPreview = () => {
     setModal((prev) => !prev);
   };
 
-  const goBack = () => {
-    value === 0 ? setValue(0) : setValue((prev) => prev - 1);
-  };
+  // const goBack = () => {
+  //   value === 0 ? setValue(0) : setValue((prev) => prev - 1);
+  // };
 
-  const goForward = () => {
-    value === products.length - 1
-      ? setValue(products.length - 1)
-      : setValue((prev) => prev + 1);
-  };
+  // const goForward = () => {
+  //   value === products.length - 1
+  //     ? setValue(products.length - 1)
+  //     : setValue((prev) => prev + 1);
+  // };
 
   return (
     <main>
       <Nav isActive={"product"} />
       <div className="flex flex-col justify-between lg:flex-row gap-18 lg:items-center">
-        <div className="image p-10 md:basis-1/2 md:flex md:flex-col md:justify-between">
+        <div className="image p-10 md:basis-1/2 md:flex md:flex-col md:justify-between mt-10">
           <div className="hidden md:block large-image">
             <img
               onClick={toggleModal}
@@ -92,25 +93,25 @@ const ProductPreview = () => {
             />
           </div>
           <div className="md:hidden large-image">
-            <img
+            {/* <img
               onClick={goBack}
               className="bg-white rounded-full p-4 absolute top-60 left-12 cursor-pointer"
               src={prevIcon}
               alt="go-back"
-            />
+            /> */}
             <img
               className="w-[100%] h-[300px] object-cover"
               src={largeImage}
               alt="snekers-photo"
             />
-            <img
+            {/* <img
               onClick={goForward}
               className="bg-white rounded-full p-4  absolute top-60 right-12 cursor-pointer"
               src={nextIcon}
               alt="go-forward"
-            />
+            /> */}
           </div>
-          <div className="small-images hidden md:flex mt-7 justify-between w-[400px]">
+          {/* <div className="small-images hidden md:flex mt-7 justify-between w-[400px]">
             {data.map((img, idx) => {
               return (
                 <div key={img.id} className="single-image">
@@ -123,7 +124,7 @@ const ProductPreview = () => {
                 </div>
               );
             })}
-          </div>
+          </div> */}
         </div>
         <div
           className={`${
@@ -147,7 +148,7 @@ const ProductPreview = () => {
                 src={closeIcon}
                 alt="close-icon"
               />
-              <img
+              {/* <img
                 onClick={goBack}
                 className="bg-white p-4 rounded-full absolute top-[36%] -translate-x-[20px] cursor-pointer transition-all hover:scale-150"
                 src={prevIcon}
@@ -158,9 +159,9 @@ const ProductPreview = () => {
                 className="bg-white p-4 rounded-full absolute top-[36%] left-[95%] cursor-pointer transition-all hover:scale-150"
                 src={nextIcon}
                 alt="next"
-              />
+              /> */}
             </div>
-            <div className="small-images flex mt-7 justify-around w-[400px]">
+            {/* <div className="small-images flex mt-7 justify-around w-[400px]">
               {data.map((img, idx) => {
                 return (
                   <div key={img.id} className="single-image">
@@ -173,7 +174,7 @@ const ProductPreview = () => {
                   </div>
                 );
               })}
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="description p-6 md:basis-1/2 md:py-[40px]">
