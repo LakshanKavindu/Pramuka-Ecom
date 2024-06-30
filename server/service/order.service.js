@@ -67,6 +67,7 @@ const getAllOrders = async () => {
       product: {
         select: {
           productName: true,
+          productBrand: true,
           productImage: true,
           productPrice: true,
         },

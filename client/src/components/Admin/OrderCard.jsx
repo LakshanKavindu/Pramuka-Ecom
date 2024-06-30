@@ -128,6 +128,7 @@ export default function OrderCard({
               deliverAddress={order.deliverAddress}
               orderDate={orderDate}
               totalPrice={order.totalPrice}
+              onMarkAsDelivered={handleMarkAsDelivered}
               activeTab={activeTab}
             />
           </div>
