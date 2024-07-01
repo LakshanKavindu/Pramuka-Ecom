@@ -20,8 +20,8 @@ const ProductPreview = () => {
   const [price, setPrice] = useState(0);
   const [previousPrice, setPreviousPrice] = useState(0);
   const [qty, setQty] = useState(0);
-  const products = [...data];
-  const [value, setValue] = useState(0);
+
+  const [largeImage, setLargeImage] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const [modal, setModal] = useState(true);
 
@@ -36,6 +36,7 @@ const ProductPreview = () => {
         setDescription(res.data.product.productDescription);
         setPrice(res.data.product.productPrice);
         setPreviousPrice(res.data.product.productPrevPrice);
+        setLargeImage(res.data.product.productImage);
 
         if (previousPrice > 0) {
           setDiscount(
@@ -48,13 +49,11 @@ const ProductPreview = () => {
       });
   }, []);
 
-  const largeImage = products[value].largeImg;
-
   const fixedPrice = price.toFixed(2);
 
   const totalPrice = fixedPrice * qty;
   const totalPriceFixed = totalPrice.toFixed(2);
-  const discount = (100 * (previousPrice - fixedPrice) / price);
+  const discount = (100 * (previousPrice - fixedPrice)) / price;
 
   const decrease = () => {
     if (qty === 0) {
