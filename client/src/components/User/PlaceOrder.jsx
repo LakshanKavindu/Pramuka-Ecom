@@ -6,16 +6,33 @@ import CustomeToastBar from "../Common/CustomeToastBar";
 import TextInputCom from "./InputField/TextInputCom";
 import { Payment } from "../Common/Payment";
 
-const PlaceOrder = ({ openModal, setOpenModal, mycart, setIsOrdered }) => {
+const PlaceOrder = ({
+  openModal,
+  setOpenModal,
+  mycart,
+  setIsOrdered,
+  cartTotal,
+}) => {
   const [paymentCompleted, setPaymentCompleted] = useState(false);
   const [defaultAddress, setDefaultAddress] = useState();
   const [billingAddress, setBillingAddress] = useState("");
   const [shippingMethod, setShippingMethod] = useState("DELIVERY_DEFAULT");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+
   useEffect(() => {
     axiosClient.get("/auth/user/profile").then((res) => {
       setDefaultAddress(res.data.defaultAddress);
     });
+
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    setFirstName(user.userName.split(" ")[0]);
+    setLastName(user.userName.split(" ")[1]);
+    setEmail(user.email);
   }, []);
+
+  console.log("my cart variable", mycart);
 
   useEffect(() => {
     if (paymentCompleted) {
@@ -113,9 +130,13 @@ const PlaceOrder = ({ openModal, setOpenModal, mycart, setIsOrdered }) => {
                 >
                   <Payment
                     buttonText="Pay Now"
-                    orderId={"order1"}
-                    amount={"2000.00"}
-                    currency={"LKR"}
+                    orderId="order1"
+                    currency="LKR"
+                    firstName={firstName}
+                    lastName={lastName}
+                    email={email}
+                    address={billingAddress ? billingAddress : defaultAddress}
+                    cartTotal={cartTotal}
                     setPaymentCompleted={setPaymentCompleted}
                   />
                 </Button>

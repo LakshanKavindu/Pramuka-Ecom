@@ -8,7 +8,6 @@ import CartCard from "../../components/User/CartCard.jsx";
 import { FaCartArrowDown } from "react-icons/fa6";
 import { useLogedContext } from "../../context/LogedContext";
 
-
 const Cart = () => {
   const [images, setImages] = useState({
     img1: "https://objectstorage.ap-mumbai-1.oraclecloud.com/n/softlogicbicloud/b/cdn/o/products/116447--1--1560184216.jpeg",
@@ -20,7 +19,7 @@ const Cart = () => {
   const [carttotal, setCarttotal] = useState(0);
   const [isOrdered, setIsOrdered] = useState(false);
   const [openOrderModal, setOpenOrderModal] = useState(false);
-  
+
   const getmycart = () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
 
@@ -132,6 +131,7 @@ const Cart = () => {
         setOpenModal={setOpenOrderModal}
         mycart={mycart}
         setIsOrdered={setIsOrdered}
+        cartTotal={carttotal}
       />
       <Footern />
     </>

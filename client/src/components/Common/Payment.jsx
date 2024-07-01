@@ -3,14 +3,19 @@ import axiosClient from "../../utils/axiosClient";
 
 export const Payment = ({
   orderId,
-  amount,
+  cartTotal,
   currency,
   buttonText,
   setPaymentCompleted,
+  firstName,
+  lastName,
+  email,
+  address,
 }) => {
   const [hash, setHash] = useState("");
 
   const fetchHash = async () => {
+    var amount = cartTotal.toString() + ".00";
     const merchantId = import.meta.env.VITE_MERCHANT_ID;
     const values = { merchantId, orderId, amount, currency };
     try {
@@ -55,17 +60,17 @@ export const Payment = ({
       notify_url: "http://sample.com/notify",
       order_id: orderId,
       items: "Door bell wireles",
-      amount: amount,
+      amount: cartTotal,
       currency: currency,
       hash: hash, // *Replace with generated hash retrieved from backend
-      first_name: "Saman",
-      last_name: "Perera",
-      email: "samanp@gmail.com",
-      phone: "0771234567",
-      address: "No.1, Galle Road",
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      // phone: "0771234567",
+      address: "Main Road,Kegalle",
       city: "Colombo",
       country: "Sri Lanka",
-      delivery_address: "No. 46, Galle road, Kalutara South",
+      delivery_address: address,
       delivery_city: "Kalutara",
       delivery_country: "Sri Lanka",
       custom_1: "",
