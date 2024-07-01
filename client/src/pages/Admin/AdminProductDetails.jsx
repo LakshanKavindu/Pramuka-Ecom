@@ -26,8 +26,6 @@ const AdminProductDetails = () => {
   const [productImage, setProductImage] = useState("");
   const [productPrevPrice, setproductPrevPrice] = useState("");
 
-  console.log("productPrevPrice", productPrevPrice);
-
   useEffect(() => {
     axiosClient
       .get("auth/admin/allproducts")

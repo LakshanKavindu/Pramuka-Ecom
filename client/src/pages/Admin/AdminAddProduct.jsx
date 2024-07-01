@@ -11,6 +11,10 @@ const AdminAddProduct = () => {
   const [alertSuccess, setAlertSuccess] = useState(false);
   const [alertInvalid, setAlertInvalid] = useState(false);
   const [alertEmpty, setAlertEmpty] = useState(false);
+  const brandList = {
+    chocolate: ["Kitkat", "Ritsbury", "Kandos"],
+    biscuit: ["Munchee", "Maliban", "Marie", "Ritzbury", "Kandos"],
+  };
   const [value, setValue] = useState({
     name: "",
     description: "",
@@ -136,17 +140,6 @@ const AdminAddProduct = () => {
             />
           </div>
           <div className=" flex items-center gap-4 mb-2 ">
-            <p className="text-sm text-gray-500 w-20">Brand</p>
-            <FloatingLabel
-              variant="standard"
-              label="product Brand"
-              style={{ width: "250px" }}
-              size="sm"
-              onChange={(e) => setValue({ ...value, brand: e.target.value })}
-              value={value.brand}
-            />
-          </div>
-          <div className=" flex items-center gap-4 mb-2 ">
             <p className="text-sm text-gray-500 w-20">Category</p>
             <div className="max-w-md">
               <Select
@@ -163,6 +156,33 @@ const AdminAddProduct = () => {
                 </option>
                 <option value="chocolate">Chocolate</option>
                 <option value="biscuit">Biscuit</option>
+              </Select>
+            </div>
+          </div>
+          <div className=" flex items-center gap-4 mb-2 ">
+            <p className="text-sm text-gray-500 w-20">Brand</p>
+            <div className="max-w-md">
+              <Select
+                required
+                style={{ width: "250px" }}
+                onChange={(e) => setValue({ ...value, brand: e.target.value })}
+                value={value.brand}
+                color={"primary"}
+              >
+                <option selected value="none">
+                  Select Brand
+                </option>
+                {value.category === "" ? (
+                  <option value="none">Select Brand</option>
+                ) : (
+                  brandList[value.category].map((brand) => {
+                    return (
+                      <option value={brand} key={brand}>
+                        {brand}
+                      </option>
+                    );
+                  })
+                )}
               </Select>
             </div>
           </div>

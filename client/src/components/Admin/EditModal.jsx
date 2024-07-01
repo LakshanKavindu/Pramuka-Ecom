@@ -4,7 +4,6 @@ import { Button, Modal } from "flowbite-react";
 import { FloatingLabel } from "flowbite-react";
 import { Select } from "flowbite-react";
 import UploadImageCloudinary from "../Common/UploadImageCloudinary";
-import { AlertBar } from "../Common/AlertBar";
 
 export function EditModal({
   openModal,
@@ -28,11 +27,10 @@ export function EditModal({
   setproductPrevPrice,
   handleSave,
 }) {
-  console.log(productImage, "productImage");
-  console.log(productName, "productName");
-  //   const [alertSuccess, setAlertSuccess] = useState(false);
-  //   const [alertInvalid, setAlertInvalid] = useState(false);
-  //   const [alertEmpty, setAlertEmpty] = useState(false);
+  const brandList = {
+    chocolate: ["Kitkat", "Ritsbury", "Kandos"],
+    biscuit: ["Munchee", "Maliban", "Marie", "Ritzbury", "Kandos"],
+  };
   return (
     <div>
       <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
@@ -71,17 +69,6 @@ export function EditModal({
               />
             </div>
             <div className=" flex items-center gap-4 mb-2 ">
-              <p className="text-sm text-gray-500 w-20">Brand</p>
-              <FloatingLabel
-                variant="standard"
-                label="product Brand"
-                style={{ width: "250px" }}
-                size="sm"
-                onChange={(e) => setProductBrand(e.target.value)}
-                value={productBrand}
-              />
-            </div>
-            <div className=" flex items-center gap-4 mb-2 ">
               <p className="text-sm text-gray-500 w-20">Category</p>
               <div className="max-w-md">
                 <Select
@@ -89,6 +76,7 @@ export function EditModal({
                   style={{ width: "250px" }}
                   onChange={(e) => setProductCategory(e.target.value)}
                   value={productCategory}
+                  color={"primary"}
                 >
                   <option selected value="none">
                     Select Category
@@ -98,6 +86,34 @@ export function EditModal({
                 </Select>
               </div>
             </div>
+            <div className=" flex items-center gap-4 mb-2 ">
+              <p className="text-sm text-gray-500 w-20">Brand</p>
+              <div className="max-w-md">
+                <Select
+                  required
+                  style={{ width: "250px" }}
+                  onChange={(e) => setProductBrand(e.target.value)}
+                  value={productBrand}
+                  color={"primary"}
+                >
+                  <option selected value="none">
+                    Select Brand
+                  </option>
+                  {productCategory === "" ? (
+                    <option value="none">Select Brand</option>
+                  ) : (
+                    brandList[productCategory].map((brand) => {
+                      return (
+                        <option value={brand} key={brand}>
+                          {brand}
+                        </option>
+                      );
+                    })
+                  )}
+                </Select>
+              </div>
+            </div>
+
             <div className=" flex items-center gap-4 mb-2 ">
               <p className="text-sm text-gray-500 w-20">Stock</p>
               <FloatingLabel
