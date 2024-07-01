@@ -10,16 +10,17 @@ export const add_to_cart = async (req, res) => {
   const productID = req.body.productid;
   const userID = req.body.userid;
   const quantity = req.body.quantity;
-  console.log(productID, userID, quantity);
+  console.log('pid', productID);
 
   try {
     const ex = await product_exists_on_cart(userID, productID);
     if (ex) {
-      console.log(ex.quantity);
+      console.log('exist',ex.quantity);
 
       const up = await updatecart(userID, productID, ex.quantity + quantity);
       res.status(200).send({ up });
     } else {
+      console.log('not ex')
       const products = await addtoCart(userID, productID, quantity);
       res.status(200).send({ products });
     }

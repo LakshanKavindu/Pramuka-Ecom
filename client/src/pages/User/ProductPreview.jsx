@@ -8,12 +8,18 @@ import Footern from "../../components/User/Footer";
 import { LuShoppingCart } from "react-icons/lu";
 import { useParams } from "react-router-dom";
 import axiosClient from "../../utils/axiosClient";
+import { useLogedContext } from "../../context/LogedContext";
+import toast from "react-hot-toast";
 
 const ProductPreview = () => {
   const { productid } = useParams();
+  const { isloggedin } = useLogedContext();
+  const { itemCount, setItemCount } = useLogedContext();
+
 
   // const [discount, setDiscount] = useState(0);
   const [cateogry, setCategory] = useState("");
+  const [productId, setproductId] = useState("")
   const [productNmae, setProductName] = useState("");
   const [brand, setBrand] = useState("");
   const [description, setDescription] = useState("");
@@ -30,6 +36,7 @@ const ProductPreview = () => {
       .get(`/home/product/${productid}`)
       .then((res) => {
         console.log("product data", res.data.product);
+        setproductId(res.data.product.id)
         setCategory(res.data.product.productCategory);
         setProductName(res.data.product.productName);
         setBrand(res.data.product.productBrand);
@@ -78,6 +85,38 @@ const ProductPreview = () => {
   //     : setValue((prev) => prev + 1);
   // };
 
+
+  const addtocart = () => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    console.log(user.email);
+    toast.promise(
+      axiosClient
+        .post("/product/addtocart", {
+          productid: productId,
+          userid: user.email,
+          quantity: qty,
+        })
+        .then((res) => {
+          console.log(res);
+          // setCartButton(false);
+
+          for (let i = 0; i < cartItems.length; i++) {
+            if (cartItems[i].product.id === item.id) {
+              return;
+            }
+          }
+          setItemCount(itemCount + 1);
+        })
+        .catch((Error) => {
+          console.log(Error);
+        }),
+      {
+        loading: "Adding to cart...",
+        error: "Error adding item.",
+        success: "Item added to the cart!",
+      }
+    );
+  };
   return (
     <main>
       <Nav isActive={"product"} />
@@ -226,14 +265,16 @@ const ProductPreview = () => {
               </button>
             </div>
             <button
+              // disabled={!isloggedin}
               className={`inline-flex justify-center items-center border-none rounded-lg font-[700] mt-[10px] px-[30px] py-[10px] md:py-[5px] md:text-[16px] transition-all btn-shadow ${
                 qty === 0
                   ? "bg-paleOrange text-palewhite cursor-not-allowed"
                   : "bg-primary text-white hover:opacity-50"
               }`}
-              disabled={qty === 0}
+              disabled={qty === 0 || !isloggedin}
               onMouseEnter={() => qty === 0 && setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
+              onClick={()=>{addtocart()}}
             >
               <LuShoppingCart />
               <span className="ml-2">Add to cart</span>
