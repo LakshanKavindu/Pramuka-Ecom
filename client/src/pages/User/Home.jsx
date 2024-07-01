@@ -1,22 +1,16 @@
-// import 'flowbite';
+("use client");
 import AllProducts from "../../components/User/AllProducts";
 import Footer from "../../components/User/Footer";
 import Nav from "../../components/User/Navbar";
 import Slider from "../../components/User/Slider";
 import sideImage from "../../assets/images/sideImage.png";
-
-("use client");
-
-// import { Dropdown } from "flowbite-react";
-
 import Dropdown from "react-multilevel-dropdown";
-
 import { Card } from "flowbite-react";
-
 import "../../Styles/User/home.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import axiosClient from "../../utils/axiosClient";
+import { FaChevronDown } from "react-icons/fa6";
 
 const Home = () => {
   const [searchval, setSearchval] = useState("");
@@ -131,7 +125,7 @@ const Home = () => {
                   // gradientDuoTone="pinkToOrange"
                   label={<span className="text-black">{filter}</span>}
                   // dismissOnClick={false}
-                  className=" focus:ring-white bg-transparent bg-white"
+                  className=" focus:ring-white bg-transparent bg-white "
                   value={filter}
                 >
                   <Dropdown.Item
@@ -147,6 +141,7 @@ const Home = () => {
 
                   {brands.map((cat) => (
                     <Dropdown.Item
+                      key={cat.category}
                       value={cat.category}
                       onClick={() => {
                         filterhandle(cat.category);
@@ -157,6 +152,7 @@ const Home = () => {
                         <Dropdown.Submenu>
                           {cat.brands.map((brand) => (
                             <Dropdown.Item
+                              key={brand}
                               value={brand}
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -171,6 +167,7 @@ const Home = () => {
                     </Dropdown.Item>
                   ))}
                 </Dropdown>
+                <FaChevronDown className=" text-gray-400 ml-2 text-[0.8rem]" />
               </div>
 
               <input
